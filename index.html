@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Bicycle Matchmaker | Pro Focus</title>
+    <title>Bicycle Matchmaker | Pro Instant</title>
     <style>
         :root {
             --bg-color: #000000;
@@ -48,11 +48,10 @@
             text-align: center;
         }
 
-        /* Cleaned interface: No container box, just space */
         .filter-interface { 
             max-width: 600px; 
             width: 100%; 
-            box-sizing: border-box;
+            margin-bottom: 80px;
         }
 
         .input-group { margin-bottom: 60px; }
@@ -85,14 +84,12 @@
         }
 
         .gender-btn:hover { border-color: var(--text-main); }
-
         .gender-btn.active {
             background: var(--text-main);
             color: var(--bg-color);
             border-color: var(--text-main);
         }
 
-        /* Slider with Bicycle Icon thumb */
         .slider-wrapper { position: relative; padding: 25px 0; }
 
         input[type=range] {
@@ -131,38 +128,12 @@
         .row-title { color: var(--text-dim); font-size: 17px; }
         .row-val { color: var(--text-main); font-weight: 500; font-size: 17px; }
 
-        /* Reveal Button */
-        .reveal-btn {
-            width: 100%;
-            padding: 22px;
-            background: var(--accent-blue);
-            color: white;
-            border: none;
-            border-radius: 16px;
-            font-size: 19px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            margin-top: 20px;
-        }
-
-        .reveal-btn:hover { background: #0077ed; transform: scale(1.02); }
-        .reveal-btn:active { transform: scale(0.98); }
-
-        /* Gallery - Hidden by default */
-        .gallery-section {
-            width: 100%;
-            max-width: 1200px;
-            margin-top: 100px;
-            display: none;
-            opacity: 0;
-            transition: opacity 1s ease;
-        }
-
         .gallery { 
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 40px; 
+            width: 100%;
+            max-width: 1200px;
         }
 
         .card { 
@@ -171,7 +142,13 @@
             border-radius: 28px; 
             display: flex; 
             flex-direction: column;
-            transition: transform 0.5s ease;
+            transition: transform 0.4s ease, opacity 0.4s ease;
+            opacity: 1;
+        }
+
+        .card.hidden {
+            display: none;
+            opacity: 0;
         }
 
         .card:hover { transform: translateY(-10px); }
@@ -182,7 +159,7 @@
 </head>
 <body onload="initApp()">
 
-    <div class="version-badge">Version 43.0 | Reveal Logic + Clean UI</div>
+    <div class="version-badge">Version 44.0 | Pro Instant Motion</div>
 
     <h1>Stop Walking. Start Rolling.</h1>
     <p class="sub-header">The Gas / Battery black hole free Machine.</p>
@@ -216,14 +193,9 @@
                 <span id="budgetLabel" class="row-val">$56</span>
             </div>
         </div>
-
-        <button class="reveal-btn" onclick="revealResults()">Find my perfect matching</button>
     </div>
 
-    <div class="gallery-section" id="gallerySection">
-        <h2 style="text-align: center; font-size: 40px; margin-bottom: 60px; font-weight: 600;">Perfect Matches</h2>
-        <div class="gallery" id="bikeGallery"></div>
-    </div>
+    <div class="gallery" id="bikeGallery"></div>
 
     <script>
         const bikeDatabase = [
@@ -237,6 +209,7 @@
 
         function initApp() {
             renderGallery();
+            filterBikes();
         }
 
         function renderGallery() {
@@ -250,34 +223,24 @@
             `).join('');
         }
 
-        function revealResults() {
-            const section = document.getElementById('gallerySection');
-            section.style.display = 'block';
-            filterBikes();
-            setTimeout(() => {
-                section.style.opacity = '1';
-                window.scrollTo({ top: section.offsetTop - 60, behavior: 'smooth' });
-            }, 10);
-        }
-
         function handleBudgetInput(val) {
             const price = Math.round(30 + (1000 - 30) * Math.pow(val / 100, 3));
             document.getElementById('budgetLabel').innerText = `$${price}`;
-            if (document.getElementById('gallerySection').style.display === 'block') filterBikes();
+            filterBikes();
         }
 
         function updateHeight(val) {
             let feet = Math.floor(val / 12);
             let inches = Math.round(val % 12);
             document.getElementById('heightLabel').innerText = `${feet}'${inches}"`;
-            if (document.getElementById('gallerySection').style.display === 'block') filterBikes();
+            filterBikes();
         }
 
         function setGender(val) {
             selectedSex = val;
             document.querySelectorAll('.gender-btn').forEach(b => b.classList.remove('active'));
             document.getElementById('btn-' + val).classList.add('active');
-            if (document.getElementById('gallerySection').style.display === 'block') filterBikes();
+            filterBikes();
         }
 
         function filterBikes() {
@@ -289,7 +252,14 @@
                 const match = (selectedSex === 'any' || selectedSex === card.dataset.style) &&
                               (h >= card.dataset.minh && h <= card.dataset.maxh) &&
                               (card.dataset.price <= b);
-                card.style.display = match ? 'flex' : 'none';
+                
+                if (match) {
+                    card.classList.remove('hidden');
+                    setTimeout(() => card.style.opacity = "1", 10);
+                } else {
+                    card.style.opacity = "0";
+                    card.classList.add('hidden');
+                }
             });
         }
     </script>
