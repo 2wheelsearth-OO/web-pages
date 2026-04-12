@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Bicycle Matchmaker | Auto-Crop Pro</title>
+    <title>Bicycle Matchmaker | Clarity Edition</title>
     <style>
         :root {
             --bg-color: #000000;
@@ -38,20 +38,22 @@
         h1 { font-size: clamp(24px, 4.5vh, 48px); font-weight: 700; margin: 0 0 4px 0; letter-spacing: -0.02em; }
         .sub-header { font-size: clamp(14px, 1.8vh, 18px); color: var(--text-dim); margin-bottom: 25px; }
 
-        .filter-interface { width: 100%; max-width: 500px; }
+        .filter-interface { width: 100%; max-width: 550px; }
         .input-group { margin-bottom: 20px; }
         .group-label { font-size: 9px; font-weight: 600; margin-bottom: 10px; display: block; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.15em; text-align: center; }
 
         .style-toggle { display: flex; gap: 8px; justify-content: center; }
         .style-btn { 
-            flex: 1; padding: 10px; border: 1px solid var(--border); 
-            background: transparent; color: var(--text-main); border-radius: 10px; 
+            flex: 1; padding: 12px 6px; border: 1px solid var(--border); 
+            background: transparent; color: var(--text-main); border-radius: 12px; 
             cursor: pointer; transition: all 0.2s ease; font-size: 10px; font-weight: 600;
-            text-transform: uppercase;
+            text-transform: uppercase; line-height: 1.4;
         }
+        .style-btn span { opacity: 0.6; font-size: 9px; font-weight: 400; }
         .style-btn.active { background: var(--accent); color: var(--bg-color); border-color: var(--accent); }
+        .style-btn.active span { opacity: 0.8; }
 
-        /* BIKE ICON SLIDERS */
+        /* BIKE ICON SLIDER */
         .slider-wrapper { padding: 15px 0; position: relative; }
         input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; cursor: grab; position: relative; z-index: 2; }
         input[type=range]::-webkit-slider-runnable-track { height: 1px; background: #444; }
@@ -64,30 +66,16 @@
         .slider-row { display: flex; justify-content: space-between; margin-top: 4px; font-size: 13px; color: var(--text-dim); }
         .row-val { color: var(--text-main); font-weight: 500; }
 
-        /* UNIFORM IMAGE CLIPPING GALLERY */
+        /* GALLERY & UNIFORM CLIPPING */
         .gallery { display: flex; justify-content: center; gap: clamp(15px, 3vw, 40px); width: 100%; max-width: 1000px; margin-top: 15px; }
-
         .card { display: flex; flex-direction: column; align-items: center; width: 200px; text-align: center; }
         
-        /* Fixed Aspect Ratio Container */
         .img-container {
-            width: 100%;
-            aspect-ratio: 4 / 3; /* Forces all images to the same box size */
-            overflow: hidden;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255,255,255,0.03); /* Subtle backdrop for transparent PNGs */
-            border-radius: 12px;
+            width: 100%; aspect-ratio: 4 / 3; overflow: hidden; margin-bottom: 12px;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(255,255,255,0.03); border-radius: 12px;
         }
-
-        .card img { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: contain; /* Scales image to fit without cropping it out of view */
-            transition: transform 0.3s ease; 
-        }
+        .card img { width: 100%; height: 100%; object-fit: contain; transition: transform 0.3s ease; }
         
         .info-container { position: relative; height: 30px; width: 100%; }
         .price-tag { 
@@ -109,7 +97,7 @@
 
     <div class="corner-stat top-l" id="liveDate">APRIL 12, 2026</div>
     <div class="corner-stat top-r" id="liveClock">--:-- --</div>
-    <div class="corner-stat bot-l">V60.0</div>
+    <div class="corner-stat bot-l">V61.0</div>
     <div class="corner-stat bot-r" id="screenSize">0X0</div>
 
     <h1>Stop Walking. Start Rolling.</h1>
@@ -119,9 +107,15 @@
         <div class="input-group">
             <span class="group-label">Choose rider frame style</span>
             <div class="style-toggle">
-                <button class="style-btn active" id="btn-any" onclick="setFrameStyle('any')">Unisex</button>
-                <button class="style-btn" id="btn-high" onclick="setFrameStyle('high')">Male / High Bar</button>
-                <button class="style-btn" id="btn-step" onclick="setFrameStyle('step')">Female / Step Through</button>
+                <button class="style-btn active" id="btn-any" onclick="setFrameStyle('any')">
+                    Unisex<br><span>(Medium Bar)</span>
+                </button>
+                <button class="style-btn" id="btn-high" onclick="setFrameStyle('high')">
+                    Male<br><span>(High Bar)</span>
+                </button>
+                <button class="style-btn" id="btn-step" onclick="setFrameStyle('step')">
+                    Female<br><span>(Step Through)</span>
+                </button>
             </div>
         </div>
 
