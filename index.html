@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Bicycle Matchmaker - Gas / Battery black hole free</title>
     <style>
-        /* Gemini-style Dark Theme */
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
             background: #131314; 
@@ -36,7 +35,6 @@
             width: 100%; 
         }
         
-        /* Suggestion Box Styling */
         .suggestion-box {
             background: #2b2d2f;
             border: 1px dashed #8ab4f8;
@@ -52,7 +50,8 @@
         .sub-header { text-align: center; color: #a8c7fa; margin-bottom: 30px; font-size: 1.1em; }
         
         .input-group { margin-bottom: 25px; }
-        label { display: block; font-weight: 500; margin-bottom: 12px; color: #c4c7c5; }
+        label { display: flex; align-items: center; font-weight: 500; margin-bottom: 12px; color: #c4c7c5; }
+        .label-icon { margin-right: 8px; font-size: 1.2em; color: #8ab4f8; }
 
         .gender-toggle { display: flex; gap: 10px; }
         .gender-btn {
@@ -80,13 +79,13 @@
             outline: none;
             accent-color: #a8c7fa;
         }
-        .slider-val { float: right; color: #a8c7fa; font-weight: bold; }
+        .slider-val { margin-left: auto; color: #a8c7fa; font-weight: bold; }
 
         button#searchBtn { 
             background: #a8c7fa; 
             color: #062e6f; 
             border: none; 
-            padding: 16px; 
+            padding: 18px; 
             border-radius: 100px; 
             cursor: pointer; 
             width: 100%; 
@@ -112,12 +111,12 @@
         .card.hidden { display: none; }
         img { width: 100%; height: 200px; object-fit: cover; border-radius: 12px; }
         
-        p { color: #c4c7c5; font-size: 0.9em; letter-spacing: 0.5px; margin: 10px 0 0 0; text-align: center;}
+        .card-text { color: #c4c7c5; font-size: 0.9em; letter-spacing: 0.5px; margin: 10px 0 0 0; text-align: center;}
     </style>
 </head>
 <body>
 
-    <div class="version-badge">PROGRAM VERSION: 20.0 | DATE: 2026-04-12 | TIME: 1:25 PM</div>
+    <div class="version-badge">PROGRAM VERSION: 21.0 | DATE: 2026-04-12 | TIME: 1:35 PM</div>
 
     <h1>Stop Walking, Start Rolling</h1>
     <p class="sub-header">Gas / Battery black hole free</p>
@@ -137,37 +136,43 @@
         </div>
 
         <div class="input-group">
-            <label>2. Your Height: <span id="heightLabel" class="slider-val">5'5" (165 cm)</span></label>
+            <label>
+                <span class="label-icon">↕?</span> 2. Your Height: 
+                <span id="heightLabel" class="slider-val">5'5" (165 cm)</span>
+            </label>
             <input type="range" id="userHeight" min="36" max="80" value="65" oninput="updateHeight(this.value)">
         </div>
 
         <div class="input-group">
-            <label>3. Max Budget: <span id="budgetLabel" class="slider-val">$400</span></label>
+            <label>
+                <span class="label-icon">👛</span> 3. Max Budget: 
+                <span id="budgetLabel" class="slider-val">$400</span>
+            </label>
             <input type="range" id="userBudget" min="30" max="1000" value="400" oninput="updateBudget(this.value)">
         </div>
 
-        <button id="searchBtn" onclick="filterBikes()">Find My Healthy Match</button>
+        <button id="searchBtn" onclick="filterBikes()">Find my healthy transportation match...</button>
     </div>
 
     <div class="gallery" id="bikeGallery">
         <div class="card" data-sex="female" data-min-h="48" data-max-h="68" data-price="120">
             <img src="https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Blue checker board girl bike - 120F2413.png">
-            <p>24" Wheels | 13" Frame | $120</p>
+            <p class="card-text">24" Wheels | 13" Frame | $120</p>
         </div>
 
         <div class="card" data-sex="male" data-min-h="62" data-max-h="72" data-price="180">
             <img src="https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Green Haro $180 25 cm.jpg">
-            <p>26" Wheels | 18" Frame | $180</p>
+            <p class="card-text">26" Wheels | 18" Frame | $180</p>
         </div>
 
         <div class="card" data-sex="any" data-min-h="40" data-max-h="55" data-price="80">
             <img src="https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Green Front Suspension 6 speed Elementary School Bike $80.jpg">
-            <p>20" Wheels | CS Frame | $80</p>
+            <p class="card-text">20" Wheels | CS Frame | $80</p>
         </div>
 
         <div class="card" data-sex="female" data-min-h="58" data-max-h="68" data-price="60">
             <img src="https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Girl Torker at front of house $60.png">
-            <p>24" Wheels | CS Frame | $60</p>
+            <p class="card-text">24" Wheels | CS Frame | $60</p>
         </div>
     </div>
 
@@ -186,7 +191,6 @@
             let cm = Math.round(val * 2.54);
             document.getElementById('heightLabel').innerText = `${feet}'${inches}" (${cm} cm)`;
             
-            // Logic for Wheel Suggestion
             let suggestion = "";
             if (val < 41) suggestion = "12\" Wheels (Toddler)";
             else if (val < 43) suggestion = "14\" Wheels (Youth Small)";
