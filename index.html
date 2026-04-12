@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Bicycle Matchmaker | Clarity Edition</title>
+    <title>Bicycle Matchmaker | Stable UI</title>
     <style>
         :root {
             --bg-color: #000000;
@@ -25,7 +25,7 @@
             justify-content: center; padding: 0 20px; box-sizing: border-box;
         }
 
-        /* QUAD-CORNER OVERLAYS */
+        /* FOUR-CORNER OVERLAYS */
         .corner-stat { 
             position: fixed; font-size: 10px; color: var(--text-dim); 
             letter-spacing: 0.1em; z-index: 1000; text-transform: uppercase;
@@ -51,9 +51,8 @@
         }
         .style-btn span { opacity: 0.6; font-size: 9px; font-weight: 400; }
         .style-btn.active { background: var(--accent); color: var(--bg-color); border-color: var(--accent); }
-        .style-btn.active span { opacity: 0.8; }
 
-        /* BIKE ICON SLIDER */
+        /* SLIDER STYLES */
         .slider-wrapper { padding: 15px 0; position: relative; }
         input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; cursor: grab; position: relative; z-index: 2; }
         input[type=range]::-webkit-slider-runnable-track { height: 1px; background: #444; }
@@ -66,10 +65,14 @@
         .slider-row { display: flex; justify-content: space-between; margin-top: 4px; font-size: 13px; color: var(--text-dim); }
         .row-val { color: var(--text-main); font-weight: 500; }
 
-        /* GALLERY & UNIFORM CLIPPING */
-        .gallery { display: flex; justify-content: center; gap: clamp(15px, 3vw, 40px); width: 100%; max-width: 1000px; margin-top: 15px; }
-        .card { display: flex; flex-direction: column; align-items: center; width: 200px; text-align: center; }
+        /* STABILIZED GALLERY */
+        .gallery { 
+            display: flex; justify-content: center; gap: clamp(15px, 3vw, 40px); 
+            width: 100%; max-width: 1000px; margin-top: 25px;
+            min-height: 220px; /* RESERVES SPACE TO PREVENT JUMPING */
+        }
         
+        .card { display: flex; flex-direction: column; align-items: center; width: 200px; text-align: center; }
         .img-container {
             width: 100%; aspect-ratio: 4 / 3; overflow: hidden; margin-bottom: 12px;
             display: flex; align-items: center; justify-content: center;
@@ -78,14 +81,10 @@
         .card img { width: 100%; height: 100%; object-fit: contain; transition: transform 0.3s ease; }
         
         .info-container { position: relative; height: 30px; width: 100%; }
-        .price-tag { 
-            font-size: 18px; font-weight: 600; position: absolute; width: 100%; top: 0; left: 0;
-            transition: opacity 0.2s ease, transform 0.2s ease;
-        }
+        .price-tag { font-size: 18px; font-weight: 600; position: absolute; width: 100%; top: 0; left: 0; transition: all 0.2s ease; }
         .specs-overlay { 
             font-size: 11px; color: var(--text-dim); position: absolute; width: 100%; top: 2px; left: 0;
-            opacity: 0; transform: translateY(5px); transition: opacity 0.2s ease, transform 0.2s ease;
-            white-space: nowrap;
+            opacity: 0; transform: translateY(5px); transition: all 0.2s ease; white-space: nowrap;
         }
 
         .card:hover img { transform: scale(1.08); }
@@ -97,7 +96,7 @@
 
     <div class="corner-stat top-l" id="liveDate">APRIL 12, 2026</div>
     <div class="corner-stat top-r" id="liveClock">--:-- --</div>
-    <div class="corner-stat bot-l">V61.0</div>
+    <div class="corner-stat bot-l">V62.0</div>
     <div class="corner-stat bot-r" id="screenSize">0X0</div>
 
     <h1>Stop Walking. Start Rolling.</h1>
@@ -107,15 +106,9 @@
         <div class="input-group">
             <span class="group-label">Choose rider frame style</span>
             <div class="style-toggle">
-                <button class="style-btn active" id="btn-any" onclick="setFrameStyle('any')">
-                    Unisex<br><span>(Medium Bar)</span>
-                </button>
-                <button class="style-btn" id="btn-high" onclick="setFrameStyle('high')">
-                    Male<br><span>(High Bar)</span>
-                </button>
-                <button class="style-btn" id="btn-step" onclick="setFrameStyle('step')">
-                    Female<br><span>(Step Through)</span>
-                </button>
+                <button class="style-btn active" id="btn-any" onclick="setFrameStyle('any')">Unisex<br><span>(Medium Bar)</span></button>
+                <button class="style-btn" id="btn-high" onclick="setFrameStyle('high')">Male<br><span>(High Bar)</span></button>
+                <button class="style-btn" id="btn-step" onclick="setFrameStyle('step')">Female<br><span>(Step Through)</span></button>
             </div>
         </div>
 
