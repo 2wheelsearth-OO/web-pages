@@ -1,4 +1,4 @@
-<!-- VERSION 64.6 | 2026-04-12 | 7:55 PM | Removed Top Logo + Kept Watermark -->
+<!-- VERSION 65.1 | 2026-04-12 | 9:05 PM | Watermark path updated to Assets repo (.jpg) -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -83,7 +83,7 @@
             width: 320px; 
             height: auto;
             filter: invert(1) contrast(1.1);
-            opacity: 0.3;
+            opacity: 0.15;
             z-index: 1;
             pointer-events: none;
         }
@@ -120,7 +120,7 @@
 
     <div class="corner-stat top-l" id="liveDate">APRIL 12, 2026</div>
     <div class="corner-stat top-r" id="liveClock">--:-- --</div>
-    <div class="corner-stat bot-l">V64.6</div>
+    <div class="corner-stat bot-l">V65.1</div>
     <div class="corner-stat bot-r" id="screenSize">0X0</div>
 
     <h1>Stop Walking. Start Rolling.</h1>
@@ -164,9 +164,11 @@
     </div>
 
     <div class="gallery-container">
-        <!-- Background Watermark Logo (Inverted) -->
-        <img src="https://raw.githubusercontent.com/2wheelsearth-OO/web-pages/main/collagraphy%20bike%20logo.jpg" 
-             class="gallery-watermark" alt="Velocipede Watermark">
+        <!-- Watermark Logo pulled from the Assets repository -->
+        <img id="watermarkLogo" 
+             src="https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/collagraphy%20bike%20logo.jpg" 
+             class="gallery-watermark" 
+             alt="Velocipede Watermark">
         
         <div class="gallery" id="bikeGallery"></div>
     </div>
