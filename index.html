@@ -59,7 +59,7 @@
             border-color: #a8c7fa;
         }
 
-        /* ULTRA-VISIBLE Slider Styling */
+        /* "Road" Style Slider Styling */
         input[type=range] {
             -webkit-appearance: none;
             width: 100%;
@@ -70,37 +70,37 @@
 
         input[type=range]::-webkit-slider-runnable-track {
             width: 100%;
-            height: 6px;
+            height: 4px;
             cursor: pointer;
             background: #444746;
-            border-radius: 3px;
+            border-radius: 2px;
         }
 
-        /* Bicycle Icon Handle - Added White Background Circle for Visibility */
+        /* Bicycle Icon Handle - Resting directly on the "road" */
         input[type=range]::-webkit-slider-thumb {
-            height: 50px;
-            width: 50px;
+            height: 40px;
+            width: 40px;
             cursor: pointer;
             -webkit-appearance: none;
-            margin-top: -22px; 
-            background: #ffffff; /* Solid white background so you can't miss it */
-            border-radius: 50%; /* Makes the white background a circle */
-            border: 2px solid #a8c7fa;
+            margin-top: -18px; /* Perfectly aligned to the track */
+            background: transparent; /* Removes the previous white circle */
+            border: none;
             content: url('https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/image_75af43.png');
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            padding: 5px; /* Spacing so the bike doesn't touch the circle edges */
+            box-shadow: none; /* Removed the previous shadow */
+            padding: 0;
+            filter: invert(85%) sepia(20%) saturate(800%) hue-rotate(185deg); /* Tinted for visibility */
         }
 
         input[type=range]::-moz-range-thumb {
-            height: 50px;
-            width: 50px;
-            background: #ffffff;
-            border-radius: 50%;
-            border: 2px solid #a8c7fa;
+            height: 40px;
+            width: 40px;
+            background: transparent;
+            border: none;
             cursor: pointer;
             content: url('https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/image_75af43.png');
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            padding: 5px;
+            box-shadow: none;
+            padding: 0;
+            filter: invert(85%) sepia(20%) saturate(800%) hue-rotate(185deg);
         }
 
         .slider-val { margin-left: auto; color: #a8c7fa; font-weight: bold; }
@@ -140,7 +140,7 @@
 </head>
 <body>
 
-    <div class="version-badge">PROGRAM VERSION: 25.0 | DATE: 2026-04-12 | TIME: 2:00 PM</div>
+    <div class="version-badge">PROGRAM VERSION: 26.0 | DATE: 2026-04-12 | TIME: 2:05 PM</div>
 
     <h1>Stop Walking, Start Rolling</h1>
     <p class="sub-header">Gas / Battery black hole free</p>
