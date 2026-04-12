@@ -1,4 +1,4 @@
-<!DOCTYPE html> *** 2026-04-12 | 12:35 PM | VERSION 9.0 ***
+<!DOCTYPE html> *** 2026-04-12 | 12:45 PM | VERSION 11.0 ***
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -11,15 +11,21 @@
             color: #e3e3e3; 
             padding: 20px; 
             margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+            min-height: 100vh;
         }
         .filter-container { 
             background: #1e1f20; 
             padding: 30px; 
             border-radius: 24px; 
             max-width: 600px; 
-            margin: 0 auto 40px; 
+            margin-top: 40px; 
+            margin-bottom: 40px; 
             box-shadow: 0 8px 32px rgba(0,0,0,0.3);
             border: 1px solid #444746;
+            width: 100%; 
         }
         h1 { text-align: center; color: #fff; font-weight: 400; margin-bottom: 5px; }
         .sub-header { text-align: center; color: #a8c7fa; margin-bottom: 30px; font-size: 1.1em; }
@@ -27,7 +33,6 @@
         .input-group { margin-bottom: 25px; }
         label { display: block; font-weight: 500; margin-bottom: 12px; color: #c4c7c5; }
 
-        /* Style Toggle Buttons */
         .gender-toggle { display: flex; gap: 10px; }
         .gender-btn {
             flex: 1;
@@ -46,7 +51,6 @@
             border-color: #a8c7fa;
         }
 
-        /* Sliders */
         input[type=range] {
             width: 100%;
             height: 6px;
@@ -71,8 +75,7 @@
         }
         button#searchBtn:hover { background: #c2e7ff; transform: scale(1.01); }
 
-        /* Gallery and Cards */
-        .gallery { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
+        .gallery { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; width: 100%; max-width: 1400px; padding: 0 20px;}
         .card { 
             background: #1e1f20; 
             width: 280px; 
@@ -80,12 +83,15 @@
             border-radius: 16px; 
             border: 1px solid #444746;
             transition: transform 0.2s; 
+            display: flex; 
+            flex-direction: column;
+            align-items: center;
         }
         .card:hover { transform: translateY(-5px); }
         .card.hidden { display: none; }
         img { width: 100%; height: 200px; object-fit: cover; border-radius: 12px; }
-        h2 { font-size: 1.1em; margin: 15px 0 5px; color: #fff; }
-        p { color: #c4c7c5; font-size: 0.9em; letter-spacing: 0.5px; }
+        
+        p { color: #c4c7c5; font-size: 0.9em; letter-spacing: 0.5px; margin: 10px 0 0 0; text-align: center;}
     </style>
 </head>
 <body>
@@ -119,25 +125,21 @@
     <div class="gallery" id="bikeGallery">
         <div class="card" data-sex="female" data-min-h="48" data-max-h="68" data-price="120">
             <img src="https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Blue checker board girl bike - 120F2413.png">
-            <h2>Blue Checker Board</h2>
             <p>24" Wheels | 13" Frame | $120</p>
         </div>
 
         <div class="card" data-sex="male" data-min-h="62" data-max-h="72" data-price="180">
             <img src="https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Green Haro $180 25 cm.jpg">
-            <h2>Green Haro</h2>
             <p>26" Wheels | 18" Frame | $180</p>
         </div>
 
         <div class="card" data-sex="any" data-min-h="40" data-max-h="55" data-price="80">
             <img src="https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Green Front Suspension 6 speed Elementary School Bike $80.jpg">
-            <h2>Elementary Suspension</h2>
             <p>20" Wheels | CS Frame | $80</p>
         </div>
 
         <div class="card" data-sex="female" data-min-h="58" data-max-h="68" data-price="60">
             <img src="https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Girl Torker at front of house $60.png">
-            <h2>Girl Torker</h2>
             <p>24" Wheels | CS Frame | $60</p>
         </div>
     </div>
