@@ -59,7 +59,7 @@
             border-color: #a8c7fa;
         }
 
-        /* Custom Rider Slider Styling */
+        /* High-Visibility Rider Slider Styling */
         input[type=range] {
             -webkit-appearance: none;
             width: 100%;
@@ -76,27 +76,26 @@
             border-radius: 2px;
         }
 
-        /* Custom Rider Image Handle (Chrome/Safari) */
+        /* Bicycle Icon Handle - Filtered for High Visibility */
         input[type=range]::-webkit-slider-thumb {
-            height: 40px;
-            width: 40px;
+            height: 45px;
+            width: 45px;
             cursor: pointer;
             -webkit-appearance: none;
-            margin-top: -18px; 
-            /* Using your provided rider image */
+            margin-top: -20px; 
             content: url('https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/image_75af43.png');
-            filter: invert(85%) sepia(20%) saturate(800%) hue-rotate(185deg); /* Tinting to match your theme */
+            /* Bright White Filter */
+            filter: brightness(0) invert(1); 
         }
 
-        /* Custom Rider Image Handle (Firefox) */
         input[type=range]::-moz-range-thumb {
-            height: 40px;
-            width: 40px;
+            height: 45px;
+            width: 45px;
             background: transparent;
             border: none;
             cursor: pointer;
             content: url('https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/image_75af43.png');
-            filter: invert(85%) sepia(20%) saturate(800%) hue-rotate(185deg);
+            filter: brightness(0) invert(1);
         }
 
         .slider-val { margin-left: auto; color: #a8c7fa; font-weight: bold; }
@@ -136,7 +135,7 @@
 </head>
 <body>
 
-    <div class="version-badge">PROGRAM VERSION: 23.0 | DATE: 2026-04-12 | TIME: 1:50 PM</div>
+    <div class="version-badge">PROGRAM VERSION: 24.0 | DATE: 2026-04-12 | TIME: 1:55 PM</div>
 
     <h1>Stop Walking, Start Rolling</h1>
     <p class="sub-header">Gas / Battery black hole free</p>
