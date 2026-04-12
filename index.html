@@ -123,7 +123,7 @@
 </head>
 <body onload="initApp()">
 
-    <div class="version-badge">PROGRAM VERSION: 33.0 | DATE: 2026-04-12 | TIME: 3:55 PM</div>
+    <div class="version-badge">PROGRAM VERSION: 34.0 | DATE: 2026-04-12 | TIME: 4:10 PM</div>
 
     <h1>Stop Walking, Start Rolling</h1>
     <p class="sub-header">Gas / Battery black hole free</p>
@@ -140,7 +140,7 @@
 
         <div class="input-group">
             <div class="slider-wrapper">
-                <input type="range" id="userHeight" min="36" max="80" value="36" oninput="manualOverride(); updateHeight(this.value)">
+                <input type="range" id="userHeight" min="36" max="80" value="36" step="0.01" oninput="manualOverride(); updateHeight(this.value)">
             </div>
             <div class="slider-row">
                 <span class="row-title">Rider Height:</span>
@@ -150,7 +150,7 @@
 
         <div class="input-group">
             <div class="slider-wrapper">
-                <input type="range" id="userBudget" min="30" max="1000" value="30" oninput="manualOverride(); updateBudget(this.value)">
+                <input type="range" id="userBudget" min="30" max="1000" value="30" step="0.1" oninput="manualOverride(); updateBudget(this.value)">
             </div>
             <div class="slider-row">
                 <span class="row-title">Max Budget:</span>
@@ -184,52 +184,33 @@
 
         function initApp() {
             filterBikes();
-            animateSliders();
+            requestAnimationFrame(animateSliders);
         }
 
         function manualOverride() {
             animationActive = false;
         }
 
-        function animateSliders() {
-            const targetHeight = 65;
-            const targetBudget = 400;
-            
+        function animateSliders(currentTime) {
+            if (!animationActive) return;
+
             const durationH = 20000; // 20 Seconds
             const durationB = 15000; // 15 Seconds
             
-            const startTime = performance.now();
+            // Looping logic: calculate progress based on modulo of time
+            const progressH = (currentTime % durationH) / durationH;
+            const progressB = (currentTime % durationB) / durationB;
+            
+            const currentH = 36 + (80 - 36) * progressH;
+            const currentB = 30 + (1000 - 30) * progressB;
 
-            function step(currentTime) {
-                if (!animationActive) return;
+            document.getElementById('userHeight').value = currentH;
+            updateHeight(currentH);
 
-                const elapsed = currentTime - startTime;
-                
-                // Calculate separate progress for each slider
-                const progressH = Math.min(elapsed / durationH, 1);
-                const progressB = Math.min(elapsed / durationB, 1);
-                
-                // Linear movement looks more "constant pace" for slow speeds
-                const currentH = Math.round(36 + (targetHeight - 36) * progressH);
-                const currentB = Math.round(30 + (targetBudget - 30) * progressB);
+            document.getElementById('userBudget').value = currentB;
+            updateBudget(currentB);
 
-                if (progressH <= 1) {
-                    document.getElementById('userHeight').value = currentH;
-                    updateHeight(currentH);
-                }
-
-                if (progressB <= 1) {
-                    document.getElementById('userBudget').value = currentB;
-                    updateBudget(currentB);
-                }
-
-                if (progressH < 1 || progressB < 1) {
-                    requestAnimationFrame(step);
-                } else {
-                    animationActive = false;
-                }
-            }
-            requestAnimationFrame(step);
+            requestAnimationFrame(animateSliders);
         }
 
         function setGender(val) {
@@ -242,20 +223,20 @@
 
         function updateHeight(val) {
             let feet = Math.floor(val / 12);
-            let inches = val % 12;
+            let inches = Math.round(val % 12);
             let cm = Math.round(val * 2.54);
             document.getElementById('heightLabel').innerText = `${feet}'${inches}" (${cm} cm)`;
             filterBikes();
         }
 
         function updateBudget(val) {
-            document.getElementById('budgetLabel').innerText = `$${val}`;
+            document.getElementById('budgetLabel').innerText = `$${Math.round(val)}`;
             filterBikes();
         }
 
         function filterBikes() {
-            const height = parseInt(document.getElementById('userHeight').value);
-            const budget = parseInt(document.getElementById('userBudget').value);
+            const height = parseFloat(document.getElementById('userHeight').value);
+            const budget = parseFloat(document.getElementById('userBudget').value);
             const cards = document.querySelectorAll('.card');
 
             cards.forEach(card => {
