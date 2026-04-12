@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bicycle Matchmaker | Universal Design</title>
+    <title>Bicycle Matchmaker | Pro Debug</title>
     <style>
         :root {
             --bg-color: #000000;
@@ -13,45 +13,45 @@
         }
 
         body { 
-            font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            font-family: "SF Pro Display", -apple-system, sans-serif; 
             background: var(--bg-color); color: var(--text-main); 
-            padding: env(safe-area-inset-top) 20px 40px 20px; 
-            margin: 0;
+            padding: 80px 20px; margin: 0;
             display: flex; flex-direction: column; align-items: center; 
             min-height: 100vh; -webkit-font-smoothing: antialiased;
         }
+
+        /* DYNAMIC OVERLAYS */
+        .live-timestamp {
+            position: fixed; top: 15px; left: 20px;
+            font-size: 11px; font-weight: 500; color: var(--text-dim);
+            letter-spacing: 0.05em; font-variant-numeric: tabular-nums;
+            z-index: 1000;
+        }
+
+        .version-debug {
+            position: fixed; bottom: 15px; right: 20px;
+            font-size: 11px; font-weight: 500; color: var(--text-dim);
+            text-align: right; z-index: 1000;
+        }
         
-        h1 { 
-            font-size: clamp(32px, 8vw, 56px); /* Fluid size: Min 32px, Max 56px */
-            font-weight: 700; line-height: 1.1; letter-spacing: -0.02em;
-            margin: 60px 0 10px 0; text-align: center; width: 100%;
-        }
+        h1 { font-size: clamp(32px, 8vw, 56px); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; margin: 40px 0 10px 0; text-align: center; }
+        .sub-header { font-size: clamp(18px, 4vw, 24px); color: var(--text-dim); margin-bottom: 50px; text-align: center; }
 
-        .sub-header { 
-            font-size: clamp(18px, 4vw, 24px); 
-            color: var(--text-dim); margin-bottom: 50px; text-align: center; max-width: 600px;
-        }
-
-        /* MOBILE OPTIMIZED INTERFACE */
         .filter-interface { width: 100%; max-width: 550px; margin-bottom: 60px; }
         .input-group { margin-bottom: 40px; }
         .group-label { font-size: 11px; font-weight: 600; margin-bottom: 20px; display: block; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; text-align: center; }
 
-        .style-toggle { 
-            display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; 
-        }
+        .style-toggle { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
         .style-btn { 
-            flex: 1 1 100px; /* Allows buttons to grow and shrink */
-            padding: 16px 12px; border: 1px solid var(--border); background: transparent; 
-            color: var(--text-main); border-radius: 16px; cursor: pointer; 
-            transition: all 0.3s ease; font-size: 14px;
+            flex: 1 1 100px; padding: 16px 12px; border: 1px solid var(--border); 
+            background: transparent; color: var(--text-main); border-radius: 16px; 
+            cursor: pointer; transition: all 0.3s ease; font-size: 14px;
             display: flex; flex-direction: column; align-items: center; gap: 8px;
         }
         .style-btn svg { width: 24px; height: 24px; opacity: 0.5; }
         .style-btn.active { background: #ffffff; color: #000000; border-color: #ffffff; }
         .style-btn.active svg { opacity: 1; stroke: #000000; }
 
-        /* REFINED SLIDERS FOR THUMBS */
         .slider-wrapper { position: relative; padding: 25px 0; }
         input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
         input[type=range]::-webkit-slider-runnable-track { height: 4px; background: #333; border-radius: 2px; }
@@ -63,27 +63,13 @@
         .slider-row { display: flex; justify-content: space-between; margin-top: 10px; font-size: 16px; }
         .row-val { color: var(--text-main); font-weight: 500; }
 
-        /* GRID SYSTEM */
-        .gallery { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); 
-            gap: 20px; width: 100%; max-width: 1200px; 
-        }
-
-        .card { 
-            background: #111112; padding: 25px; border-radius: 22px; 
-            display: flex; flex-direction: column; align-items: center;
-            transition: all 0.4s ease; position: relative; overflow: hidden; height: 280px; 
-        }
+        .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 20px; width: 100%; max-width: 1200px; }
+        .card { background: #111112; padding: 25px; border-radius: 22px; display: flex; flex-direction: column; align-items: center; transition: all 0.4s ease; position: relative; overflow: hidden; height: 280px; }
         .card img { max-width: 100%; height: 160px; object-fit: scale-down; margin-bottom: 15px; }
         .price-tag { font-size: 26px; font-weight: 600; color: #fff; }
 
-        .specs-overlay {
-            position: absolute; bottom: 20px; opacity: 0.6;
-            color: var(--text-dim); font-size: 13px; text-align: center;
-        }
+        .specs-overlay { position: absolute; bottom: 20px; opacity: 0.6; color: var(--text-dim); font-size: 13px; text-align: center; }
 
-        /* Hover only on devices that support it */
         @media (hover: hover) {
             .card:hover { transform: scale(1.02); background: #1c1c1e; }
             .card .specs-overlay { opacity: 0; bottom: -20px; transition: all 0.3s ease; }
@@ -93,6 +79,12 @@
     </style>
 </head>
 <body onload="initApp()">
+
+    <div class="live-timestamp" id="liveClock">APRIL 12, 2026 | 3:10 PM</div>
+    <div class="version-debug">
+        VERSION 54.0<br>
+        <span id="screenSize">0 x 0</span>
+    </div>
 
     <h1>Stop Walking. Start Rolling.</h1>
     <p class="sub-header">Gas/Battery blackhole free transportation</p>
@@ -149,7 +141,25 @@
 
         let currentFrame = 'any';
 
-        function initApp() { renderGallery(); filterBikes(); }
+        function initApp() { 
+            renderGallery(); 
+            filterBikes();
+            startClock();
+            updateScreenSize();
+            window.addEventListener('resize', updateScreenSize);
+        }
+
+        function startClock() {
+            setInterval(() => {
+                const now = new Date();
+                const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+                document.getElementById('liveClock').innerText = now.toLocaleDateString('en-US', options).toUpperCase();
+            }, 1000);
+        }
+
+        function updateScreenSize() {
+            document.getElementById('screenSize').innerText = `${window.innerWidth} x ${window.innerHeight}`;
+        }
 
         function renderGallery() {
             const gallery = document.getElementById('bikeGallery');
