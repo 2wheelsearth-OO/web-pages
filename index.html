@@ -1,4 +1,4 @@
-<!-- VERSION 64.0 | 2026-04-12 | 7:00 PM | Logo Integrated -->
+<!-- VERSION 64.6 | 2026-04-12 | 7:55 PM | Removed Top Logo + Kept Watermark -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,15 +26,6 @@
             justify-content: center; padding: 0 20px; box-sizing: border-box;
         }
 
-        /* LOGO INTEGRATION */
-        .brand-logo {
-            width: 80px; /* Approximately 1/5th visual scale compared to original */
-            height: auto;
-            margin-bottom: 20px;
-            filter: invert(1); /* Ensures black ink becomes white on black background */
-            opacity: 0.9;
-        }
-
         /* FOUR-CORNER OVERLAYS */
         .corner-stat { 
             position: fixed; font-size: 10px; color: var(--text-dim); 
@@ -48,7 +39,7 @@
         h1 { font-size: clamp(24px, 4.5vh, 48px); font-weight: 700; margin: 0 0 4px 0; letter-spacing: -0.02em; }
         .sub-header { font-size: clamp(14px, 1.8vh, 18px); color: var(--text-dim); margin-bottom: 25px; }
 
-        .filter-interface { width: 100%; max-width: 550px; }
+        .filter-interface { width: 100%; max-width: 550px; z-index: 10; }
         .input-group { margin-bottom: 20px; }
         .group-label { font-size: 9px; font-weight: 600; margin-bottom: 10px; display: block; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.15em; text-align: center; }
 
@@ -75,14 +66,37 @@
         .slider-row { display: flex; justify-content: space-between; margin-top: 4px; font-size: 13px; color: var(--text-dim); }
         .row-val { color: var(--text-main); font-weight: 500; }
 
-        /* GALLERY STYLES */
+        /* GALLERY & WATERMARK */
+        .gallery-container {
+            position: relative;
+            width: 100%;
+            max-width: 1000px;
+            margin-top: 25px;
+            min-height: 250px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .gallery-watermark {
+            position: absolute;
+            width: 320px; 
+            height: auto;
+            filter: invert(1) contrast(1.1);
+            opacity: 0.3;
+            z-index: 1;
+            pointer-events: none;
+        }
+
         .gallery { 
-            display: flex; justify-content: center; gap: clamp(15px, 3vw, 40px); 
-            width: 100%; max-width: 1000px; margin-top: 25px;
-            min-height: 220px;
+            display: flex; 
+            justify-content: center; 
+            gap: clamp(15px, 3vw, 40px); 
+            width: 100%; 
+            z-index: 5; 
         }
         
-        .card { display: flex; flex-direction: column; align-items: center; width: 200px; text-align: center; }
+        .card { display: flex; flex-direction: column; align-items: center; width: 200px; text-align: center; background: var(--bg-color); }
         .img-container {
             width: 100%; aspect-ratio: 4 / 3; overflow: hidden; margin-bottom: 12px;
             display: flex; align-items: center; justify-content: center;
@@ -106,13 +120,8 @@
 
     <div class="corner-stat top-l" id="liveDate">APRIL 12, 2026</div>
     <div class="corner-stat top-r" id="liveClock">--:-- --</div>
-    <div class="corner-stat bot-l">V64.0</div>
+    <div class="corner-stat bot-l">V64.6</div>
     <div class="corner-stat bot-r" id="screenSize">0X0</div>
-
-    <!-- LOGO PLACEHOLDER (Use the brush stroke image you created) -->
-    <img src="https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/VelocipedeLogoBrush.png" 
-         onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 60\' fill=\'none\' stroke=\'white\' stroke-width=\'2\'><circle cx=\'25\' cy=\'40\' r=\'12\'/><circle cx=\'75\' cy=\'40\' r=\'12\'/><path d=\'M25 40 L40 20 L75 20 M40 20 L50 40\'/></svg>'"
-         class="brand-logo" alt="Velocipede Logo">
 
     <h1>Stop Walking. Start Rolling.</h1>
     <p class="sub-header">Gas/Battery blackhole free transportation</p>
@@ -121,10 +130,10 @@
         <div class="input-group">
             <span class="group-label">Choose rider frame style</span>
             <div class="style-toggle">
-                <button class="style-btn active" id="btn-high" onclick="setFrameStyle('high')">
+                <button class="style-btn" id="btn-high" onclick="setFrameStyle('high')">
                     Male<br><span>(High Bar)</span>
                 </button>
-                <button class="style-btn" id="btn-any" onclick="setFrameStyle('any')">
+                <button class="style-btn active" id="btn-any" onclick="setFrameStyle('any')">
                     Unisex<br><span>(Medium Bar)</span>
                 </button>
                 <button class="style-btn" id="btn-step" onclick="setFrameStyle('step')">
@@ -154,7 +163,13 @@
         </div>
     </div>
 
-    <div class="gallery" id="bikeGallery"></div>
+    <div class="gallery-container">
+        <!-- Background Watermark Logo (Inverted) -->
+        <img src="https://raw.githubusercontent.com/2wheelsearth-OO/web-pages/main/collagraphy%20bike%20logo.jpg" 
+             class="gallery-watermark" alt="Velocipede Watermark">
+        
+        <div class="gallery" id="bikeGallery"></div>
+    </div>
 
     <script>
         const bikeDatabase = [
@@ -163,7 +178,7 @@
             { fStyle: "step", minH: 58, maxH: 68, price: 60, wheel: "24\"", frame: "Low Entry", img: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Girl Torker at front of house $60.png" }
         ];
 
-        let currentFrame = 'high';
+        let currentFrame = 'any';
 
         function initApp() { 
             renderGallery(); 
@@ -210,7 +225,8 @@
         function setFrameStyle(val) {
             currentFrame = val;
             document.querySelectorAll('.style-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById('btn-' + (val === 'any' ? 'any' : val === 'high' ? 'high' : 'step')).classList.add('active');
+            const targetId = val === 'any' ? 'btn-any' : val === 'high' ? 'btn-high' : 'btn-step';
+            document.getElementById(targetId).classList.add('active');
             filterBikes();
         }
 
