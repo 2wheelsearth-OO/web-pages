@@ -27,7 +27,7 @@
         .input-group { margin-bottom: 25px; }
         label { display: block; font-weight: 500; margin-bottom: 12px; color: #c4c7c5; }
 
-        /* Gender Buttons */
+        /* Style Toggle Buttons */
         .gender-toggle { display: flex; gap: 10px; }
         .gender-btn {
             flex: 1;
@@ -38,6 +38,7 @@
             border-radius: 8px;
             cursor: pointer;
             transition: 0.2s;
+            font-size: 14px;
         }
         .gender-btn.active {
             background: #a8c7fa;
@@ -70,6 +71,7 @@
         }
         button#searchBtn:hover { background: #c2e7ff; transform: scale(1.01); }
 
+        /* Gallery and Cards */
         .gallery { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
         .card { 
             background: #1e1f20; 
@@ -83,7 +85,7 @@
         .card.hidden { display: none; }
         img { width: 100%; height: 200px; object-fit: cover; border-radius: 12px; }
         h2 { font-size: 1.1em; margin: 15px 0 5px; color: #fff; }
-        p { color: #c4c7c5; font-size: 0.9em; }
+        p { color: #c4c7c5; font-size: 0.9em; letter-spacing: 0.5px; }
     </style>
 </head>
 <body>
@@ -95,9 +97,9 @@
         <div class="input-group">
             <label>1. Style Preference</label>
             <div class="gender-toggle">
-                <button class="gender-btn active" onclick="setGender('any', this)">Don't Care</button>
-                <button class="gender-btn" onclick="setGender('male', this)">Men's</button>
-                <button class="gender-btn" onclick="setGender('female', this)">Women's</button>
+                <button class="gender-btn active" onclick="setGender('any', this)">Unisex / All</button>
+                <button class="gender-btn" onclick="setGender('male', this)">Male Styles</button>
+                <button class="gender-btn" onclick="setGender('female', this)">Female Styles</button>
             </div>
         </div>
 
@@ -118,25 +120,25 @@
         <div class="card" data-sex="female" data-min-h="48" data-max-h="68" data-price="120">
             <img src="https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Blue checker board girl bike - 120F2413.png">
             <h2>Blue Checker Board</h2>
-            <p>Women's | 24" Wheels | $120</p>
+            <p>24" Wheels | 13" Frame | $120</p>
         </div>
 
         <div class="card" data-sex="male" data-min-h="62" data-max-h="72" data-price="180">
             <img src="https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Green Haro $180 25 cm.jpg">
             <h2>Green Haro</h2>
-            <p>Men's | 5'2" - 6'0" | $180</p>
+            <p>26" Wheels | 18" Frame | $180</p>
         </div>
 
         <div class="card" data-sex="any" data-min-h="40" data-max-h="55" data-price="80">
             <img src="https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Green Front Suspension 6 speed Elementary School Bike $80.jpg">
             <h2>Elementary Suspension</h2>
-            <p>Kids | 3'4" - 4'7" | $80</p>
+            <p>20" Wheels | CS Frame | $80</p>
         </div>
 
         <div class="card" data-sex="female" data-min-h="58" data-max-h="68" data-price="60">
             <img src="https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Girl Torker at front of house $60.png">
             <h2>Girl Torker</h2>
-            <p>Women's | 4'10" - 5'8" | $60</p>
+            <p>24" Wheels | CS Frame | $60</p>
         </div>
     </div>
 
