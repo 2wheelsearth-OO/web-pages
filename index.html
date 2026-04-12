@@ -1,23 +1,28 @@
-<!-- VERSION 65.2 | 2026-04-12 | 9:15 PM | Fixed watermark path: .png extension + space encoding -->
+<!-- VERSION 65.7 | 2026-04-12 | 10:25 PM | Adjusted Slider Thumb to sit on top of the line -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Velocipede | Matchmaker</title>
+    <!-- Import Collagraphy-style Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+    
     <style>
         :root {
-            --bg-color: #000000;
-            --text-main: #f5f5f7;
-            --text-dim: #a1a1a6;
-            --border: #424245;
-            --accent: #ffffff;
+            /* Gemini-inspired Color Palette */
+            --bg-color: #0e0e11;      /* Deep Gemini Charcoal */
+            --text-main: #e3e3e3;     /* Soft Gemini Off-White/Blue-tint */
+            --text-dim: #9aa0a6;      /* Gemini Muted Grey */
+            --border: #3c4043;        /* Slightly more visible border for inactive states */
+            --container-bg: #1e1e21;  /* Gemini Box/Container color */
+            --accent: #c4c7c5;        
         }
 
         html, body { 
             height: 100vh; overflow: hidden; margin: 0; padding: 0;
             background: var(--bg-color); color: var(--text-main);
-            font-family: "SF Pro Display", -apple-system, sans-serif;
+            font-family: "Google Sans", "SF Pro Display", -apple-system, sans-serif;
             -webkit-font-smoothing: antialiased;
         }
 
@@ -36,34 +41,77 @@
         .bot-l { bottom: 15px; left: 20px; }
         .bot-r { bottom: 15px; right: 20px; }
         
-        h1 { font-size: clamp(24px, 4.5vh, 48px); font-weight: 700; margin: 0 0 4px 0; letter-spacing: -0.02em; }
+        /* COLLAGRAPHY HEADLINE STYLE */
+        h1 { 
+            font-family: 'Permanent Marker', cursive;
+            font-size: clamp(28px, 5.5vh, 56px); 
+            font-weight: 400; 
+            margin: 0 0 10px 0; 
+            letter-spacing: 0.02em; 
+            color: var(--text-main);
+            opacity: 0.75; 
+            transform: rotate(-0.5deg);
+        }
+
         .sub-header { font-size: clamp(14px, 1.8vh, 18px); color: var(--text-dim); margin-bottom: 25px; }
 
         .filter-interface { width: 100%; max-width: 550px; z-index: 10; }
         .input-group { margin-bottom: 20px; }
-        .group-label { font-size: 9px; font-weight: 600; margin-bottom: 10px; display: block; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.15em; text-align: center; }
+        .group-label { 
+            font-size: 10px; font-weight: 500; margin-bottom: 12px; display: block; 
+            color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; text-align: center; 
+        }
 
         .style-toggle { display: flex; gap: 8px; justify-content: center; }
         .style-btn { 
-            flex: 1; padding: 12px 6px; border: 1px solid var(--border); 
-            background: transparent; color: var(--text-main); border-radius: 12px; 
-            cursor: pointer; transition: all 0.2s ease; font-size: 10px; font-weight: 600;
+            flex: 1; padding: 14px 6px; border: 1px solid var(--border); 
+            background: transparent; color: var(--text-dim); border-radius: 16px; 
+            cursor: pointer; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); 
+            font-size: 10px; font-weight: 500;
             text-transform: uppercase; line-height: 1.4;
         }
         .style-btn span { opacity: 0.6; font-size: 9px; font-weight: 400; }
-        .style-btn.active { background: var(--accent); color: var(--bg-color); border-color: var(--accent); }
-
-        /* SLIDER STYLES */
-        .slider-wrapper { padding: 15px 0; position: relative; }
-        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; cursor: grab; position: relative; z-index: 2; }
-        input[type=range]::-webkit-slider-runnable-track { height: 1px; background: #444; }
-        input[type=range]::-webkit-slider-thumb {
-            height: 30px; width: 30px; -webkit-appearance: none; margin-top: -28px; 
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-3 11.5V14l-3-3 4-3 2 3h2"/></svg>');
-            background-repeat: no-repeat; background-size: contain; border: none;
+        
+        .style-btn.active { 
+            background: var(--container-bg); 
+            color: var(--text-main); 
+            border-color: #4c4c4f; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
 
-        .slider-row { display: flex; justify-content: space-between; margin-top: 4px; font-size: 13px; color: var(--text-dim); }
+        /* SLIDER STYLES - ADJUSTED FOR ICON ON TOP */
+        .slider-wrapper { padding: 25px 0 15px 0; position: relative; }
+        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; cursor: grab; position: relative; z-index: 2; }
+        
+        input[type=range]::-webkit-slider-runnable-track { 
+            height: 2px; 
+            background: #2a2a2e; 
+            border-radius: 1px; 
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            height: 34px; width: 34px; 
+            -webkit-appearance: none; 
+            /* margin-top moves the thumb relative to the track. 
+               By using a larger negative value, we pull the bike "up" so it sits on top. */
+            margin-top: -33px; 
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23c4c7c5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-3 11.5V14l-3-3 4-3 2 3h2"/></svg>');
+            background-repeat: no-repeat; 
+            background-size: contain; 
+            border: none;
+            background-color: transparent; 
+            filter: drop-shadow(0px 2px 2px rgba(0,0,0,0.5));
+        }
+
+        /* Firefox Support */
+        input[type=range]::-moz-range-thumb {
+            height: 34px; width: 34px; background: transparent; border: none;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23c4c7c5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-3 11.5V14l-3-3 4-3 2 3h2"/></svg>');
+            background-repeat: no-repeat; background-size: contain;
+            transform: translateY(-15px);
+        }
+
+        .slider-row { display: flex; justify-content: space-between; margin-top: 6px; font-size: 13px; color: var(--text-dim); }
         .row-val { color: var(--text-main); font-weight: 500; }
 
         /* GALLERY & WATERMARK */
@@ -82,8 +130,8 @@
             position: absolute;
             width: 320px; 
             height: auto;
-            filter: invert(1) contrast(1.1);
-            opacity: 0.15;
+            filter: invert(1) brightness(0.8);
+            opacity: 0.08; 
             z-index: 1;
             pointer-events: none;
         }
@@ -96,22 +144,22 @@
             z-index: 5; 
         }
         
-        .card { display: flex; flex-direction: column; align-items: center; width: 200px; text-align: center; background: var(--bg-color); }
+        .card { display: flex; flex-direction: column; align-items: center; width: 200px; text-align: center; background: transparent; }
         .img-container {
             width: 100%; aspect-ratio: 4 / 3; overflow: hidden; margin-bottom: 12px;
             display: flex; align-items: center; justify-content: center;
-            background: rgba(255,255,255,0.03); border-radius: 12px;
+            background: var(--container-bg); border-radius: 16px;
         }
-        .card img { width: 100%; height: 100%; object-fit: contain; transition: transform 0.3s ease; }
+        .card img { width: 100%; height: 100%; object-fit: contain; transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         
         .info-container { position: relative; height: 30px; width: 100%; }
-        .price-tag { font-size: 18px; font-weight: 600; position: absolute; width: 100%; top: 0; left: 0; transition: all 0.2s ease; }
+        .price-tag { font-size: 18px; font-weight: 500; position: absolute; width: 100%; top: 0; left: 0; transition: all 0.25s ease; color: var(--text-main); }
         .specs-overlay { 
             font-size: 11px; color: var(--text-dim); position: absolute; width: 100%; top: 2px; left: 0;
-            opacity: 0; transform: translateY(5px); transition: all 0.2s ease; white-space: nowrap;
+            opacity: 0; transform: translateY(5px); transition: all 0.25s ease; white-space: nowrap;
         }
 
-        .card:hover img { transform: scale(1.08); }
+        .card:hover img { transform: scale(1.1); }
         .card:hover .price-tag { opacity: 0; transform: translateY(-5px); }
         .card:hover .specs-overlay { opacity: 1; transform: translateY(0); }
     </style>
@@ -120,7 +168,7 @@
 
     <div class="corner-stat top-l" id="liveDate">APRIL 12, 2026</div>
     <div class="corner-stat top-r" id="liveClock">--:-- --</div>
-    <div class="corner-stat bot-l">V65.2</div>
+    <div class="corner-stat bot-l">V65.7</div>
     <div class="corner-stat bot-r" id="screenSize">0X0</div>
 
     <h1>Stop Walking. Start Rolling.</h1>
@@ -164,7 +212,6 @@
     </div>
 
     <div class="gallery-container">
-        <!-- FIXED PATH: encodings spaces as %20 and changed extension to .png -->
         <img id="watermarkLogo" 
              src="https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/collagraphy%20bike%20logo.png" 
              class="gallery-watermark" 
