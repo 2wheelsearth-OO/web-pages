@@ -26,41 +26,29 @@
 
         .filter-container { 
             background: #1e1f20; 
-            padding: 30px; 
-            border-radius: 24px; 
+            padding: 40px; 
+            border-radius: 28px; 
             max-width: 600px; 
             margin-bottom: 40px; 
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.4);
             border: 1px solid #444746;
             width: 100%; 
         }
-        
-        .suggestion-box {
-            background: #2b2d2f;
-            border: 1px dashed #8ab4f8;
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 25px;
-            text-align: center;
-            color: #8ab4f8;
-            font-weight: 500;
-        }
 
         h1 { text-align: center; color: #fff; font-weight: 400; margin-bottom: 5px; }
-        .sub-header { text-align: center; color: #a8c7fa; margin-bottom: 30px; font-size: 1.1em; }
+        .sub-header { text-align: center; color: #a8c7fa; margin-bottom: 40px; font-size: 1.1em; }
         
-        .input-group { margin-bottom: 25px; }
-        label { display: flex; align-items: center; font-weight: 500; margin-bottom: 12px; color: #c4c7c5; }
-        .label-icon { margin-right: 8px; font-size: 1.2em; color: #8ab4f8; }
+        .input-group { margin-bottom: 30px; }
+        label { display: flex; align-items: center; font-weight: 500; margin-bottom: 15px; color: #c4c7c5; }
 
-        .gender-toggle { display: flex; gap: 10px; }
+        .gender-toggle { display: flex; gap: 12px; }
         .gender-btn {
             flex: 1;
-            padding: 12px;
+            padding: 14px;
             border: 1px solid #444746;
             background: #2b2d2f;
             color: white;
-            border-radius: 8px;
+            border-radius: 12px;
             cursor: pointer;
             transition: 0.2s;
             font-size: 14px;
@@ -71,21 +59,51 @@
             border-color: #a8c7fa;
         }
 
+        /* Custom Bicycle Slider Styling */
         input[type=range] {
+            -webkit-appearance: none;
             width: 100%;
-            height: 6px;
-            background: #444746;
-            border-radius: 5px;
-            outline: none;
-            accent-color: #a8c7fa;
+            background: transparent;
         }
+
+        input[type=range]:focus { outline: none; }
+
+        /* Track */
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #444746;
+            border-radius: 2px;
+        }
+
+        /* Bicycle Icon Handle (Chrome/Safari) */
+        input[type=range]::-webkit-slider-thumb {
+            height: 30px;
+            width: 30px;
+            cursor: pointer;
+            -webkit-appearance: none;
+            margin-top: -13px; /* Centers the bike on the track */
+            content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="%23a8c7fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-3 11.5V14l-3-3 4-3 2 3h2"/></svg>');
+        }
+
+        /* Bicycle Icon Handle (Firefox) */
+        input[type=range]::-moz-range-thumb {
+            height: 30px;
+            width: 30px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="%23a8c7fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-3 11.5V14l-3-3 4-3 2 3h2"/></svg>');
+        }
+
         .slider-val { margin-left: auto; color: #a8c7fa; font-weight: bold; }
 
         button#searchBtn { 
             background: #a8c7fa; 
             color: #062e6f; 
             border: none; 
-            padding: 18px; 
+            padding: 20px; 
             border-radius: 100px; 
             cursor: pointer; 
             width: 100%; 
@@ -111,23 +129,19 @@
         .card.hidden { display: none; }
         img { width: 100%; height: 200px; object-fit: cover; border-radius: 12px; }
         
-        .card-text { color: #c4c7c5; font-size: 0.9em; letter-spacing: 0.5px; margin: 10px 0 0 0; text-align: center;}
+        .card-text { color: #c4c7c5; font-size: 0.9em; letter-spacing: 0.5px; margin: 12px 0 0 0; text-align: center;}
     </style>
 </head>
 <body>
 
-    <div class="version-badge">PROGRAM VERSION: 21.0 | DATE: 2026-04-12 | TIME: 1:35 PM</div>
+    <div class="version-badge">PROGRAM VERSION: 22.0 | DATE: 2026-04-12 | TIME: 1:45 PM</div>
 
     <h1>Stop Walking, Start Rolling</h1>
     <p class="sub-header">Gas / Battery black hole free</p>
 
     <div class="filter-container">
-        <div class="suggestion-box" id="sizeSuggestion">
-            Recommended Wheel Size: Slide the height bar to see!
-        </div>
-
         <div class="input-group">
-            <label>1. Style Preference</label>
+            <label>Style Preference</label>
             <div class="gender-toggle">
                 <button class="gender-btn active" onclick="setGender('any', this)">Unisex / All</button>
                 <button class="gender-btn" onclick="setGender('male', this)">Male Styles</button>
@@ -137,7 +151,7 @@
 
         <div class="input-group">
             <label>
-                <span class="label-icon">↕?</span> 2. Your Height: 
+                Your Height: 
                 <span id="heightLabel" class="slider-val">5'5" (165 cm)</span>
             </label>
             <input type="range" id="userHeight" min="36" max="80" value="65" oninput="updateHeight(this.value)">
@@ -145,7 +159,7 @@
 
         <div class="input-group">
             <label>
-                <span class="label-icon">👛</span> 3. Max Budget: 
+                Max Budget: 
                 <span id="budgetLabel" class="slider-val">$400</span>
             </label>
             <input type="range" id="userBudget" min="30" max="1000" value="400" oninput="updateBudget(this.value)">
@@ -190,17 +204,6 @@
             let inches = val % 12;
             let cm = Math.round(val * 2.54);
             document.getElementById('heightLabel').innerText = `${feet}'${inches}" (${cm} cm)`;
-            
-            let suggestion = "";
-            if (val < 41) suggestion = "12\" Wheels (Toddler)";
-            else if (val < 43) suggestion = "14\" Wheels (Youth Small)";
-            else if (val < 46) suggestion = "16\" Wheels (Preschool)";
-            else if (val < 50) suggestion = "18\" Wheels (Youth Mid)";
-            else if (val < 58) suggestion = "20\" Wheels (BMX / Folding / Big Kid)";
-            else if (val < 62) suggestion = "24\" Wheels (Teen / XS Adult)";
-            else suggestion = "26\"+ Wheels (Standard Adult)";
-            
-            document.getElementById('sizeSuggestion').innerText = "Recommended Size: " + suggestion;
         }
 
         function updateBudget(val) {
