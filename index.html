@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Bicycle Matchmaker | Pro</title>
+    <title>Bicycle Matchmaker | Pro Focus</title>
     <style>
         :root {
             --bg-color: #000000;
-            --card-bg: #161617;
+            --card-bg: #1d1d1f;
             --accent-blue: #0071e3;
             --text-main: #f5f5f7;
             --text-dim: #86868b;
@@ -17,7 +17,7 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
             background: var(--bg-color); 
             color: var(--text-main); 
-            padding: 40px 20px; 
+            padding: 80px 20px; 
             margin: 0;
             display: flex;
             flex-direction: column;
@@ -29,13 +29,13 @@
         .version-badge {
             font-size: 10px;
             color: var(--text-dim); 
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             text-transform: uppercase;
             letter-spacing: 2px;
         }
 
         h1 { 
-            font-size: 48px; 
+            font-size: 56px; 
             font-weight: 600; 
             letter-spacing: -0.015em;
             margin-bottom: 10px;
@@ -43,115 +43,136 @@
         }
 
         .sub-header { 
-            font-size: 21px; 
+            font-size: 24px; 
             color: var(--text-dim); 
-            margin-bottom: 50px; 
+            margin-bottom: 60px; 
             text-align: center;
-            max-width: 600px;
-            line-height: 1.4;
         }
 
         .filter-container { 
             background: var(--card-bg); 
             padding: 48px; 
-            border-radius: 30px; 
-            max-width: 640px; 
-            margin-bottom: 60px; 
+            border-radius: 28px; 
+            max-width: 600px; 
             width: 100%; 
             box-sizing: border-box;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
 
-        .input-group { margin-bottom: 50px; }
-        .style-label { font-size: 14px; font-weight: 600; margin-bottom: 20px; display: block; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
+        .input-group { margin-bottom: 45px; }
+        .group-label { font-size: 12px; font-weight: 600; margin-bottom: 20px; display: block; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
 
-        .gender-toggle { display: flex; gap: 10px; }
+        .gender-toggle { display: flex; gap: 8px; }
         .gender-btn {
             flex: 1;
             padding: 12px;
             border: 1px solid var(--border);
-            background: transparent;
+            background: #2d2d2f;
             color: var(--text-main);
             border-radius: 10px;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            font-size: 15px;
+            transition: all 0.3s ease;
+            font-size: 14px;
         }
-        .gender-btn:hover { border-color: var(--text-dim); }
         .gender-btn.active {
             background: var(--text-main);
             color: var(--bg-color);
             border-color: var(--text-main);
         }
 
-        .slider-wrapper { position: relative; padding: 20px 0; }
+        /* Slider with Bicycle Icon */
+        .slider-wrapper { position: relative; padding: 25px 0; }
 
         input[type=range] {
             -webkit-appearance: none;
             width: 100%;
             background: transparent;
             cursor: pointer;
+            position: relative;
+            z-index: 2;
         }
 
         input[type=range]::-webkit-slider-runnable-track {
-            height: 4px;
-            background: #333;
-            border-radius: 2px;
+            height: 2px;
+            background: var(--border);
         }
 
         input[type=range]::-webkit-slider-thumb {
-            height: 28px;
-            width: 28px;
+            height: 38px;
+            width: 38px;
             -webkit-appearance: none;
-            margin-top: -12px; 
-            background: #fff;
-            border-radius: 50%;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5);
-            transition: transform 0.2s;
+            margin-top: -34px; 
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23f5f5f7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-3 11.5V14l-3-3 4-3 2 3h2"/></svg>');
+            background-repeat: no-repeat;
+            background-size: contain;
+            border: none;
+            cursor: grab;
         }
-
-        input[type=range]:active::-webkit-slider-thumb { transform: scale(1.1); }
 
         .slider-row {
             display: flex;
             justify-content: space-between;
-            margin-top: 15px;
+            margin-top: 10px;
         }
 
-        .row-title { color: var(--text-dim); font-size: 17px; }
-        .row-val { color: var(--text-main); font-weight: 600; font-size: 17px; }
+        .row-title { color: var(--text-dim); font-size: 16px; }
+        .row-val { color: var(--text-main); font-weight: 500; font-size: 16px; }
+
+        /* Reveal Button */
+        .reveal-btn {
+            width: 100%;
+            padding: 18px;
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+            margin-top: 10px;
+        }
+        .reveal-btn:hover { background: #0077ed; transform: scale(1.01); }
+        .reveal-btn:active { transform: scale(0.99); }
+
+        /* Results Gallery (Hidden by Default) */
+        .gallery-section {
+            width: 100%;
+            max-width: 1200px;
+            margin-top: 80px;
+            display: none; /* Controlled by JS */
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
 
         .gallery { 
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px; 
-            width: 100%; 
-            max-width: 1200px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px; 
         }
 
         .card { 
             background: var(--card-bg); 
-            padding: 24px; 
-            border-radius: 24px; 
+            padding: 20px; 
+            border-radius: 20px; 
             display: flex; 
             flex-direction: column;
-            transition: transform 0.4s ease;
         }
-        .card:hover { transform: translateY(-5px); }
-        .card img { width: 100%; height: 240px; object-fit: cover; border-radius: 14px; margin-bottom: 20px; }
-        .card-title { font-size: 21px; font-weight: 600; margin-bottom: 8px; }
-        .card-text { color: var(--text-dim); font-size: 14px; line-height: 1.5; }
+        .card img { width: 100%; height: 220px; object-fit: cover; border-radius: 14px; margin-bottom: 18px; }
+        .card-title { font-size: 19px; font-weight: 600; margin-bottom: 6px; }
+        .card-text { color: var(--text-dim); font-size: 14px; line-height: 1.4; }
     </style>
 </head>
 <body onload="initApp()">
 
-    <div class="version-badge">Version 40.0 | Clean Focus</div>
+    <div class="version-badge">Version 41.0 | Focused State</div>
 
     <h1>Stop Walking. Start Rolling.</h1>
     <p class="sub-header">The Gas / Battery black hole free Machine.</p>
 
     <div class="filter-container">
         <div class="input-group">
-            <span class="style-label">Style</span>
+            <span class="group-label">Style</span>
             <div class="gender-toggle">
                 <button class="gender-btn active" id="btn-any" onclick="setGender('any')">All Models</button>
                 <button class="gender-btn" id="btn-male" onclick="setGender('male')">Male</button>
@@ -161,7 +182,7 @@
 
         <div class="input-group">
             <div class="slider-wrapper">
-                <input type="range" id="userHeight" min="36" max="80" value="36" step="0.1" oninput="stopAnimation(); updateHeight(this.value)">
+                <input type="range" id="userHeight" min="36" max="80" value="36" step="0.1" oninput="updateHeight(this.value)">
             </div>
             <div class="slider-row">
                 <span class="row-title">Rider Height</span>
@@ -171,16 +192,21 @@
 
         <div class="input-group">
             <div class="slider-wrapper">
-                <input type="range" id="userBudget" min="0" max="100" value="0" step="0.1" oninput="stopAnimation(); handleBudgetInput(this.value)">
+                <input type="range" id="userBudget" min="0" max="100" value="0" step="0.1" oninput="handleBudgetInput(this.value)">
             </div>
             <div class="slider-row">
                 <span class="row-title">Maximum Budget</span>
                 <span id="budgetLabel" class="row-val">$30</span>
             </div>
         </div>
+
+        <button class="reveal-btn" onclick="revealResults()">Find my perfect match</button>
     </div>
 
-    <div class="gallery" id="bikeGallery"></div>
+    <div class="gallery-section" id="gallerySection">
+        <h2 style="text-align: center; margin-bottom: 40px; font-weight: 500;">Curated for you</h2>
+        <div class="gallery" id="bikeGallery"></div>
+    </div>
 
     <script>
         const bikeDatabase = [
@@ -190,44 +216,11 @@
             { name: "Torker Cruiser", style: "female", minHeight: 58, maxHeight: 68, price: 60, specs: "24\" Wheels • Steel Frame", img: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Girl Torker at front of house $60.png" }
         ];
 
-        let animationActive = true;
         let selectedSex = 'any';
 
         function initApp() {
             renderGallery();
-            runEntryAnimation(); // Only runs once
         }
-
-        function runEntryAnimation() {
-            const startTime = performance.now();
-            const duration = 2500; // Smooth 2.5 second entry
-
-            function step(time) {
-                if (!animationActive) return;
-                let progress = (time - startTime) / duration;
-                if (progress > 1) {
-                    animationActive = false;
-                    return;
-                }
-
-                // Smooth "Ease Out" cubic function
-                let ease = 1 - Math.pow(1 - progress, 3);
-                
-                let hVal = 36 + (68 - 36) * ease;
-                let bVal = 0 + (50 - 0) * ease;
-
-                document.getElementById('userHeight').value = hVal;
-                updateHeight(hVal);
-                
-                document.getElementById('userBudget').value = bVal;
-                handleBudgetInput(bVal);
-
-                requestAnimationFrame(step);
-            }
-            requestAnimationFrame(step);
-        }
-
-        function stopAnimation() { animationActive = false; }
 
         function renderGallery() {
             const gallery = document.getElementById('bikeGallery');
@@ -238,33 +231,42 @@
                     <div class="card-text">${bike.specs}<br>$${bike.price}</div>
                 </div>
             `).join('');
+        }
+
+        function revealResults() {
+            const section = document.getElementById('gallerySection');
+            section.style.display = 'block';
+            setTimeout(() => {
+                section.style.opacity = '1';
+                window.scrollTo({ top: section.offsetTop - 40, behavior: 'smooth' });
+            }, 10);
             filterBikes();
         }
 
         function handleBudgetInput(val) {
             const price = Math.round(30 + (1000 - 30) * Math.pow(val / 100, 3));
             document.getElementById('budgetLabel').innerText = `$${price}`;
-            filterBikes(price);
+            if (document.getElementById('gallerySection').style.display === 'block') filterBikes();
         }
 
         function updateHeight(val) {
             let feet = Math.floor(val / 12);
             let inches = Math.round(val % 12);
             document.getElementById('heightLabel').innerText = `${feet}'${inches}"`;
-            filterBikes();
+            if (document.getElementById('gallerySection').style.display === 'block') filterBikes();
         }
 
         function setGender(val) {
-            stopAnimation();
             selectedSex = val;
             document.querySelectorAll('.gender-btn').forEach(b => b.classList.remove('active'));
             document.getElementById('btn-' + val).classList.add('active');
-            filterBikes();
+            if (document.getElementById('gallerySection').style.display === 'block') filterBikes();
         }
 
-        function filterBikes(overrideBudget) {
+        function filterBikes() {
             const h = parseFloat(document.getElementById('userHeight').value);
-            const b = overrideBudget || Math.round(30 + (1000 - 30) * Math.pow(document.getElementById('userBudget').value / 100, 3));
+            const rawB = document.getElementById('userBudget').value;
+            const b = Math.round(30 + (1000 - 30) * Math.pow(rawB / 100, 3));
             
             document.querySelectorAll('.card').forEach(card => {
                 const match = (selectedSex === 'any' || selectedSex === card.dataset.style) &&
