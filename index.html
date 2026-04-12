@@ -38,8 +38,8 @@
         h1 { text-align: center; color: #fff; font-weight: 400; margin-bottom: 5px; }
         .sub-header { text-align: center; color: #a8c7fa; margin-bottom: 40px; font-size: 1.1em; }
         
-        .input-group { margin-bottom: 35px; }
-        label { display: flex; align-items: center; font-weight: 500; margin-bottom: 10px; color: #c4c7c5; }
+        .input-group { margin-bottom: 35px; display: flex; flex-direction: column; }
+        label { font-weight: 500; margin-bottom: 12px; color: #c4c7c5; }
 
         .gender-toggle { display: flex; gap: 12px; }
         .gender-btn {
@@ -59,7 +59,13 @@
             border-color: #a8c7fa;
         }
 
-        /* "The Road" Slider Styling */
+        /* Container for Slider + Labels below it */
+        .slider-wrapper {
+            position: relative;
+            padding-top: 25px; /* Space for the bike icon above the track */
+            margin-bottom: 10px;
+        }
+
         input[type=range] {
             -webkit-appearance: none;
             width: 100%;
@@ -72,17 +78,16 @@
         /* The Road Surface */
         input[type=range]::-webkit-slider-runnable-track {
             width: 100%;
-            height: 6px; /* Slightly thicker road */
-            background: #333537; /* Darker asphalt color */
+            height: 6px;
+            background: #333537;
             border-radius: 3px;
         }
 
-        /* The Bicycle Icon - Adjusted to sit ON TOP of the track */
+        /* The Bicycle Icon - Sitting clearly ON TOP of the track */
         input[type=range]::-webkit-slider-thumb {
             height: 42px;
             width: 42px;
             -webkit-appearance: none;
-            /* margin-top pushes the icon up relative to the track center */
             margin-top: -38px; 
             background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23a8c7fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-3 11.5V14l-3-3 4-3 2 3h2"/></svg>');
             background-repeat: no-repeat;
@@ -91,27 +96,14 @@
             cursor: grab;
         }
 
-        /* Firefox Support */
-        input[type=range]::-moz-range-track {
-            width: 100%;
-            height: 6px;
-            background: #333537;
-            border-radius: 3px;
+        /* Value Display - Now moved below the slider */
+        .slider-footer {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 8px;
+            font-size: 0.9em;
         }
-
-        input[type=range]::-moz-range-thumb {
-            height: 42px;
-            width: 42px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23a8c7fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-3 11.5V14l-3-3 4-3 2 3h2"/></svg>');
-            background-repeat: no-repeat;
-            background-size: contain;
-            background-color: transparent;
-            border: none;
-            transform: translateY(-16px); /* Aligning for Firefox */
-            cursor: grab;
-        }
-
-        .slider-val { margin-left: auto; color: #a8c7fa; font-weight: bold; }
+        .slider-val { color: #a8c7fa; font-weight: bold; }
 
         .gallery { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; width: 100%; max-width: 1400px; padding: 0 20px;}
         .card { 
@@ -132,7 +124,7 @@
 </head>
 <body onload="filterBikes()">
 
-    <div class="version-badge">PROGRAM VERSION: 28.0 | DATE: 2026-04-12 | TIME: 2:20 PM</div>
+    <div class="version-badge">PROGRAM VERSION: 29.0 | DATE: 2026-04-12 | TIME: 2:45 PM</div>
 
     <h1>Stop Walking, Start Rolling</h1>
     <p class="sub-header">Gas / Battery black hole free</p>
@@ -148,13 +140,23 @@
         </div>
 
         <div class="input-group">
-            <label>Your Height: <span id="heightLabel" class="slider-val">5'5" (165 cm)</span></label>
-            <input type="range" id="userHeight" min="36" max="80" value="65" oninput="updateHeight(this.value)">
+            <label>Your Height:</label>
+            <div class="slider-wrapper">
+                <input type="range" id="userHeight" min="36" max="80" value="65" oninput="updateHeight(this.value)">
+            </div>
+            <div class="slider-footer">
+                <span id="heightLabel" class="slider-val">5'5" (165 cm)</span>
+            </div>
         </div>
 
         <div class="input-group">
-            <label>Max Budget: <span id="budgetLabel" class="slider-val">$400</span></label>
-            <input type="range" id="userBudget" min="30" max="1000" value="400" oninput="updateBudget(this.value)">
+            <label>Max Budget:</label>
+            <div class="slider-wrapper">
+                <input type="range" id="userBudget" min="30" max="1000" value="400" oninput="updateBudget(this.value)">
+            </div>
+            <div class="slider-footer">
+                <span id="budgetLabel" class="slider-val">$400</span>
+            </div>
         </div>
     </div>
 
