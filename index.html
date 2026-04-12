@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bicycle Matchmaker</title>
+    <style>
+        body { font-family: sans-serif; background: #f4f4f4; padding: 20px; color: #333; }
+        .filter-container { background: white; padding: 25px; border-radius: 12px; max-width: 500px; margin: 0 auto 40px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .input-group { margin-bottom: 15px; text-align: left; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; }
+        input, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
+        button { background: #28a745; color: white; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; width: 100%; font-size: 16px; }
+        button:hover { background: #218838; }
+        
+        .gallery { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
+        .card { background: white; width: 280px; padding: 15px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: 0.3s; }
+        .card.hidden { display: none; }
+        img { width: 100%; height: 200px; object-fit: cover; border-radius: 5px; }
+        h2 { font-size: 1.1em; margin: 10px 0; }
+    </style>
+</head>
+<body>
+
+    <h1 style="text-align:center;">Bicycle Inventory Filter</h1>
+
+    <div class="filter-container">
+        <div class="input-group">
+            <label>1. Preferred Bike Style (Sex/Gender):</label>
+            <select id="userSex">
+                <option value="any">Show All Styles</option>
+                <option value="male">Men's / Universal</option>
+                <option value="female">Women's / Step-through</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label>2. Your Height (Total inches):</label>
+            <input type="number" id="userHeight" placeholder="Example: 65 for 5'5">
+        </div>
+
+        <div class="input-group">
+            <label>3. Max Budget ($):</label>
+            <input type="number" id="userBudget" placeholder="Example: 150">
+        </div>
+
+        <button onclick="filterBikes()">Find My Match</button>
+    </div>
+
+    <div class="gallery" id="bikeGallery">
+        <div class="card" data-sex="male" data-min-h="62" data-max-h="70" data-price="180">
+            <img src="https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Green Haro $180 25 cm.jpg">
+            <h2>Green Haro</h2>
+            <p>Style: Men's | Height: 5'2-5'10 | $180</p>
+        </div>
+
+        <div class="card" data-sex="any" data-min-h="45" data-max-h="55" data-price="80">
+            <img src="https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Green Front Suspension 6 speed Elementary School Bike $80.jpg">
+            <h2>Elementary Suspension</h2>
+            <p>Style: Kids | Height: 3'9-4'7 | $80</p>
+        </div>
+
+        <div class="card" data-sex="female" data-min-h="58" data-max-h="66" data-price="60">
+            <img src="https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Girl Torker at front of house $60.png">
+            <h2>Girl Torker</h2>
+            <p>Style: Women's | Height: 4'10-5'6 | $60</p>
+        </div>
+    </div>
+
+    <script>
+        function filterBikes() {
+            const sex = document.getElementById('userSex').value;
+            const height = parseInt(document.getElementById('userHeight').value);
+            const budget = parseInt(document.getElementById('userBudget').value);
+            const cards = document.querySelectorAll('.card');
+
+            cards.forEach(card => {
+                const bSex = card.getAttribute('data-sex');
+                const bMinH = parseInt(card.getAttribute('data-min-h'));
+                const bMaxH = parseInt(card.getAttribute('data-max-h'));
+                const bPrice = parseInt(card.getAttribute('data-price'));
+
+                // The Filter Logic
+                const sexMatch = (sex === 'any' || sex === bSex);
+                const heightMatch = (isNaN(height) || (height >= bMinH && height <= bMaxH));
+                const budgetMatch = (isNaN(budget) || bPrice <= budget);
+
+                if (sexMatch && heightMatch && budgetMatch) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
