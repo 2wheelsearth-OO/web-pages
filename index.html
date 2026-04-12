@@ -105,25 +105,27 @@
         .row-val { color: #a8c7fa; font-weight: bold; }
 
         .gallery { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; width: 100%; max-width: 1400px; padding: 0 20px;}
+        
+        /* New Bike Card Styling */
         .card { 
             background: #1e1f20; 
             width: 280px; 
             padding: 15px; 
             border-radius: 16px; 
             border: 1px solid #444746;
-            transition: transform 0.2s; 
             display: flex; 
             flex-direction: column;
             align-items: center;
+            transition: opacity 0.3s ease;
         }
-        .card.hidden { display: none; }
-        img { width: 100%; height: 200px; object-fit: cover; border-radius: 12px; }
-        .card-text { color: #c4c7c5; font-size: 0.9em; letter-spacing: 0.5px; margin: 12px 0 0 0; text-align: center;}
+        .card img { width: 100%; height: 200px; object-fit: cover; border-radius: 12px; }
+        .card-title { font-weight: bold; color: #fff; margin: 12px 0 4px 0; }
+        .card-text { color: #c4c7c5; font-size: 0.85em; text-align: center;}
     </style>
 </head>
 <body onload="initApp()">
 
-    <div class="version-badge">PROGRAM VERSION: 34.0 | DATE: 2026-04-12 | TIME: 4:10 PM</div>
+    <div class="version-badge">PROGRAM VERSION: 35.0 | DATE: 2026-04-12 | TIME: 4:30 PM</div>
 
     <h1>Stop Walking, Start Rolling</h1>
     <p class="sub-header">Gas / Battery black hole free</p>
@@ -160,31 +162,72 @@
     </div>
 
     <div class="gallery" id="bikeGallery">
-        <div class="card" data-sex="female" data-min-h="48" data-max-h="68" data-price="120">
-            <img src="https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Blue checker board girl bike - 120F2413.png">
-            <p class="card-text">24" Wheels | 13" Frame | $120</p>
         </div>
-        <div class="card" data-sex="male" data-min-h="62" data-max-h="72" data-price="180">
-            <img src="https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Green Haro $180 25 cm.jpg">
-            <p class="card-text">26" Wheels | 18" Frame | $180</p>
-        </div>
-        <div class="card" data-sex="any" data-min-h="40" data-max-h="55" data-price="80">
-            <img src="https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Green Front Suspension 6 speed Elementary School Bike $80.jpg">
-            <p class="card-text">20" Wheels | CS Frame | $80</p>
-        </div>
-        <div class="card" data-sex="female" data-min-h="58" data-max-h="68" data-price="60">
-            <img src="https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Girl Torker at front of house $60.png">
-            <p class="card-text">24" Wheels | CS Frame | $60</p>
-        </div>
-    </div>
 
     <script>
+        // CENTRAL DATABASE: This is where the HTML "figures out" the bikes
+        const bikeDatabase = [
+            {
+                name: "Blue Checker",
+                style: "female",
+                minHeight: 48,
+                maxHeight: 68,
+                price: 120,
+                specs: "24\" Wheels | 13\" Frame",
+                img: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Blue checker board girl bike - 120F2413.png"
+            },
+            {
+                name: "Green Haro",
+                style: "male",
+                minHeight: 62,
+                maxHeight: 72,
+                price: 180,
+                specs: "26\" Wheels | 18\" Frame",
+                img: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Green Haro $180 25 cm.jpg"
+            },
+            {
+                name: "Elementary Special",
+                style: "any",
+                minHeight: 40,
+                maxHeight: 55,
+                price: 80,
+                specs: "20\" Wheels | Kids Frame",
+                img: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Green Front Suspension 6 speed Elementary School Bike $80.jpg"
+            },
+            {
+                name: "Torker Cruiser",
+                style: "female",
+                minHeight: 58,
+                maxHeight: 68,
+                price: 60,
+                specs: "24\" Wheels | Steel Frame",
+                img: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Girl Torker at front of house $60.png"
+            }
+        ];
+
         let selectedSex = 'any';
         let animationActive = true;
 
         function initApp() {
-            filterBikes();
+            renderGallery();
             requestAnimationFrame(animateSliders);
+        }
+
+        // Creates the HTML cards based on the JSON Database
+        function renderGallery() {
+            const gallery = document.getElementById('bikeGallery');
+            gallery.innerHTML = bikeDatabase.map(bike => `
+                <div class="card" 
+                     data-style="${bike.style}" 
+                     data-minh="${bike.minHeight}" 
+                     data-maxh="${bike.maxHeight}" 
+                     data-price="${bike.price}">
+                    <img src="${bike.img}">
+                    <div class="card-title">${bike.name}</div>
+                    <div class="card-text">${bike.specs} | $${bike.price}</div>
+                </div>
+            `).join('');
+            filterBikes();
         }
 
         function manualOverride() {
@@ -193,11 +236,8 @@
 
         function animateSliders(currentTime) {
             if (!animationActive) return;
-
-            const durationH = 20000; // 20 Seconds
-            const durationB = 15000; // 15 Seconds
-            
-            // Looping logic: calculate progress based on modulo of time
+            const durationH = 20000;
+            const durationB = 15000;
             const progressH = (currentTime % durationH) / durationH;
             const progressB = (currentTime % durationB) / durationB;
             
@@ -206,7 +246,6 @@
 
             document.getElementById('userHeight').value = currentH;
             updateHeight(currentH);
-
             document.getElementById('userBudget').value = currentB;
             updateBudget(currentB);
 
@@ -235,25 +274,20 @@
         }
 
         function filterBikes() {
-            const height = parseFloat(document.getElementById('userHeight').value);
-            const budget = parseFloat(document.getElementById('userBudget').value);
-            const cards = document.querySelectorAll('.card');
+            const h = parseFloat(document.getElementById('userHeight').value);
+            const b = parseFloat(document.getElementById('userBudget').value);
+            
+            document.querySelectorAll('.card').forEach(card => {
+                const style = card.dataset.style;
+                const minH = parseInt(card.dataset.minh);
+                const maxH = parseInt(card.dataset.maxh);
+                const price = parseInt(card.dataset.price);
 
-            cards.forEach(card => {
-                const bSex = card.getAttribute('data-sex');
-                const bMinH = parseInt(card.getAttribute('data-min-h'));
-                const bMaxH = parseInt(card.getAttribute('data-max-h'));
-                const bPrice = parseInt(card.getAttribute('data-price'));
+                const match = (selectedSex === 'any' || selectedSex === style) &&
+                              (h >= minH && h <= maxH) &&
+                              (price <= b);
 
-                const sexMatch = (selectedSex === 'any' || selectedSex === bSex);
-                const heightMatch = (height >= bMinH && height <= bMaxH);
-                const budgetMatch = (bPrice <= budget);
-
-                if (sexMatch && heightMatch && budgetMatch) {
-                    card.classList.remove('hidden');
-                } else {
-                    card.classList.add('hidden');
-                }
+                card.style.display = match ? 'flex' : 'none';
             });
         }
     </script>
