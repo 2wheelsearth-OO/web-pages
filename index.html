@@ -59,7 +59,6 @@
             border-color: #a8c7fa;
         }
 
-        /* Road Area */
         .slider-wrapper {
             position: relative;
             padding-top: 30px; 
@@ -94,7 +93,6 @@
             cursor: grab;
         }
 
-        /* Combined Information Row below the slider */
         .slider-row {
             display: flex;
             justify-content: space-between;
@@ -123,9 +121,9 @@
         .card-text { color: #c4c7c5; font-size: 0.9em; letter-spacing: 0.5px; margin: 12px 0 0 0; text-align: center;}
     </style>
 </head>
-<body onload="filterBikes()">
+<body onload="initApp()">
 
-    <div class="version-badge">PROGRAM VERSION: 30.0 | DATE: 2026-04-12 | TIME: 3:15 PM</div>
+    <div class="version-badge">PROGRAM VERSION: 32.0 | DATE: 2026-04-12 | TIME: 3:45 PM</div>
 
     <h1>Stop Walking, Start Rolling</h1>
     <p class="sub-header">Gas / Battery black hole free</p>
@@ -142,21 +140,21 @@
 
         <div class="input-group">
             <div class="slider-wrapper">
-                <input type="range" id="userHeight" min="36" max="80" value="65" oninput="updateHeight(this.value)">
+                <input type="range" id="userHeight" min="36" max="80" value="36" oninput="manualOverride(); updateHeight(this.value)">
             </div>
             <div class="slider-row">
-                <span class="row-title">Your Height:</span>
-                <span id="heightLabel" class="row-val">5'5" (165 cm)</span>
+                <span class="row-title">Rider Height:</span>
+                <span id="heightLabel" class="row-val">3'0" (91 cm)</span>
             </div>
         </div>
 
         <div class="input-group">
             <div class="slider-wrapper">
-                <input type="range" id="userBudget" min="30" max="1000" value="400" oninput="updateBudget(this.value)">
+                <input type="range" id="userBudget" min="30" max="1000" value="30" oninput="manualOverride(); updateBudget(this.value)">
             </div>
             <div class="slider-row">
                 <span class="row-title">Max Budget:</span>
-                <span id="budgetLabel" class="row-val">$400</span>
+                <span id="budgetLabel" class="row-val">$30</span>
             </div>
         </div>
     </div>
@@ -182,8 +180,51 @@
 
     <script>
         let selectedSex = 'any';
+        let animationActive = true;
+
+        function initApp() {
+            filterBikes();
+            animateSliders();
+        }
+
+        // Stops the intro animation if the user touches anything
+        function manualOverride() {
+            animationActive = false;
+        }
+
+        function animateSliders() {
+            const targetHeight = 65;
+            const targetBudget = 400;
+            const duration = 2000;
+            const startTime = performance.now();
+
+            function step(currentTime) {
+                if (!animationActive) return; // Exit loop if user interacted
+
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const easeOut = 1 - Math.pow(1 - progress, 3);
+
+                const currentH = Math.round(36 + (targetHeight - 36) * easeOut);
+                const currentB = Math.round(30 + (targetBudget - 30) * easeOut);
+
+                document.getElementById('userHeight').value = currentH;
+                updateHeight(currentH);
+
+                document.getElementById('userBudget').value = currentB;
+                updateBudget(currentB);
+
+                if (progress < 1) {
+                    requestAnimationFrame(step);
+                } else {
+                    animationActive = false; // Animation finished naturally
+                }
+            }
+            requestAnimationFrame(step);
+        }
 
         function setGender(val) {
+            manualOverride(); // Stop animation on click
             selectedSex = val;
             document.querySelectorAll('.gender-btn').forEach(b => b.classList.remove('active'));
             document.getElementById('btn-' + val).classList.add('active');
