@@ -38,8 +38,8 @@
         h1 { text-align: center; color: #fff; font-weight: 400; margin-bottom: 5px; }
         .sub-header { text-align: center; color: #a8c7fa; margin-bottom: 40px; font-size: 1.1em; }
         
-        .input-group { margin-bottom: 35px; display: flex; flex-direction: column; }
-        label { font-weight: 500; margin-bottom: 12px; color: #c4c7c5; }
+        .input-group { margin-bottom: 45px; display: flex; flex-direction: column; }
+        .style-label { font-weight: 500; margin-bottom: 15px; color: #c4c7c5; }
 
         .gender-toggle { display: flex; gap: 12px; }
         .gender-btn {
@@ -59,11 +59,11 @@
             border-color: #a8c7fa;
         }
 
-        /* Container for Slider + Labels below it */
+        /* Road Area */
         .slider-wrapper {
             position: relative;
-            padding-top: 25px; /* Space for the bike icon above the track */
-            margin-bottom: 10px;
+            padding-top: 30px; 
+            margin-bottom: 5px;
         }
 
         input[type=range] {
@@ -75,7 +75,6 @@
 
         input[type=range]:focus { outline: none; }
 
-        /* The Road Surface */
         input[type=range]::-webkit-slider-runnable-track {
             width: 100%;
             height: 6px;
@@ -83,7 +82,6 @@
             border-radius: 3px;
         }
 
-        /* The Bicycle Icon - Sitting clearly ON TOP of the track */
         input[type=range]::-webkit-slider-thumb {
             height: 42px;
             width: 42px;
@@ -96,14 +94,17 @@
             cursor: grab;
         }
 
-        /* Value Display - Now moved below the slider */
-        .slider-footer {
+        /* Combined Information Row below the slider */
+        .slider-row {
             display: flex;
-            justify-content: flex-end;
-            margin-top: 8px;
-            font-size: 0.9em;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            font-size: 0.95em;
         }
-        .slider-val { color: #a8c7fa; font-weight: bold; }
+
+        .row-title { color: #e3e3e3; font-weight: 500; }
+        .row-val { color: #a8c7fa; font-weight: bold; }
 
         .gallery { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; width: 100%; max-width: 1400px; padding: 0 20px;}
         .card { 
@@ -124,14 +125,14 @@
 </head>
 <body onload="filterBikes()">
 
-    <div class="version-badge">PROGRAM VERSION: 29.0 | DATE: 2026-04-12 | TIME: 2:45 PM</div>
+    <div class="version-badge">PROGRAM VERSION: 30.0 | DATE: 2026-04-12 | TIME: 3:15 PM</div>
 
     <h1>Stop Walking, Start Rolling</h1>
     <p class="sub-header">Gas / Battery black hole free</p>
 
     <div class="filter-container">
         <div class="input-group">
-            <label>Style Preference</label>
+            <span class="style-label">Style Preference</span>
             <div class="gender-toggle">
                 <button class="gender-btn active" id="btn-any" onclick="setGender('any')">Unisex / All</button>
                 <button class="gender-btn" id="btn-male" onclick="setGender('male')">Male Styles</button>
@@ -140,22 +141,22 @@
         </div>
 
         <div class="input-group">
-            <label>Your Height:</label>
             <div class="slider-wrapper">
                 <input type="range" id="userHeight" min="36" max="80" value="65" oninput="updateHeight(this.value)">
             </div>
-            <div class="slider-footer">
-                <span id="heightLabel" class="slider-val">5'5" (165 cm)</span>
+            <div class="slider-row">
+                <span class="row-title">Your Height:</span>
+                <span id="heightLabel" class="row-val">5'5" (165 cm)</span>
             </div>
         </div>
 
         <div class="input-group">
-            <label>Max Budget:</label>
             <div class="slider-wrapper">
                 <input type="range" id="userBudget" min="30" max="1000" value="400" oninput="updateBudget(this.value)">
             </div>
-            <div class="slider-footer">
-                <span id="budgetLabel" class="slider-val">$400</span>
+            <div class="slider-row">
+                <span class="row-title">Max Budget:</span>
+                <span id="budgetLabel" class="row-val">$400</span>
             </div>
         </div>
     </div>
