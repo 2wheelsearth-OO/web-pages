@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Bicycle Matchmaker - Gas & Battery Black Hole Free</title>
+    <title>Bicycle Matchmaker - Gas / Battery black hole free</title>
     <style>
         /* Gemini-style Dark Theme */
         body { 
@@ -19,7 +19,7 @@
         
         .version-badge {
             font-size: 11px;
-            color: #8ab4f8; /* Brighter blue so it's easy to see while testing */
+            color: #8ab4f8; 
             margin-bottom: 15px;
             letter-spacing: 1px;
             font-weight: bold;
@@ -35,6 +35,19 @@
             border: 1px solid #444746;
             width: 100%; 
         }
+        
+        /* Suggestion Box Styling */
+        .suggestion-box {
+            background: #2b2d2f;
+            border: 1px dashed #8ab4f8;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 25px;
+            text-align: center;
+            color: #8ab4f8;
+            font-weight: 500;
+        }
+
         h1 { text-align: center; color: #fff; font-weight: 400; margin-bottom: 5px; }
         .sub-header { text-align: center; color: #a8c7fa; margin-bottom: 30px; font-size: 1.1em; }
         
@@ -104,12 +117,16 @@
 </head>
 <body>
 
-    <div class="version-badge">PROGRAM VERSION: 15.0 | DATE: 2026-04-12 | TIME: 1:00 PM</div>
+    <div class="version-badge">PROGRAM VERSION: 20.0 | DATE: 2026-04-12 | TIME: 1:25 PM</div>
 
     <h1>Stop Walking, Start Rolling</h1>
-    <p class="sub-header">The Gas & Battery black hole Free Matchmaker</p>
+    <p class="sub-header">Gas / Battery black hole free</p>
 
     <div class="filter-container">
+        <div class="suggestion-box" id="sizeSuggestion">
+            Recommended Wheel Size: Slide the height bar to see!
+        </div>
+
         <div class="input-group">
             <label>1. Style Preference</label>
             <div class="gender-toggle">
@@ -168,6 +185,18 @@
             let inches = val % 12;
             let cm = Math.round(val * 2.54);
             document.getElementById('heightLabel').innerText = `${feet}'${inches}" (${cm} cm)`;
+            
+            // Logic for Wheel Suggestion
+            let suggestion = "";
+            if (val < 41) suggestion = "12\" Wheels (Toddler)";
+            else if (val < 43) suggestion = "14\" Wheels (Youth Small)";
+            else if (val < 46) suggestion = "16\" Wheels (Preschool)";
+            else if (val < 50) suggestion = "18\" Wheels (Youth Mid)";
+            else if (val < 58) suggestion = "20\" Wheels (BMX / Folding / Big Kid)";
+            else if (val < 62) suggestion = "24\" Wheels (Teen / XS Adult)";
+            else suggestion = "26\"+ Wheels (Standard Adult)";
+            
+            document.getElementById('sizeSuggestion').innerText = "Recommended Size: " + suggestion;
         }
 
         function updateBudget(val) {
