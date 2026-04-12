@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Bicycle Matchmaker | One-Screen Pro</title>
+    <title>Bicycle Matchmaker | Hybrid Labels</title>
     <style>
         :root {
             --bg-color: #000000;
@@ -13,7 +13,6 @@
             --accent: #ffffff;
         }
 
-        /* Prevent scrolling on all devices */
         html, body { 
             height: 100vh; overflow: hidden; margin: 0; padding: 0;
             background: var(--bg-color); color: var(--text-main);
@@ -26,9 +25,15 @@
             justify-content: center; padding: 0 20px; box-sizing: border-box;
         }
 
-        /* Status Overlays */
-        .live-timestamp { position: fixed; top: 15px; left: 20px; font-size: 10px; color: var(--text-dim); letter-spacing: 0.1em; }
-        .version-debug { position: fixed; bottom: 15px; right: 20px; font-size: 10px; color: var(--text-dim); text-align: right; }
+        /* QUAD-CORNER OVERLAYS */
+        .corner-stat { 
+            position: fixed; font-size: 10px; color: var(--text-dim); 
+            letter-spacing: 0.1em; z-index: 1000; text-transform: uppercase;
+        }
+        .top-l { top: 15px; left: 20px; }
+        .top-r { top: 15px; right: 20px; }
+        .bot-l { bottom: 15px; left: 20px; }
+        .bot-r { bottom: 15px; right: 20px; }
         
         h1 { font-size: clamp(24px, 4.5vh, 48px); font-weight: 700; margin: 0 0 4px 0; letter-spacing: -0.02em; }
         .sub-header { font-size: clamp(14px, 1.8vh, 18px); color: var(--text-dim); margin-bottom: 25px; }
@@ -41,7 +46,8 @@
         .style-btn { 
             flex: 1; padding: 10px; border: 1px solid var(--border); 
             background: transparent; color: var(--text-main); border-radius: 10px; 
-            cursor: pointer; transition: all 0.2s ease; font-size: 12px; font-weight: 500;
+            cursor: pointer; transition: all 0.2s ease; font-size: 11px; font-weight: 600;
+            text-transform: uppercase;
         }
         .style-btn.active { background: var(--accent); color: var(--bg-color); border-color: var(--accent); }
 
@@ -49,47 +55,43 @@
         .slider-wrapper { padding: 15px 0; position: relative; }
         input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; cursor: grab; position: relative; z-index: 2; }
         input[type=range]::-webkit-slider-runnable-track { height: 1px; background: #444; }
-        
         input[type=range]::-webkit-slider-thumb {
             height: 30px; width: 30px; -webkit-appearance: none; margin-top: -28px; 
-            /* RESTORED BIKE ICON */
             background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-3 11.5V14l-3-3 4-3 2 3h2"/></svg>');
-            background-repeat: no-repeat; background-size: contain; border: none; transition: transform 0.1s ease;
+            background-repeat: no-repeat; background-size: contain; border: none;
         }
-        input[type=range]:active::-webkit-slider-thumb { transform: scale(1.2) rotate(-5deg); cursor: grabbing; }
 
         .slider-row { display: flex; justify-content: space-between; margin-top: 4px; font-size: 13px; color: var(--text-dim); }
         .row-val { color: var(--text-main); font-weight: 500; }
 
-        /* NO-CONTAINER GALLERY */
-        .gallery { 
-            display: flex; justify-content: center; gap: clamp(20px, 4vw, 50px); 
-            width: 100%; max-width: 900px; margin-top: 15px; min-height: 180px;
-        }
+        /* GALLERY & HOVER LOGIC */
+        .gallery { display: flex; justify-content: center; gap: clamp(20px, 4vw, 50px); width: 100%; max-width: 900px; margin-top: 15px; }
 
-        .card { 
-            display: flex; flex-direction: column; align-items: center; 
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); width: 180px; text-align: center;
+        .card { display: flex; flex-direction: column; align-items: center; width: 180px; text-align: center; cursor: default; }
+        .card img { width: 100%; height: clamp(100px, 15vh, 140px); object-fit: contain; margin-bottom: 8px; transition: transform 0.3s ease; }
+        
+        .info-container { position: relative; height: 40px; width: 100%; }
+        .price-tag { 
+            font-size: 18px; font-weight: 600; position: absolute; width: 100%; top: 0; left: 0;
+            transition: opacity 0.2s ease, transform 0.2s ease;
         }
-        
-        .card img { width: 100%; height: clamp(100px, 15vh, 140px); object-fit: contain; margin-bottom: 8px; }
-        
-        .price-tag { font-size: 18px; font-weight: 600; margin-bottom: 2px; }
-        
         .specs-overlay { 
-            font-size: 11px; color: var(--text-dim); 
-            opacity: 0; transform: translateY(5px); transition: all 0.3s ease;
+            font-size: 11px; color: var(--text-dim); position: absolute; width: 100%; top: 5px; left: 0;
+            opacity: 0; transform: translateY(5px); transition: opacity 0.2s ease, transform 0.2s ease;
             white-space: nowrap;
         }
 
-        .card:hover { transform: translateY(-8px); }
+        .card:hover img { transform: scale(1.05); }
+        .card:hover .price-tag { opacity: 0; transform: translateY(-5px); }
         .card:hover .specs-overlay { opacity: 1; transform: translateY(0); }
     </style>
 </head>
 <body onload="initApp()">
 
-    <div class="live-timestamp" id="liveClock">--:-- --</div>
-    <div class="version-debug">V56.0 | <span id="screenSize">0x0</span></div>
+    <div class="corner-stat top-l" id="liveDate">APRIL 12, 2026</div>
+    <div class="corner-stat top-r" id="liveClock">--:-- --</div>
+    <div class="corner-stat bot-l">V59.0</div>
+    <div class="corner-stat bot-r" id="screenSize">0X0</div>
 
     <h1>Stop Walking. Start Rolling.</h1>
     <p class="sub-header">Gas/Battery blackhole free transportation</p>
@@ -99,8 +101,8 @@
             <span class="group-label">Choose your frame style</span>
             <div class="style-toggle">
                 <button class="style-btn active" id="btn-any" onclick="setFrameStyle('any')">Unisex</button>
-                <button class="style-btn" id="btn-high" onclick="setFrameStyle('high')">High Bar</button>
-                <button class="style-btn" id="btn-step" onclick="setFrameStyle('step')">Step-Through</button>
+                <button class="style-btn" id="btn-high" onclick="setFrameStyle('high')">Male / High Bar</button>
+                <button class="style-btn" id="btn-step" onclick="setFrameStyle('step')">Female / Step Through</button>
             </div>
         </div>
 
@@ -139,21 +141,16 @@
         function initApp() { 
             renderGallery(); 
             filterBikes();
-            startClock();
-            updateScreenSize();
-            window.addEventListener('resize', updateScreenSize);
+            updateStatus();
+            setInterval(updateStatus, 1000);
+            window.addEventListener('resize', () => document.getElementById('screenSize').innerText = `${window.innerWidth}X${window.innerHeight}`);
         }
 
-        function startClock() {
-            const update = () => {
-                const now = new Date();
-                document.getElementById('liveClock').innerText = now.toLocaleTimeString('en-US', { hour12: true, hour: '2-digit', minute: '2-digit' }).toUpperCase();
-            };
-            update(); setInterval(update, 1000);
-        }
-
-        function updateScreenSize() {
-            document.getElementById('screenSize').innerText = `${window.innerWidth}x${window.innerHeight}`;
+        function updateStatus() {
+            const now = new Date();
+            document.getElementById('liveDate').innerText = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).toUpperCase();
+            document.getElementById('liveClock').innerText = now.toLocaleTimeString('en-US', { hour12: true, hour: '2-digit', minute: '2-digit' }).toUpperCase();
+            document.getElementById('screenSize').innerText = `${window.innerWidth}X${window.innerHeight}`;
         }
 
         function renderGallery() {
@@ -161,8 +158,10 @@
             gallery.innerHTML = bikeDatabase.map(bike => `
                 <div class="card" data-fstyle="${bike.fStyle}" data-minh="${bike.minH}" data-maxh="${bike.maxH}" data-price="${bike.price}">
                     <img src="${bike.img}">
-                    <div class="price-tag">$${bike.price}</div>
-                    <div class="specs-overlay">${bike.wheel} Wheel • ${bike.frame}</div>
+                    <div class="info-container">
+                        <div class="price-tag">$${bike.price}</div>
+                        <div class="specs-overlay">WHEEL: ${bike.wheel} • FRAME: ${bike.frame}</div>
+                    </div>
                 </div>
             `).join('');
         }
