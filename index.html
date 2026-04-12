@@ -6,7 +6,6 @@
     <style>
         :root {
             --bg-color: #000000;
-            --card-bg: #1d1d1f;
             --accent-blue: #0071e3;
             --text-main: #f5f5f7;
             --text-dim: #86868b;
@@ -45,42 +44,55 @@
         .sub-header { 
             font-size: 24px; 
             color: var(--text-dim); 
-            margin-bottom: 60px; 
+            margin-bottom: 80px; 
             text-align: center;
         }
 
-        .filter-container { 
-            background: var(--card-bg); 
-            padding: 48px; 
-            border-radius: 28px; 
+        /* Cleaned interface: No container box, just space */
+        .filter-interface { 
             max-width: 600px; 
             width: 100%; 
             box-sizing: border-box;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
 
-        .input-group { margin-bottom: 45px; }
-        .group-label { font-size: 12px; font-weight: 600; margin-bottom: 20px; display: block; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
+        .input-group { margin-bottom: 60px; }
+        .group-label { 
+            font-size: 14px; 
+            font-weight: 600; 
+            margin-bottom: 25px; 
+            display: block; 
+            color: var(--text-dim); 
+            text-transform: uppercase; 
+            letter-spacing: 1.5px;
+            text-align: center;
+        }
 
-        .gender-toggle { display: flex; gap: 8px; }
+        .gender-toggle { 
+            display: flex; 
+            gap: 12px; 
+            justify-content: center;
+        }
+
         .gender-btn {
-            flex: 1;
-            padding: 12px;
+            padding: 12px 24px;
             border: 1px solid var(--border);
-            background: #2d2d2f;
+            background: transparent;
             color: var(--text-main);
-            border-radius: 10px;
+            border-radius: 20px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 14px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 15px;
         }
+
+        .gender-btn:hover { border-color: var(--text-main); }
+
         .gender-btn.active {
             background: var(--text-main);
             color: var(--bg-color);
             border-color: var(--text-main);
         }
 
-        /* Slider with Bicycle Icon */
+        /* Slider with Bicycle Icon thumb */
         .slider-wrapper { position: relative; padding: 25px 0; }
 
         input[type=range] {
@@ -94,7 +106,7 @@
 
         input[type=range]::-webkit-slider-runnable-track {
             height: 2px;
-            background: var(--border);
+            background: #333;
         }
 
         input[type=range]::-webkit-slider-thumb {
@@ -107,72 +119,77 @@
             background-size: contain;
             border: none;
             cursor: grab;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
         }
 
         .slider-row {
             display: flex;
             justify-content: space-between;
-            margin-top: 10px;
+            margin-top: 15px;
         }
 
-        .row-title { color: var(--text-dim); font-size: 16px; }
-        .row-val { color: var(--text-main); font-weight: 500; font-size: 16px; }
+        .row-title { color: var(--text-dim); font-size: 17px; }
+        .row-val { color: var(--text-main); font-weight: 500; font-size: 17px; }
 
         /* Reveal Button */
         .reveal-btn {
             width: 100%;
-            padding: 18px;
+            padding: 22px;
             background: var(--accent-blue);
             color: white;
             border: none;
-            border-radius: 12px;
-            font-size: 17px;
+            border-radius: 16px;
+            font-size: 19px;
             font-weight: 500;
             cursor: pointer;
-            transition: transform 0.2s, background 0.2s;
-            margin-top: 10px;
+            transition: all 0.2s ease;
+            margin-top: 20px;
         }
-        .reveal-btn:hover { background: #0077ed; transform: scale(1.01); }
-        .reveal-btn:active { transform: scale(0.99); }
 
-        /* Results Gallery (Hidden by Default) */
+        .reveal-btn:hover { background: #0077ed; transform: scale(1.02); }
+        .reveal-btn:active { transform: scale(0.98); }
+
+        /* Gallery - Hidden by default */
         .gallery-section {
             width: 100%;
             max-width: 1200px;
-            margin-top: 80px;
-            display: none; /* Controlled by JS */
+            margin-top: 100px;
+            display: none;
             opacity: 0;
-            transition: opacity 0.8s ease;
+            transition: opacity 1s ease;
         }
 
         .gallery { 
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 24px; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px; 
         }
 
         .card { 
-            background: var(--card-bg); 
-            padding: 20px; 
-            border-radius: 20px; 
+            background: #111; 
+            padding: 30px; 
+            border-radius: 28px; 
             display: flex; 
             flex-direction: column;
+            transition: transform 0.5s ease;
         }
-        .card img { width: 100%; height: 220px; object-fit: cover; border-radius: 14px; margin-bottom: 18px; }
-        .card-title { font-size: 19px; font-weight: 600; margin-bottom: 6px; }
-        .card-text { color: var(--text-dim); font-size: 14px; line-height: 1.4; }
+
+        .card:hover { transform: translateY(-10px); }
+        .card img { width: 100%; height: 260px; object-fit: cover; border-radius: 18px; margin-bottom: 24px; }
+        .card-title { font-size: 24px; font-weight: 600; margin-bottom: 8px; }
+        .card-text { color: var(--text-dim); font-size: 16px; line-height: 1.5; }
     </style>
 </head>
 <body onload="initApp()">
 
-    <div class="version-badge">Version 41.0 | Focused State</div>
+    <div class="version-badge">Version 43.0 | Reveal Logic + Clean UI</div>
 
     <h1>Stop Walking. Start Rolling.</h1>
     <p class="sub-header">The Gas / Battery black hole free Machine.</p>
 
-    <div class="filter-container">
+    <div class="filter-interface">
         <div class="input-group">
-            <span class="group-label">Style</span>
+            <span class="group-label">Choose your style</span>
             <div class="gender-toggle">
                 <button class="gender-btn active" id="btn-any" onclick="setGender('any')">All Models</button>
                 <button class="gender-btn" id="btn-male" onclick="setGender('male')">Male</button>
@@ -182,29 +199,29 @@
 
         <div class="input-group">
             <div class="slider-wrapper">
-                <input type="range" id="userHeight" min="36" max="80" value="36" step="0.1" oninput="updateHeight(this.value)">
+                <input type="range" id="userHeight" min="36" max="80" value="56" step="0.1" oninput="updateHeight(this.value)">
             </div>
             <div class="slider-row">
                 <span class="row-title">Rider Height</span>
-                <span id="heightLabel" class="row-val">3'0"</span>
+                <span id="heightLabel" class="row-val">4'8"</span>
             </div>
         </div>
 
         <div class="input-group">
             <div class="slider-wrapper">
-                <input type="range" id="userBudget" min="0" max="100" value="0" step="0.1" oninput="handleBudgetInput(this.value)">
+                <input type="range" id="userBudget" min="0" max="100" value="30" step="0.1" oninput="handleBudgetInput(this.value)">
             </div>
             <div class="slider-row">
                 <span class="row-title">Maximum Budget</span>
-                <span id="budgetLabel" class="row-val">$30</span>
+                <span id="budgetLabel" class="row-val">$56</span>
             </div>
         </div>
 
-        <button class="reveal-btn" onclick="revealResults()">Find my perfect match</button>
+        <button class="reveal-btn" onclick="revealResults()">Find my perfect matching</button>
     </div>
 
     <div class="gallery-section" id="gallerySection">
-        <h2 style="text-align: center; margin-bottom: 40px; font-weight: 500;">Curated for you</h2>
+        <h2 style="text-align: center; font-size: 40px; margin-bottom: 60px; font-weight: 600;">Perfect Matches</h2>
         <div class="gallery" id="bikeGallery"></div>
     </div>
 
@@ -236,11 +253,11 @@
         function revealResults() {
             const section = document.getElementById('gallerySection');
             section.style.display = 'block';
+            filterBikes();
             setTimeout(() => {
                 section.style.opacity = '1';
-                window.scrollTo({ top: section.offsetTop - 40, behavior: 'smooth' });
+                window.scrollTo({ top: section.offsetTop - 60, behavior: 'smooth' });
             }, 10);
-            filterBikes();
         }
 
         function handleBudgetInput(val) {
