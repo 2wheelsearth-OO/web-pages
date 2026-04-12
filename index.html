@@ -105,8 +105,6 @@
         .row-val { color: #a8c7fa; font-weight: bold; }
 
         .gallery { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; width: 100%; max-width: 1400px; padding: 0 20px;}
-        
-        /* New Bike Card Styling */
         .card { 
             background: #1e1f20; 
             width: 280px; 
@@ -125,7 +123,7 @@
 </head>
 <body onload="initApp()">
 
-    <div class="version-badge">PROGRAM VERSION: 35.0 | DATE: 2026-04-12 | TIME: 4:30 PM</div>
+    <div class="version-badge">PROGRAM VERSION: 36.0 | DATE: 2026-04-12 | TIME: 4:50 PM</div>
 
     <h1>Stop Walking, Start Rolling</h1>
     <p class="sub-header">Gas / Battery black hole free</p>
@@ -152,7 +150,7 @@
 
         <div class="input-group">
             <div class="slider-wrapper">
-                <input type="range" id="userBudget" min="30" max="1000" value="30" step="0.1" oninput="manualOverride(); updateBudget(this.value)">
+                <input type="range" id="userBudget" min="0" max="100" value="0" step="0.01" oninput="manualOverride(); handleBudgetInput(this.value)">
             </div>
             <div class="slider-row">
                 <span class="row-title">Max Budget:</span>
@@ -161,67 +159,29 @@
         </div>
     </div>
 
-    <div class="gallery" id="bikeGallery">
-        </div>
+    <div class="gallery" id="bikeGallery"></div>
 
     <script>
-        // CENTRAL DATABASE: This is where the HTML "figures out" the bikes
         const bikeDatabase = [
-            {
-                name: "Blue Checker",
-                style: "female",
-                minHeight: 48,
-                maxHeight: 68,
-                price: 120,
-                specs: "24\" Wheels | 13\" Frame",
-                img: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Blue checker board girl bike - 120F2413.png"
-            },
-            {
-                name: "Green Haro",
-                style: "male",
-                minHeight: 62,
-                maxHeight: 72,
-                price: 180,
-                specs: "26\" Wheels | 18\" Frame",
-                img: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Green Haro $180 25 cm.jpg"
-            },
-            {
-                name: "Elementary Special",
-                style: "any",
-                minHeight: 40,
-                maxHeight: 55,
-                price: 80,
-                specs: "20\" Wheels | Kids Frame",
-                img: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Green Front Suspension 6 speed Elementary School Bike $80.jpg"
-            },
-            {
-                name: "Torker Cruiser",
-                style: "female",
-                minHeight: 58,
-                maxHeight: 68,
-                price: 60,
-                specs: "24\" Wheels | Steel Frame",
-                img: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Girl Torker at front of house $60.png"
-            }
+            { name: "Blue Checker", style: "female", minHeight: 48, maxHeight: 68, price: 120, specs: "24\" Wheels | 13\" Frame", img: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Blue checker board girl bike - 120F2413.png" },
+            { name: "Green Haro", style: "male", minHeight: 62, maxHeight: 72, price: 180, specs: "26\" Wheels | 18\" Frame", img: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Green Haro $180 25 cm.jpg" },
+            { name: "Elementary Special", style: "any", minHeight: 40, maxHeight: 55, price: 80, specs: "20\" Wheels | Kids Frame", img: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Green Front Suspension 6 speed Elementary School Bike $80.jpg" },
+            { name: "Torker Cruiser", style: "female", minHeight: 58, maxHeight: 68, price: 60, specs: "24\" Wheels | Steel Frame", img: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Girl Torker at front of house $60.png" }
         ];
 
         let selectedSex = 'any';
         let animationActive = true;
+        let currentRealBudget = 30;
 
         function initApp() {
             renderGallery();
             requestAnimationFrame(animateSliders);
         }
 
-        // Creates the HTML cards based on the JSON Database
         function renderGallery() {
             const gallery = document.getElementById('bikeGallery');
             gallery.innerHTML = bikeDatabase.map(bike => `
-                <div class="card" 
-                     data-style="${bike.style}" 
-                     data-minh="${bike.minHeight}" 
-                     data-maxh="${bike.maxHeight}" 
-                     data-price="${bike.price}">
+                <div class="card" data-style="${bike.style}" data-minh="${bike.minHeight}" data-maxh="${bike.maxHeight}" data-price="${bike.price}">
                     <img src="${bike.img}">
                     <div class="card-title">${bike.name}</div>
                     <div class="card-text">${bike.specs} | $${bike.price}</div>
@@ -230,24 +190,39 @@
             filterBikes();
         }
 
-        function manualOverride() {
-            animationActive = false;
+        // EXPONENTIAL MATH: 
+        // Converts 0-100 slider position to $30-$1000 scale
+        function getExponentialPrice(val) {
+            const minP = 30;
+            const maxP = 1000;
+            // Using a power of 2 creates a curve that starts slow and accelerates
+            return Math.round(minP + (maxP - minP) * Math.pow(val / 100, 2));
         }
+
+        function handleBudgetInput(sliderVal) {
+            currentRealBudget = getExponentialPrice(sliderVal);
+            document.getElementById('budgetLabel').innerText = `$${currentRealBudget}`;
+            filterBikes();
+        }
+
+        function manualOverride() { animationActive = false; }
 
         function animateSliders(currentTime) {
             if (!animationActive) return;
             const durationH = 20000;
             const durationB = 15000;
+            
             const progressH = (currentTime % durationH) / durationH;
             const progressB = (currentTime % durationB) / durationB;
             
+            // Height moves linearly
             const currentH = 36 + (80 - 36) * progressH;
-            const currentB = 30 + (1000 - 30) * progressB;
-
             document.getElementById('userHeight').value = currentH;
             updateHeight(currentH);
-            document.getElementById('userBudget').value = currentB;
-            updateBudget(currentB);
+
+            // Budget moves linearly on the slider, but the text "accelerates"
+            document.getElementById('userBudget').value = progressB * 100;
+            handleBudgetInput(progressB * 100);
 
             requestAnimationFrame(animateSliders);
         }
@@ -268,14 +243,8 @@
             filterBikes();
         }
 
-        function updateBudget(val) {
-            document.getElementById('budgetLabel').innerText = `$${Math.round(val)}`;
-            filterBikes();
-        }
-
         function filterBikes() {
             const h = parseFloat(document.getElementById('userHeight').value);
-            const b = parseFloat(document.getElementById('userBudget').value);
             
             document.querySelectorAll('.card').forEach(card => {
                 const style = card.dataset.style;
@@ -285,7 +254,7 @@
 
                 const match = (selectedSex === 'any' || selectedSex === style) &&
                               (h >= minH && h <= maxH) &&
-                              (price <= b);
+                              (price <= currentRealBudget);
 
                 card.style.display = match ? 'flex' : 'none';
             });
