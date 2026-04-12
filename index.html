@@ -59,7 +59,7 @@
             border-color: #a8c7fa;
         }
 
-        /* Custom Bicycle Slider Styling */
+        /* Custom Rider Slider Styling */
         input[type=range] {
             -webkit-appearance: none;
             width: 100%;
@@ -68,7 +68,6 @@
 
         input[type=range]:focus { outline: none; }
 
-        /* Track */
         input[type=range]::-webkit-slider-runnable-track {
             width: 100%;
             height: 4px;
@@ -77,24 +76,27 @@
             border-radius: 2px;
         }
 
-        /* Bicycle Icon Handle (Chrome/Safari) */
+        /* Custom Rider Image Handle (Chrome/Safari) */
         input[type=range]::-webkit-slider-thumb {
-            height: 30px;
-            width: 30px;
+            height: 40px;
+            width: 40px;
             cursor: pointer;
             -webkit-appearance: none;
-            margin-top: -13px; /* Centers the bike on the track */
-            content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="%23a8c7fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-3 11.5V14l-3-3 4-3 2 3h2"/></svg>');
+            margin-top: -18px; 
+            /* Using your provided rider image */
+            content: url('https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/image_75af43.png');
+            filter: invert(85%) sepia(20%) saturate(800%) hue-rotate(185deg); /* Tinting to match your theme */
         }
 
-        /* Bicycle Icon Handle (Firefox) */
+        /* Custom Rider Image Handle (Firefox) */
         input[type=range]::-moz-range-thumb {
-            height: 30px;
-            width: 30px;
+            height: 40px;
+            width: 40px;
             background: transparent;
             border: none;
             cursor: pointer;
-            content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="%23a8c7fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-3 11.5V14l-3-3 4-3 2 3h2"/></svg>');
+            content: url('https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/image_75af43.png');
+            filter: invert(85%) sepia(20%) saturate(800%) hue-rotate(185deg);
         }
 
         .slider-val { margin-left: auto; color: #a8c7fa; font-weight: bold; }
@@ -134,7 +136,7 @@
 </head>
 <body>
 
-    <div class="version-badge">PROGRAM VERSION: 22.0 | DATE: 2026-04-12 | TIME: 1:45 PM</div>
+    <div class="version-badge">PROGRAM VERSION: 23.0 | DATE: 2026-04-12 | TIME: 1:50 PM</div>
 
     <h1>Stop Walking, Start Rolling</h1>
     <p class="sub-header">Gas / Battery black hole free</p>
@@ -165,7 +167,7 @@
             <input type="range" id="userBudget" min="30" max="1000" value="400" oninput="updateBudget(this.value)">
         </div>
 
-        <button id="searchBtn" onclick="filterBikes()">Find my healthy transportation match...</button>
+        <button id="searchBtn" onclick="filterBikes()">Find my healthy machine match...</button>
     </div>
 
     <div class="gallery" id="bikeGallery">
