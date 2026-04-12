@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Bicycle Matchmaker | Pro Minimalist</title>
+    <title>Bicycle Matchmaker | Pro Stealth</title>
     <style>
         :root {
             --bg-color: #000000;
@@ -24,111 +24,32 @@
             -webkit-font-smoothing: antialiased;
         }
         
-        h1 { 
-            font-size: 32px; /* Compacted header */
-            font-weight: 600; 
-            letter-spacing: -0.015em;
-            margin-bottom: 8px;
-            text-align: center;
-        }
+        h1 { font-size: 32px; font-weight: 600; margin-bottom: 8px; text-align: center; }
+        .sub-header { font-size: 16px; color: var(--text-dim); margin-bottom: 40px; text-align: center; }
 
-        .sub-header { 
-            font-size: 16px; 
-            color: var(--text-dim); 
-            margin-bottom: 40px; 
-            text-align: center;
-        }
-
-        .filter-interface { 
-            max-width: 500px; 
-            width: 100%; 
-            margin-bottom: 50px;
-        }
-
+        .filter-interface { max-width: 500px; width: 100%; margin-bottom: 50px; }
         .input-group { margin-bottom: 35px; }
-        .group-label { 
-            font-size: 11px; 
-            font-weight: 600; 
-            margin-bottom: 15px; 
-            display: block; 
-            color: var(--text-dim); 
-            text-transform: uppercase; 
-            letter-spacing: 1.5px;
-            text-align: center;
-        }
+        .group-label { font-size: 11px; font-weight: 600; margin-bottom: 15px; display: block; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1.5px; text-align: center; }
 
-        .gender-toggle { 
-            display: flex; 
-            gap: 10px; 
-            justify-content: center;
-        }
-
-        .gender-btn {
-            padding: 8px 18px;
-            border: 1px solid var(--border);
-            background: transparent;
-            color: var(--text-main);
-            border-radius: 18px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-size: 13px;
-        }
-
-        .gender-btn.active {
-            background: var(--text-main);
-            color: var(--bg-color);
-            border-color: var(--text-main);
-        }
+        .gender-toggle { display: flex; gap: 10px; justify-content: center; }
+        .gender-btn { padding: 8px 18px; border: 1px solid var(--border); background: transparent; color: var(--text-main); border-radius: 18px; cursor: pointer; transition: all 0.2s ease; font-size: 13px; }
+        .gender-btn.active { background: var(--text-main); color: var(--bg-color); border-color: var(--text-main); }
 
         .slider-wrapper { position: relative; padding: 15px 0; }
-
-        input[type=range] {
-            -webkit-appearance: none;
-            width: 100%;
-            background: transparent;
-            cursor: pointer;
-            position: relative;
-            z-index: 2;
-        }
-
-        input[type=range]::-webkit-slider-runnable-track {
-            height: 1px;
-            background: #444;
-        }
-
+        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; cursor: pointer; position: relative; z-index: 2; }
+        input[type=range]::-webkit-slider-runnable-track { height: 1px; background: #444; }
         input[type=range]::-webkit-slider-thumb {
-            height: 34px;
-            width: 34px;
-            -webkit-appearance: none;
-            margin-top: -30px; 
+            height: 34px; width: 34px; -webkit-appearance: none; margin-top: -30px; 
             background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23f5f5f7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-3 11.5V14l-3-3 4-3 2 3h2"/></svg>');
-            background-repeat: no-repeat;
-            background-size: contain;
-            border: none;
-            cursor: grab;
-            transition: transform 0.1s ease;
+            background-repeat: no-repeat; background-size: contain; border: none; cursor: grab; transition: transform 0.1s ease;
         }
+        input[type=range]:active::-webkit-slider-thumb { transform: scale(1.15) rotate(-8deg); }
 
-        input[type=range]:active::-webkit-slider-thumb {
-            transform: scale(1.15) rotate(-8deg); /* Bicycle animation */
-        }
-
-        .slider-row {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 8px;
-        }
-
+        .slider-row { display: flex; justify-content: space-between; margin-top: 8px; }
         .row-title, .row-val { color: var(--text-dim); font-size: 14px; }
         .row-val { color: var(--text-main); font-weight: 500; }
 
-        .gallery { 
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 25px; 
-            width: 100%;
-            max-width: 1000px;
-        }
+        .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 25px; width: 100%; max-width: 1000px; }
 
         .card { 
             background: #111; 
@@ -137,42 +58,48 @@
             display: flex; 
             flex-direction: column;
             align-items: center;
-            transition: transform 0.4s ease, opacity 0.4s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             opacity: 1;
-            max-height: 250px; 
+            position: relative;
+            overflow: hidden;
+            height: 220px; 
         }
 
-        .card.hidden {
-            display: none;
-            opacity: 0;
-        }
+        .card.hidden { display: none; opacity: 0; }
 
         .card img { 
-            max-width: 100%;
-            height: 130px; 
-            object-fit: scale-down; 
-            border-radius: 10px; 
-            margin-bottom: 12px;
+            max-width: 100%; height: 130px; object-fit: scale-down; 
+            border-radius: 10px; margin-bottom: 12px;
+            transition: transform 0.4s ease;
         }
 
-        .card-text { 
-            color: var(--text-dim); 
-            font-size: 13px; 
-            line-height: 1.6; 
-            text-align: center; 
+        .price-tag { 
+            color: var(--text-main); font-size: 20px; font-weight: 600; 
+            transition: transform 0.4s ease, opacity 0.3s ease;
         }
 
-        .price-highlight {
-            color: var(--text-main);
-            font-weight: 600;
-            font-size: 15px;
+        /* Hover Reveal Logic */
+        .specs-overlay {
+            position: absolute;
+            bottom: -50px; /* Hidden below */
+            opacity: 0;
+            transition: all 0.3s ease;
+            color: var(--text-dim);
+            font-size: 13px;
+            text-align: center;
         }
+
+        .card:hover { transform: translateY(-5px); background: #161616; }
+        .card:hover img { transform: scale(1.05); }
+        .card:hover .price-tag { transform: translateY(-15px); }
+        .card:hover .specs-overlay { bottom: 20px; opacity: 1; }
+
     </style>
 </head>
 <body onload="initApp()">
 
     <h1>Stop Walking. Start Rolling.</h1>
-    <p class="sub-header">Mechanical freedom for the local explorer.</p>
+    <p class="sub-header">Mechanical freedom.</p>
 
     <div class="filter-interface">
         <div class="input-group">
@@ -196,11 +123,11 @@
 
         <div class="input-group">
             <div class="slider-wrapper">
-                <input type="range" id="userBudget" min="0" max="100" value="0" step="0.1" oninput="handleBudgetInput(this.value)">
+                <input type="range" id="userBudget" min="0" max="100" value="20" step="0.1" oninput="handleBudgetInput(this.value)">
             </div>
             <div class="slider-row">
                 <span class="row-title">Budget Limit</span>
-                <span id="budgetLabel" class="row-val">$30</span>
+                <span id="budgetLabel" class="row-val">$150</span>
             </div>
         </div>
     </div>
@@ -209,27 +136,24 @@
 
     <script>
         const bikeDatabase = [
-            { style: "female", minHeight: 48, maxHeight: 68, price: 120, wheel: "24\"", frame: "13\"", img: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Blue checker board girl bike - 120F2413.png" },
-            { style: "male", minHeight: 62, maxHeight: 72, price: 180, wheel: "26\"", frame: "18\"", img: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Green Haro $180 25 cm.jpg" },
-            { style: "any", minHeight: 40, maxHeight: 55, price: 80, wheel: "20\"", frame: "Junior", img: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Green Front Suspension 6 speed Elementary School Bike $80.jpg" },
-            { style: "female", minHeight: 58, maxHeight: 68, price: 60, wheel: "24\"", frame: "Step-Thru", img: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Girl Torker at front of house $60.png" }
+            { style: "female", minH: 48, maxH: 68, price: 120, wheel: "24\"", frame: "13\"", img: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Blue checker board girl bike - 120F2413.png" },
+            { style: "male", minH: 62, maxH: 72, price: 180, wheel: "26\"", frame: "18\"", img: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Green Haro $180 25 cm.jpg" },
+            { style: "any", minH: 40, maxH: 55, price: 80, wheel: "20\"", frame: "Junior", img: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Green Front Suspension 6 speed Elementary School Bike $80.jpg" },
+            { style: "female", minH: 58, maxH: 68, price: 60, wheel: "24\"", frame: "Step-Thru", img: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Girl Torker at front of house $60.png" }
         ];
 
         let selectedSex = 'any';
 
-        function initApp() {
-            renderGallery();
-            filterBikes();
-        }
+        function initApp() { renderGallery(); filterBikes(); }
 
         function renderGallery() {
             const gallery = document.getElementById('bikeGallery');
             gallery.innerHTML = bikeDatabase.map(bike => `
-                <div class="card" data-style="${bike.style}" data-minh="${bike.minHeight}" data-maxh="${bike.maxHeight}" data-price="${bike.price}">
+                <div class="card" data-style="${bike.style}" data-minh="${bike.minH}" data-maxh="${bike.maxH}" data-price="${bike.price}">
                     <img src="${bike.img}">
-                    <div class="card-text">
-                        <span class="price-highlight">Price: $${bike.price}</span><br>
-                        Wheel: ${bike.wheel} | Frame: ${bike.frame}
+                    <div class="price-tag">$${bike.price}</div>
+                    <div class="specs-overlay">
+                        ${bike.wheel} Wheel • ${bike.frame} Frame
                     </div>
                 </div>
             `).join('');
@@ -242,8 +166,7 @@
         }
 
         function updateHeight(val) {
-            let feet = Math.floor(val / 12);
-            let inches = Math.round(val % 12);
+            let feet = Math.floor(val / 12); let inches = Math.round(val % 12);
             document.getElementById('heightLabel').innerText = `${feet}'${inches}"`;
             filterBikes();
         }
@@ -264,14 +187,8 @@
                 const match = (selectedSex === 'any' || selectedSex === card.dataset.style) &&
                               (h >= card.dataset.minh && h <= card.dataset.maxh) &&
                               (card.dataset.price <= b);
-                
-                if (match) {
-                    card.classList.remove('hidden');
-                    setTimeout(() => card.style.opacity = "1", 10);
-                } else {
-                    card.style.opacity = "0";
-                    card.classList.add('hidden');
-                }
+                if (match) { card.classList.remove('hidden'); setTimeout(() => card.style.opacity = "1", 10); } 
+                else { card.style.opacity = "0"; card.classList.add('hidden'); }
             });
         }
     </script>
