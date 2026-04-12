@@ -1,99 +1,230 @@
+<!-- VERSION 64.0 | 2026-04-12 | 7:00 PM | Logo Integrated -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sumi-e Bicycle Co.</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Velocipede | Matchmaker</title>
     <style>
         :root {
-            --bg-color: #fbfbfc; /* Apple-style off-white */
-            --text-main: #1d1d1f; /* Dark, but not true black */
-            --nav-bg: rgba(251, 251, 252, 0.95); /* Semi-transparent nav */
-            --logo-size: 30px; /* Precise size control for the icon */
+            --bg-color: #000000;
+            --text-main: #f5f5f7;
+            --text-dim: #a1a1a6;
+            --border: #424245;
+            --accent: #ffffff;
+        }
+
+        html, body { 
+            height: 100vh; overflow: hidden; margin: 0; padding: 0;
+            background: var(--bg-color); color: var(--text-main);
+            font-family: "SF Pro Display", -apple-system, sans-serif;
+            -webkit-font-smoothing: antialiased;
         }
 
         body { 
-            font-family: "SF Pro Display", -apple-system, sans-serif; 
-            background-color: var(--bg-color); 
-            color: var(--text-main); 
-            margin: 0; 
-            -webkit-font-smoothing: antialiased; 
+            display: flex; flex-direction: column; align-items: center; 
+            justify-content: center; padding: 0 20px; box-sizing: border-box;
         }
 
-        /* --- THE LOGO INTEGRATION --- */
-
-        .logo-wrapper {
-            display: flex;
-            align-items: center;
-            height: 100%;
+        /* LOGO INTEGRATION */
+        .brand-logo {
+            width: 80px; /* Approximately 1/5th visual scale compared to original */
+            height: auto;
+            margin-bottom: 20px;
+            filter: invert(1); /* Ensures black ink becomes white on black background */
+            opacity: 0.9;
         }
 
-        /* Set a fixed size to maintain visibility without dominating. 
-           We use contain to ensure the spatter effects aren't cut off. */
-        .website-logo {
-            width: var(--logo-size);
-            height: var(--logo-size);
-            object-fit: contain;
-            margin-right: 8px; /* Precise spacing to the text */
+        /* FOUR-CORNER OVERLAYS */
+        .corner-stat { 
+            position: fixed; font-size: 10px; color: var(--text-dim); 
+            letter-spacing: 0.1em; z-index: 1000; text-transform: uppercase;
+        }
+        .top-l { top: 15px; left: 20px; }
+        .top-r { top: 15px; right: 20px; }
+        .bot-l { bottom: 15px; left: 20px; }
+        .bot-r { bottom: 15px; right: 20px; }
+        
+        h1 { font-size: clamp(24px, 4.5vh, 48px); font-weight: 700; margin: 0 0 4px 0; letter-spacing: -0.02em; }
+        .sub-header { font-size: clamp(14px, 1.8vh, 18px); color: var(--text-dim); margin-bottom: 25px; }
+
+        .filter-interface { width: 100%; max-width: 550px; }
+        .input-group { margin-bottom: 20px; }
+        .group-label { font-size: 9px; font-weight: 600; margin-bottom: 10px; display: block; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.15em; text-align: center; }
+
+        .style-toggle { display: flex; gap: 8px; justify-content: center; }
+        .style-btn { 
+            flex: 1; padding: 12px 6px; border: 1px solid var(--border); 
+            background: transparent; color: var(--text-main); border-radius: 12px; 
+            cursor: pointer; transition: all 0.2s ease; font-size: 10px; font-weight: 600;
+            text-transform: uppercase; line-height: 1.4;
+        }
+        .style-btn span { opacity: 0.6; font-size: 9px; font-weight: 400; }
+        .style-btn.active { background: var(--accent); color: var(--bg-color); border-color: var(--accent); }
+
+        /* SLIDER STYLES */
+        .slider-wrapper { padding: 15px 0; position: relative; }
+        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; cursor: grab; position: relative; z-index: 2; }
+        input[type=range]::-webkit-slider-runnable-track { height: 1px; background: #444; }
+        input[type=range]::-webkit-slider-thumb {
+            height: 30px; width: 30px; -webkit-appearance: none; margin-top: -28px; 
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-3 11.5V14l-3-3 4-3 2 3h2"/></svg>');
+            background-repeat: no-repeat; background-size: contain; border: none;
         }
 
-        .brand-text {
-            font-size: 19px;
-            font-weight: 600;
-            letter-spacing: -0.02em; /* Apple-style tracking */
+        .slider-row { display: flex; justify-content: space-between; margin-top: 4px; font-size: 13px; color: var(--text-dim); }
+        .row-val { color: var(--text-main); font-weight: 500; }
+
+        /* GALLERY STYLES */
+        .gallery { 
+            display: flex; justify-content: center; gap: clamp(15px, 3vw, 40px); 
+            width: 100%; max-width: 1000px; margin-top: 25px;
+            min-height: 220px;
+        }
+        
+        .card { display: flex; flex-direction: column; align-items: center; width: 200px; text-align: center; }
+        .img-container {
+            width: 100%; aspect-ratio: 4 / 3; overflow: hidden; margin-bottom: 12px;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(255,255,255,0.03); border-radius: 12px;
+        }
+        .card img { width: 100%; height: 100%; object-fit: contain; transition: transform 0.3s ease; }
+        
+        .info-container { position: relative; height: 30px; width: 100%; }
+        .price-tag { font-size: 18px; font-weight: 600; position: absolute; width: 100%; top: 0; left: 0; transition: all 0.2s ease; }
+        .specs-overlay { 
+            font-size: 11px; color: var(--text-dim); position: absolute; width: 100%; top: 2px; left: 0;
+            opacity: 0; transform: translateY(5px); transition: all 0.2s ease; white-space: nowrap;
         }
 
-        /* --- MINIMALIST NAV BAR --- */
-
-        header {
-            position: fixed; top: 0; width: 100%; height: 60px;
-            background: var(--nav-bg);
-            backdrop-filter: blur(20px); /* The "Glass" effect */
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            z-index: 1000;
-        }
-
-        nav {
-            max-width: 980px; /* Apple-style content width */
-            margin: 0 auto;
-            height: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-        }
-
-        .nav-links { display: flex; gap: 30px; }
-        .nav-links a { text-decoration: none; color: var(--text-main); font-size: 14px; opacity: 0.8; transition: opacity 0.2s; }
-        .nav-links a:hover { opacity: 1; }
-
-        /* --- DEMO CONTENT --- */
-
-        .hero { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; padding-top: 60px; text-align: center; }
-        .hero h1 { font-size: 56px; font-weight: 700; letter-spacing: -0.015em; margin: 0; }
-        .hero p { font-size: 24px; color: #86868b; margin: 10px 0 0 0; }
+        .card:hover img { transform: scale(1.08); }
+        .card:hover .price-tag { opacity: 0; transform: translateY(-5px); }
+        .card:hover .specs-overlay { opacity: 1; transform: translateY(0); }
     </style>
 </head>
-<body>
+<body onload="initApp()">
 
-    <header>
-        <nav>
-            <div class="logo-wrapper">
-                <img src="your_sumie_bicycle_logo.png" alt="Sumi-e Bicycle Logo" class="website-logo">
-                <span class="brand-text">Velocipede</span>
-            </div>
-            <div class="nav-links">
-                <a href="#store">Store</a>
-                <a href="#about">About</a>
-                <a href="#support">Support</a>
-            </div>
-        </nav>
-    </header>
+    <div class="corner-stat top-l" id="liveDate">APRIL 12, 2026</div>
+    <div class="corner-stat top-r" id="liveClock">--:-- --</div>
+    <div class="corner-stat bot-l">V64.0</div>
+    <div class="corner-stat bot-r" id="screenSize">0X0</div>
 
-    <div class="hero">
-        <h1>Simplify. Move.</h1>
-        <p>The art of the ride.</p>
+    <!-- LOGO PLACEHOLDER (Use the brush stroke image you created) -->
+    <img src="https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/VelocipedeLogoBrush.png" 
+         onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 60\' fill=\'none\' stroke=\'white\' stroke-width=\'2\'><circle cx=\'25\' cy=\'40\' r=\'12\'/><circle cx=\'75\' cy=\'40\' r=\'12\'/><path d=\'M25 40 L40 20 L75 20 M40 20 L50 40\'/></svg>'"
+         class="brand-logo" alt="Velocipede Logo">
+
+    <h1>Stop Walking. Start Rolling.</h1>
+    <p class="sub-header">Gas/Battery blackhole free transportation</p>
+
+    <div class="filter-interface">
+        <div class="input-group">
+            <span class="group-label">Choose rider frame style</span>
+            <div class="style-toggle">
+                <button class="style-btn active" id="btn-high" onclick="setFrameStyle('high')">
+                    Male<br><span>(High Bar)</span>
+                </button>
+                <button class="style-btn" id="btn-any" onclick="setFrameStyle('any')">
+                    Unisex<br><span>(Medium Bar)</span>
+                </button>
+                <button class="style-btn" id="btn-step" onclick="setFrameStyle('step')">
+                    Female<br><span>(Step Through)</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <div class="slider-wrapper">
+                <input type="range" id="userHeight" min="36" max="80" value="68" step="0.1" oninput="updateHeight(this.value)">
+            </div>
+            <div class="slider-row">
+                <span>Rider Height</span>
+                <span id="heightLabel" class="row-val">5'8" (173 cm)</span>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <div class="slider-wrapper">
+                <input type="range" id="userBudget" min="0" max="100" value="25" step="0.1" oninput="handleBudgetInput(this.value)">
+            </div>
+            <div class="slider-row">
+                <span>Budget Limit</span>
+                <span id="budgetLabel" class="row-val">$170 (€156)</span>
+            </div>
+        </div>
     </div>
 
+    <div class="gallery" id="bikeGallery"></div>
+
+    <script>
+        const bikeDatabase = [
+            { fStyle: "step", minH: 48, maxH: 68, price: 120, wheel: "24\"", frame: "13\"", img: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Blue checker board girl bike - 120F2413.png" },
+            { fStyle: "high", minH: 62, maxH: 72, price: 180, wheel: "26\"", frame: "18\"", img: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Green Haro $180 25 cm.jpg" },
+            { fStyle: "step", minH: 58, maxH: 68, price: 60, wheel: "24\"", frame: "Low Entry", img: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Girl Torker at front of house $60.png" }
+        ];
+
+        let currentFrame = 'high';
+
+        function initApp() { 
+            renderGallery(); 
+            filterBikes();
+            updateStatus();
+            setInterval(updateStatus, 1000);
+            window.addEventListener('resize', () => document.getElementById('screenSize').innerText = `${window.innerWidth}X${window.innerHeight}`);
+        }
+
+        function updateStatus() {
+            const now = new Date();
+            document.getElementById('liveDate').innerText = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).toUpperCase();
+            document.getElementById('liveClock').innerText = now.toLocaleTimeString('en-US', { hour12: true, hour: '2-digit', minute: '2-digit' }).toUpperCase();
+            document.getElementById('screenSize').innerText = `${window.innerWidth}X${window.innerHeight}`;
+        }
+
+        function renderGallery() {
+            const gallery = document.getElementById('bikeGallery');
+            gallery.innerHTML = bikeDatabase.map(bike => `
+                <div class="card" data-fstyle="${bike.fStyle}" data-minh="${bike.minH}" data-maxh="${bike.maxH}" data-price="${bike.price}">
+                    <div class="img-container">
+                        <img src="${bike.img}">
+                    </div>
+                    <div class="info-container">
+                        <div class="price-tag">$${bike.price}</div>
+                        <div class="specs-overlay">WHEEL: ${bike.wheel} • FRAME: ${bike.frame}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function handleBudgetInput(val) {
+            const price = Math.round(30 + (1000 - 30) * Math.pow(val / 100, 3));
+            document.getElementById('budgetLabel').innerText = `$${price} (€${Math.round(price * 0.92)})`;
+            filterBikes();
+        }
+
+        function updateHeight(val) {
+            let feet = Math.floor(val / 12); let inches = Math.round(val % 12);
+            document.getElementById('heightLabel').innerText = `${feet}'${inches}" (${Math.round(val * 2.54)} cm)`;
+            filterBikes();
+        }
+
+        function setFrameStyle(val) {
+            currentFrame = val;
+            document.querySelectorAll('.style-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('btn-' + (val === 'any' ? 'any' : val === 'high' ? 'high' : 'step')).classList.add('active');
+            filterBikes();
+        }
+
+        function filterBikes() {
+            const h = parseFloat(document.getElementById('userHeight').value);
+            const rawB = document.getElementById('userBudget').value;
+            const b = Math.round(30 + (1000 - 30) * Math.pow(rawB / 100, 3));
+            document.querySelectorAll('.card').forEach(card => {
+                const match = (currentFrame === 'any' || currentFrame === card.dataset.fstyle) &&
+                              (h >= card.dataset.minh && h <= card.dataset.maxh) &&
+                              (card.dataset.price <= b);
+                card.style.display = match ? "flex" : "none";
+            });
+        }
+    </script>
 </body>
 </html>
