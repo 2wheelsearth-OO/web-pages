@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Bicycle Matchmaker | Stable UI</title>
+    <title>Bicycle Matchmaker | Final Layout</title>
     <style>
         :root {
             --bg-color: #000000;
@@ -69,7 +69,7 @@
         .gallery { 
             display: flex; justify-content: center; gap: clamp(15px, 3vw, 40px); 
             width: 100%; max-width: 1000px; margin-top: 25px;
-            min-height: 220px; /* RESERVES SPACE TO PREVENT JUMPING */
+            min-height: 220px;
         }
         
         .card { display: flex; flex-direction: column; align-items: center; width: 200px; text-align: center; }
@@ -96,7 +96,7 @@
 
     <div class="corner-stat top-l" id="liveDate">APRIL 12, 2026</div>
     <div class="corner-stat top-r" id="liveClock">--:-- --</div>
-    <div class="corner-stat bot-l">V62.0</div>
+    <div class="corner-stat bot-l">V63.0</div>
     <div class="corner-stat bot-r" id="screenSize">0X0</div>
 
     <h1>Stop Walking. Start Rolling.</h1>
@@ -106,9 +106,15 @@
         <div class="input-group">
             <span class="group-label">Choose rider frame style</span>
             <div class="style-toggle">
-                <button class="style-btn active" id="btn-any" onclick="setFrameStyle('any')">Unisex<br><span>(Medium Bar)</span></button>
-                <button class="style-btn" id="btn-high" onclick="setFrameStyle('high')">Male<br><span>(High Bar)</span></button>
-                <button class="style-btn" id="btn-step" onclick="setFrameStyle('step')">Female<br><span>(Step Through)</span></button>
+                <button class="style-btn active" id="btn-high" onclick="setFrameStyle('high')">
+                    Male<br><span>(High Bar)</span>
+                </button>
+                <button class="style-btn" id="btn-any" onclick="setFrameStyle('any')">
+                    Unisex<br><span>(Medium Bar)</span>
+                </button>
+                <button class="style-btn" id="btn-step" onclick="setFrameStyle('step')">
+                    Female<br><span>(Step Through)</span>
+                </button>
             </div>
         </div>
 
@@ -142,7 +148,7 @@
             { fStyle: "step", minH: 58, maxH: 68, price: 60, wheel: "24\"", frame: "Low Entry", img: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Girl Torker at front of house $60.png" }
         ];
 
-        let currentFrame = 'any';
+        let currentFrame = 'high'; // Defaulting to Male to match initial active button
 
         function initApp() { 
             renderGallery(); 
@@ -189,7 +195,7 @@
         function setFrameStyle(val) {
             currentFrame = val;
             document.querySelectorAll('.style-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById('btn-' + val).classList.add('active');
+            document.getElementById('btn-' + (val === 'any' ? 'any' : val === 'high' ? 'high' : 'step')).classList.add('active');
             filterBikes();
         }
 
