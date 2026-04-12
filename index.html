@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Bicycle Matchmaker | Pro Stealth</title>
+    <title>Bicycle Matchmaker | Visual Geometry</title>
     <style>
         :root {
             --bg-color: #000000;
@@ -13,27 +13,31 @@
 
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-            background: var(--bg-color); 
-            color: var(--text-main); 
-            padding: 40px 20px; 
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center; 
-            min-height: 100vh;
-            -webkit-font-smoothing: antialiased;
+            background: var(--bg-color); color: var(--text-main); 
+            padding: 40px 20px; margin: 0;
+            display: flex; flex-direction: column; align-items: center; 
+            min-height: 100vh; -webkit-font-smoothing: antialiased;
         }
         
         h1 { font-size: 32px; font-weight: 600; margin-bottom: 8px; text-align: center; }
         .sub-header { font-size: 16px; color: var(--text-dim); margin-bottom: 40px; text-align: center; }
 
-        .filter-interface { max-width: 500px; width: 100%; margin-bottom: 50px; }
+        .filter-interface { max-width: 550px; width: 100%; margin-bottom: 50px; }
         .input-group { margin-bottom: 35px; }
         .group-label { font-size: 11px; font-weight: 600; margin-bottom: 15px; display: block; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1.5px; text-align: center; }
 
-        .gender-toggle { display: flex; gap: 10px; justify-content: center; }
-        .gender-btn { padding: 8px 18px; border: 1px solid var(--border); background: transparent; color: var(--text-main); border-radius: 18px; cursor: pointer; transition: all 0.2s ease; font-size: 13px; }
-        .gender-btn.active { background: var(--text-main); color: var(--bg-color); border-color: var(--text-main); }
+        /* VISUAL BUTTONS */
+        .style-toggle { display: flex; gap: 12px; justify-content: center; }
+        .style-btn { 
+            padding: 10px 20px; border: 1px solid var(--border); background: transparent; 
+            color: var(--text-main); border-radius: 14px; cursor: pointer; 
+            transition: all 0.2s ease; font-size: 13px;
+            display: flex; flex-direction: column; align-items: center; gap: 8px;
+            min-width: 100px;
+        }
+        .style-btn svg { width: 24px; height: 24px; opacity: 0.6; transition: opacity 0.2s; }
+        .style-btn.active { background: var(--text-main); color: var(--bg-color); border-color: var(--text-main); }
+        .style-btn.active svg { opacity: 1; stroke: var(--bg-color); }
 
         .slider-wrapper { position: relative; padding: 15px 0; }
         input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; cursor: pointer; position: relative; z-index: 2; }
@@ -52,62 +56,46 @@
         .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 25px; width: 100%; max-width: 1000px; }
 
         .card { 
-            background: #111; 
-            padding: 20px; 
-            border-radius: 18px; 
-            display: flex; 
-            flex-direction: column;
-            align-items: center;
+            background: #111; padding: 20px; border-radius: 18px; 
+            display: flex; flex-direction: column; align-items: center;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            opacity: 1;
-            position: relative;
-            overflow: hidden;
-            height: 220px; 
+            opacity: 1; position: relative; overflow: hidden; height: 220px; 
         }
-
         .card.hidden { display: none; opacity: 0; }
+        .card img { max-width: 100%; height: 130px; object-fit: scale-down; border-radius: 10px; margin-bottom: 12px; transition: transform 0.4s ease; }
+        .price-tag { color: var(--text-main); font-size: 20px; font-weight: 600; transition: transform 0.4s ease, opacity 0.3s ease; }
 
-        .card img { 
-            max-width: 100%; height: 130px; object-fit: scale-down; 
-            border-radius: 10px; margin-bottom: 12px;
-            transition: transform 0.4s ease;
-        }
-
-        .price-tag { 
-            color: var(--text-main); font-size: 20px; font-weight: 600; 
-            transition: transform 0.4s ease, opacity 0.3s ease;
-        }
-
-        /* Hover Reveal Logic */
         .specs-overlay {
-            position: absolute;
-            bottom: -50px; /* Hidden below */
-            opacity: 0;
-            transition: all 0.3s ease;
-            color: var(--text-dim);
-            font-size: 13px;
-            text-align: center;
+            position: absolute; bottom: -50px; opacity: 0;
+            transition: all 0.3s ease; color: var(--text-dim); font-size: 13px; text-align: center;
         }
-
         .card:hover { transform: translateY(-5px); background: #161616; }
         .card:hover img { transform: scale(1.05); }
         .card:hover .price-tag { transform: translateY(-15px); }
         .card:hover .specs-overlay { bottom: 20px; opacity: 1; }
-
     </style>
 </head>
 <body onload="initApp()">
 
     <h1>Stop Walking. Start Rolling.</h1>
-    <p class="sub-header">Mechanical freedom.</p>
+    <p class="sub-header">Gas/Battery blackhole free transportation</p>
 
     <div class="filter-interface">
         <div class="input-group">
-            <span class="group-label">Style</span>
-            <div class="gender-toggle">
-                <button class="gender-btn active" id="btn-any" onclick="setGender('any')">All</button>
-                <button class="gender-btn" id="btn-male" onclick="setGender('male')">Male</button>
-                <button class="gender-btn" id="btn-female" onclick="setGender('female')">Female</button>
+            <span class="group-label">Frame Style</span>
+            <div class="style-toggle">
+                <button class="style-btn active" id="btn-any" onclick="setFrameStyle('any')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+                    All Bikes
+                </button>
+                <button class="style-btn" id="btn-high" onclick="setFrameStyle('high')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 18l4-10h12l-4 10z"/></svg>
+                    High Bar
+                </button>
+                <button class="style-btn" id="btn-step" onclick="setFrameStyle('step')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 18s4-4 8-4 8 4 8 4z"/></svg>
+                    Step-Thru
+                </button>
             </div>
         </div>
 
@@ -136,20 +124,20 @@
 
     <script>
         const bikeDatabase = [
-            { style: "female", minH: 48, maxH: 68, price: 120, wheel: "24\"", frame: "13\"", img: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Blue checker board girl bike - 120F2413.png" },
-            { style: "male", minH: 62, maxH: 72, price: 180, wheel: "26\"", frame: "18\"", img: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Green Haro $180 25 cm.jpg" },
-            { style: "any", minH: 40, maxH: 55, price: 80, wheel: "20\"", frame: "Junior", img: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Green Front Suspension 6 speed Elementary School Bike $80.jpg" },
-            { style: "female", minH: 58, maxH: 68, price: 60, wheel: "24\"", frame: "Step-Thru", img: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Girl Torker at front of house $60.png" }
+            { fStyle: "step", minH: 48, maxH: 68, price: 120, wheel: "24\"", frame: "13\"", img: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Blue checker board girl bike - 120F2413.png" },
+            { fStyle: "high", minH: 62, maxH: 72, price: 180, wheel: "26\"", frame: "18\"", img: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Green Haro $180 25 cm.jpg" },
+            { fStyle: "any", minH: 40, maxH: 55, price: 80, wheel: "20\"", frame: "Junior", img: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Green Front Suspension 6 speed Elementary School Bike $80.jpg" },
+            { fStyle: "step", minH: 58, maxH: 68, price: 60, wheel: "24\"", frame: "Low Entry", img: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Girl Torker at front of house $60.png" }
         ];
 
-        let selectedSex = 'any';
+        let currentFrame = 'any';
 
         function initApp() { renderGallery(); filterBikes(); }
 
         function renderGallery() {
             const gallery = document.getElementById('bikeGallery');
             gallery.innerHTML = bikeDatabase.map(bike => `
-                <div class="card" data-style="${bike.style}" data-minh="${bike.minH}" data-maxh="${bike.maxH}" data-price="${bike.price}">
+                <div class="card" data-fstyle="${bike.fStyle}" data-minh="${bike.minH}" data-maxh="${bike.maxH}" data-price="${bike.price}">
                     <img src="${bike.img}">
                     <div class="price-tag">$${bike.price}</div>
                     <div class="specs-overlay">
@@ -171,9 +159,9 @@
             filterBikes();
         }
 
-        function setGender(val) {
-            selectedSex = val;
-            document.querySelectorAll('.gender-btn').forEach(b => b.classList.remove('active'));
+        function setFrameStyle(val) {
+            currentFrame = val;
+            document.querySelectorAll('.style-btn').forEach(b => b.classList.remove('active'));
             document.getElementById('btn-' + val).classList.add('active');
             filterBikes();
         }
@@ -184,7 +172,7 @@
             const b = Math.round(30 + (1000 - 30) * Math.pow(rawB / 100, 3));
             
             document.querySelectorAll('.card').forEach(card => {
-                const match = (selectedSex === 'any' || selectedSex === card.dataset.style) &&
+                const match = (currentFrame === 'any' || currentFrame === card.dataset.fstyle) &&
                               (h >= card.dataset.minh && h <= card.dataset.maxh) &&
                               (card.dataset.price <= b);
                 if (match) { card.classList.remove('hidden'); setTimeout(() => card.style.opacity = "1", 10); } 
