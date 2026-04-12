@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Bicycle Matchmaker | Pro Instant</title>
+    <title>Bicycle Matchmaker | Pro Compact</title>
     <style>
         :root {
             --bg-color: #000000;
@@ -16,7 +16,7 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
             background: var(--bg-color); 
             color: var(--text-main); 
-            padding: 80px 20px; 
+            padding: 40px 20px; /* Reduced top padding */
             margin: 0;
             display: flex;
             flex-direction: column;
@@ -26,39 +26,40 @@
         }
         
         .version-badge {
-            font-size: 10px;
+            font-size: 9px;
             color: var(--text-dim); 
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             text-transform: uppercase;
             letter-spacing: 2px;
         }
 
+        /* Scaled down headers */
         h1 { 
-            font-size: 56px; 
+            font-size: 38px; 
             font-weight: 600; 
             letter-spacing: -0.015em;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             text-align: center;
         }
 
         .sub-header { 
-            font-size: 24px; 
+            font-size: 18px; 
             color: var(--text-dim); 
-            margin-bottom: 80px; 
+            margin-bottom: 40px; 
             text-align: center;
         }
 
         .filter-interface { 
-            max-width: 600px; 
+            max-width: 500px; 
             width: 100%; 
-            margin-bottom: 80px;
+            margin-bottom: 50px;
         }
 
-        .input-group { margin-bottom: 60px; }
+        .input-group { margin-bottom: 40px; }
         .group-label { 
-            font-size: 14px; 
+            font-size: 12px; 
             font-weight: 600; 
-            margin-bottom: 25px; 
+            margin-bottom: 20px; 
             display: block; 
             color: var(--text-dim); 
             text-transform: uppercase; 
@@ -68,29 +69,28 @@
 
         .gender-toggle { 
             display: flex; 
-            gap: 12px; 
+            gap: 10px; 
             justify-content: center;
         }
 
         .gender-btn {
-            padding: 12px 24px;
+            padding: 10px 20px;
             border: 1px solid var(--border);
             background: transparent;
             color: var(--text-main);
-            border-radius: 20px;
+            border-radius: 18px;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            font-size: 15px;
+            transition: all 0.2s ease;
+            font-size: 14px;
         }
 
-        .gender-btn:hover { border-color: var(--text-main); }
         .gender-btn.active {
             background: var(--text-main);
             color: var(--bg-color);
             border-color: var(--text-main);
         }
 
-        .slider-wrapper { position: relative; padding: 25px 0; }
+        .slider-wrapper { position: relative; padding: 20px 0; }
 
         input[type=range] {
             -webkit-appearance: none;
@@ -106,6 +106,7 @@
             background: #333;
         }
 
+        /* BICYCLE ICON ANIMATION */
         input[type=range]::-webkit-slider-thumb {
             height: 38px;
             width: 38px;
@@ -116,34 +117,47 @@
             background-size: contain;
             border: none;
             cursor: grab;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+            transition: transform 0.1s ease; /* Animation Speed */
+        }
+
+        input[type=range]:active::-webkit-slider-thumb {
+            transform: scale(1.1) rotate(-5deg); /* Animates when you click/drag */
+            cursor: grabbing;
         }
 
         .slider-row {
             display: flex;
             justify-content: space-between;
-            margin-top: 15px;
+            margin-top: 10px;
         }
 
-        .row-title { color: var(--text-dim); font-size: 17px; }
-        .row-val { color: var(--text-main); font-weight: 500; font-size: 17px; }
+        .row-title { color: var(--text-dim); font-size: 15px; }
+        .row-val { color: var(--text-main); font-weight: 500; font-size: 15px; }
 
         .gallery { 
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px; 
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 30px; 
             width: 100%;
-            max-width: 1200px;
+            max-width: 1100px;
         }
 
         .card { 
             background: #111; 
-            padding: 30px; 
-            border-radius: 28px; 
+            padding: 20px; 
+            border-radius: 18px; 
             display: flex; 
             flex-direction: column;
+            align-items: center;
             transition: transform 0.4s ease, opacity 0.4s ease;
             opacity: 1;
+            max-height: 280px; 
+            border: 1px solid transparent;
+        }
+
+        .card:hover { 
+            transform: translateY(-8px);
+            border-color: #222;
         }
 
         .card.hidden {
@@ -151,24 +165,30 @@
             opacity: 0;
         }
 
-        .card:hover { transform: translateY(-10px); }
-        .card img { width: 100%; height: 260px; object-fit: cover; border-radius: 18px; margin-bottom: 24px; }
-        .card-title { font-size: 24px; font-weight: 600; margin-bottom: 8px; }
-        .card-text { color: var(--text-dim); font-size: 16px; line-height: 1.5; }
+        .card img { 
+            max-width: 100%;
+            height: 140px; 
+            object-fit: scale-down; 
+            border-radius: 12px; 
+            margin-bottom: 12px;
+        }
+
+        .card-title { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
+        .card-text { color: var(--text-dim); font-size: 13px; line-height: 1.5; text-align: center; }
     </style>
 </head>
 <body onload="initApp()">
 
-    <div class="version-badge">Version 44.0 | Pro Instant Motion</div>
+    <div class="version-badge">Version 46.0 | Compact & Animated</div>
 
     <h1>Stop Walking. Start Rolling.</h1>
-    <p class="sub-header">The Gas / Battery black hole free Machine.</p>
+    <p class="sub-header">Pure mechanical freedom.</p>
 
     <div class="filter-interface">
         <div class="input-group">
-            <span class="group-label">Choose your style</span>
+            <span class="group-label">Style</span>
             <div class="gender-toggle">
-                <button class="gender-btn active" id="btn-any" onclick="setGender('any')">All Models</button>
+                <button class="gender-btn active" id="btn-any" onclick="setGender('any')">All</button>
                 <button class="gender-btn" id="btn-male" onclick="setGender('male')">Male</button>
                 <button class="gender-btn" id="btn-female" onclick="setGender('female')">Female</button>
             </div>
@@ -189,7 +209,7 @@
                 <input type="range" id="userBudget" min="0" max="100" value="30" step="0.1" oninput="handleBudgetInput(this.value)">
             </div>
             <div class="slider-row">
-                <span class="row-title">Maximum Budget</span>
+                <span class="row-title">Budget Limit</span>
                 <span id="budgetLabel" class="row-val">$56</span>
             </div>
         </div>
@@ -199,10 +219,10 @@
 
     <script>
         const bikeDatabase = [
-            { name: "Blue Checker", style: "female", minHeight: 48, maxHeight: 68, price: 120, specs: "24\" Wheels • 13\" Frame", img: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Blue checker board girl bike - 120F2413.png" },
-            { name: "Green Haro", style: "male", minHeight: 62, maxHeight: 72, price: 180, specs: "26\" Wheels • 18\" Frame", img: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Green Haro $180 25 cm.jpg" },
-            { name: "Elementary Special", style: "any", minHeight: 40, maxHeight: 55, price: 80, specs: "20\" Wheels • Kids Frame", img: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Green Front Suspension 6 speed Elementary School Bike $80.jpg" },
-            { name: "Torker Cruiser", style: "female", minHeight: 58, maxHeight: 68, price: 60, specs: "24\" Wheels • Steel Frame", img: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Girl Torker at front of house $60.png" }
+            { name: "Blue Checker", style: "female", minHeight: 48, maxHeight: 68, price: 120, wheel: "24\"", frame: "13\"", img: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Blue checker board girl bike - 120F2413.png" },
+            { name: "Green Haro", style: "male", minHeight: 62, maxHeight: 72, price: 180, wheel: "26\"", frame: "18\"", img: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Green Haro $180 25 cm.jpg" },
+            { name: "Elementary Special", style: "any", minHeight: 40, maxHeight: 55, price: 80, wheel: "20\"", frame: "Small", img: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Green Front Suspension 6 speed Elementary School Bike $80.jpg" },
+            { name: "Torker Cruiser", style: "female", minHeight: 58, maxHeight: 68, price: 60, wheel: "24\"", frame: "Step-Thru", img: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Girl Torker at front of house $60.png" }
         ];
 
         let selectedSex = 'any';
@@ -218,7 +238,10 @@
                 <div class="card" data-style="${bike.style}" data-minh="${bike.minHeight}" data-maxh="${bike.maxHeight}" data-price="${bike.price}">
                     <img src="${bike.img}">
                     <div class="card-title">${bike.name}</div>
-                    <div class="card-text">${bike.specs}<br>$${bike.price}</div>
+                    <div class="card-text">
+                        Price: $${bike.price} | Wheel: ${bike.wheel}<br>
+                        Frame: ${bike.frame}
+                    </div>
                 </div>
             `).join('');
         }
