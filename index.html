@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Bicycle Matchmaker | Hybrid Labels</title>
+    <title>Bicycle Matchmaker | Auto-Crop Pro</title>
     <style>
         :root {
             --bg-color: #000000;
@@ -46,7 +46,7 @@
         .style-btn { 
             flex: 1; padding: 10px; border: 1px solid var(--border); 
             background: transparent; color: var(--text-main); border-radius: 10px; 
-            cursor: pointer; transition: all 0.2s ease; font-size: 11px; font-weight: 600;
+            cursor: pointer; transition: all 0.2s ease; font-size: 10px; font-weight: 600;
             text-transform: uppercase;
         }
         .style-btn.active { background: var(--accent); color: var(--bg-color); border-color: var(--accent); }
@@ -64,24 +64,43 @@
         .slider-row { display: flex; justify-content: space-between; margin-top: 4px; font-size: 13px; color: var(--text-dim); }
         .row-val { color: var(--text-main); font-weight: 500; }
 
-        /* GALLERY & HOVER LOGIC */
-        .gallery { display: flex; justify-content: center; gap: clamp(20px, 4vw, 50px); width: 100%; max-width: 900px; margin-top: 15px; }
+        /* UNIFORM IMAGE CLIPPING GALLERY */
+        .gallery { display: flex; justify-content: center; gap: clamp(15px, 3vw, 40px); width: 100%; max-width: 1000px; margin-top: 15px; }
 
-        .card { display: flex; flex-direction: column; align-items: center; width: 180px; text-align: center; cursor: default; }
-        .card img { width: 100%; height: clamp(100px, 15vh, 140px); object-fit: contain; margin-bottom: 8px; transition: transform 0.3s ease; }
+        .card { display: flex; flex-direction: column; align-items: center; width: 200px; text-align: center; }
         
-        .info-container { position: relative; height: 40px; width: 100%; }
+        /* Fixed Aspect Ratio Container */
+        .img-container {
+            width: 100%;
+            aspect-ratio: 4 / 3; /* Forces all images to the same box size */
+            overflow: hidden;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.03); /* Subtle backdrop for transparent PNGs */
+            border-radius: 12px;
+        }
+
+        .card img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: contain; /* Scales image to fit without cropping it out of view */
+            transition: transform 0.3s ease; 
+        }
+        
+        .info-container { position: relative; height: 30px; width: 100%; }
         .price-tag { 
             font-size: 18px; font-weight: 600; position: absolute; width: 100%; top: 0; left: 0;
             transition: opacity 0.2s ease, transform 0.2s ease;
         }
         .specs-overlay { 
-            font-size: 11px; color: var(--text-dim); position: absolute; width: 100%; top: 5px; left: 0;
+            font-size: 11px; color: var(--text-dim); position: absolute; width: 100%; top: 2px; left: 0;
             opacity: 0; transform: translateY(5px); transition: opacity 0.2s ease, transform 0.2s ease;
             white-space: nowrap;
         }
 
-        .card:hover img { transform: scale(1.05); }
+        .card:hover img { transform: scale(1.08); }
         .card:hover .price-tag { opacity: 0; transform: translateY(-5px); }
         .card:hover .specs-overlay { opacity: 1; transform: translateY(0); }
     </style>
@@ -90,7 +109,7 @@
 
     <div class="corner-stat top-l" id="liveDate">APRIL 12, 2026</div>
     <div class="corner-stat top-r" id="liveClock">--:-- --</div>
-    <div class="corner-stat bot-l">V59.0</div>
+    <div class="corner-stat bot-l">V60.0</div>
     <div class="corner-stat bot-r" id="screenSize">0X0</div>
 
     <h1>Stop Walking. Start Rolling.</h1>
@@ -98,7 +117,7 @@
 
     <div class="filter-interface">
         <div class="input-group">
-            <span class="group-label">Choose your frame style</span>
+            <span class="group-label">Choose rider frame style</span>
             <div class="style-toggle">
                 <button class="style-btn active" id="btn-any" onclick="setFrameStyle('any')">Unisex</button>
                 <button class="style-btn" id="btn-high" onclick="setFrameStyle('high')">Male / High Bar</button>
@@ -157,7 +176,9 @@
             const gallery = document.getElementById('bikeGallery');
             gallery.innerHTML = bikeDatabase.map(bike => `
                 <div class="card" data-fstyle="${bike.fStyle}" data-minh="${bike.minH}" data-maxh="${bike.maxH}" data-price="${bike.price}">
-                    <img src="${bike.img}">
+                    <div class="img-container">
+                        <img src="${bike.img}">
+                    </div>
                     <div class="info-container">
                         <div class="price-tag">$${bike.price}</div>
                         <div class="specs-overlay">WHEEL: ${bike.wheel} • FRAME: ${bike.frame}</div>
