@@ -123,7 +123,7 @@
 </head>
 <body onload="initApp()">
 
-    <div class="version-badge">PROGRAM VERSION: 32.0 | DATE: 2026-04-12 | TIME: 3:45 PM</div>
+    <div class="version-badge">PROGRAM VERSION: 33.0 | DATE: 2026-04-12 | TIME: 3:55 PM</div>
 
     <h1>Stop Walking, Start Rolling</h1>
     <p class="sub-header">Gas / Battery black hole free</p>
@@ -187,7 +187,6 @@
             animateSliders();
         }
 
-        // Stops the intro animation if the user touches anything
         function manualOverride() {
             animationActive = false;
         }
@@ -195,36 +194,46 @@
         function animateSliders() {
             const targetHeight = 65;
             const targetBudget = 400;
-            const duration = 2000;
+            
+            const durationH = 20000; // 20 Seconds
+            const durationB = 15000; // 15 Seconds
+            
             const startTime = performance.now();
 
             function step(currentTime) {
-                if (!animationActive) return; // Exit loop if user interacted
+                if (!animationActive) return;
 
                 const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                const easeOut = 1 - Math.pow(1 - progress, 3);
+                
+                // Calculate separate progress for each slider
+                const progressH = Math.min(elapsed / durationH, 1);
+                const progressB = Math.min(elapsed / durationB, 1);
+                
+                // Linear movement looks more "constant pace" for slow speeds
+                const currentH = Math.round(36 + (targetHeight - 36) * progressH);
+                const currentB = Math.round(30 + (targetBudget - 30) * progressB);
 
-                const currentH = Math.round(36 + (targetHeight - 36) * easeOut);
-                const currentB = Math.round(30 + (targetBudget - 30) * easeOut);
+                if (progressH <= 1) {
+                    document.getElementById('userHeight').value = currentH;
+                    updateHeight(currentH);
+                }
 
-                document.getElementById('userHeight').value = currentH;
-                updateHeight(currentH);
+                if (progressB <= 1) {
+                    document.getElementById('userBudget').value = currentB;
+                    updateBudget(currentB);
+                }
 
-                document.getElementById('userBudget').value = currentB;
-                updateBudget(currentB);
-
-                if (progress < 1) {
+                if (progressH < 1 || progressB < 1) {
                     requestAnimationFrame(step);
                 } else {
-                    animationActive = false; // Animation finished naturally
+                    animationActive = false;
                 }
             }
             requestAnimationFrame(step);
         }
 
         function setGender(val) {
-            manualOverride(); // Stop animation on click
+            manualOverride();
             selectedSex = val;
             document.querySelectorAll('.gender-btn').forEach(b => b.classList.remove('active'));
             document.getElementById('btn-' + val).classList.add('active');
