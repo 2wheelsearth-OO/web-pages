@@ -1,4 +1,3 @@
-<!-- VERSION 66.15.0 - Fixed UI Width / Gallery Isolation / No Jitter -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,11 +26,10 @@
             display: flex; 
             flex-direction: column; 
             align-items: center; 
-            justify-content: flex-start; /* Start from top to prevent vertical jumping */
+            justify-content: flex-start; 
             padding-top: 40px;
         }
 
-        /* Fixed elements */
         .corner { position: fixed; font-size: 10px; color: var(--dim); letter-spacing: 0.1em; text-transform: uppercase; z-index: 100; opacity: 0.4; }
         .tl { top: 10px; left: 15px; } .tr { top: 10px; right: 15px; }
         .bl { bottom: 10px; left: 15px; } .br { bottom: 10px; right: 15px; }
@@ -46,9 +44,8 @@
         }
         .sub { font-size: 11px; color: var(--dim); margin-top: 2px; opacity: 0.7; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* HARD-FIXED WIDTH UI CONTAINER */
         .ui { 
-            width: 400px; /* Locked width - will not change regardless of gallery content */
+            width: 400px; 
             min-width: 400px; 
             max-width: 400px;
             z-index: 10; 
@@ -58,7 +55,6 @@
         }
         
         .group { margin-bottom: 18px; position: relative; width: 100%; } 
-        
         .type-label { font-size: 11px; color: var(--dim); text-transform: uppercase; text-align: center; display: block; margin-bottom: 8px; font-weight: 600; opacity: 0.6; }
         .row { display: flex; gap: 8px; }
         .btn { 
@@ -68,31 +64,11 @@
         }
         .btn.active { background: var(--box); color: #fff; border-color: var(--highlight); }
 
-        .sld-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 6px;
-            height: 20px;
-        }
+        .sld-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; height: 20px; }
         .sld-title { font-size: 13px; color: var(--dim); }
         .sld-value { font-size: 16px; font-weight: 800; color: var(--txt); font-variant-numeric: tabular-nums; }
 
-        .sld-input-container {
-            width: 100%;
-            height: 24px;
-            display: flex;
-            align-items: center;
-        }
-
-        input[type=range] { 
-            -webkit-appearance: none; 
-            width: 100%; 
-            background: transparent; 
-            cursor: pointer; 
-            margin: 0;
-        }
-        
+        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; cursor: pointer; margin: 0; }
         input[type=range]::-webkit-slider-runnable-track { height: 1px; background: #3c4043; }
         input[type=range]::-webkit-slider-thumb {
             height: 24px; width: 24px; -webkit-appearance: none; margin-top: -12px; 
@@ -101,243 +77,24 @@
         }
 
         .match-feedback-row { height: 16px; margin-top: 4px; text-align: right; }
-        .match-msg { 
-            font-size: 12px; 
-            color: var(--highlight); 
-            font-weight: 800; 
-            text-transform: uppercase; 
-            visibility: hidden;
-        }
+        .match-msg { font-size: 12px; color: var(--highlight); font-weight: 800; text-transform: uppercase; visibility: hidden; }
         .match-msg.show { visibility: visible; }
 
-        /* GALLERY SECTION ISOLATION */
         .gallery-container {
-            width: 100%;
-            flex-grow: 1; /* Take up remaining space */
-            position: relative;
-            display: flex;
-            align-items: flex-start;
-            justify-content: center;
-            margin-top: 10px;
-            overflow: hidden;
+            width: 100%; flex-grow: 1; position: relative;
+            display: flex; align-items: flex-start; justify-content: center;
+            margin-top: 10px; overflow: hidden;
         }
 
         .gallery { 
-            display: flex; 
-            gap: 15px; 
-            width: 100%; 
-            justify-content: center; 
-            overflow-x: auto; 
-            padding: 20px;
-            z-index: 5;
-            scrollbar-width: none;
+            display: flex; gap: 15px; width: 100%; justify-content: center; 
+            overflow-x: auto; padding: 20px; z-index: 5; scrollbar-width: none;
         }
         .gallery::-webkit-scrollbar { display: none; }
 
         .watermark { 
-            position: absolute; 
-            width: 180px; 
-            opacity: 0.06; 
-            filter: invert(1); 
-            pointer-events: none; 
-            top: 100px; left: 50%; transform: translateX(-50%); 
+            position: absolute; width: 180px; opacity: 0.06; filter: invert(1); 
+            pointer-events: none; top: 100px; left: 50%; transform: translateX(-50%); 
         }
         
         .card { width: 160px; flex-shrink: 0; text-align: center; display: none; }
-        .img-box { 
-            background: rgba(255,255,255,0.03); 
-            border-radius: 12px;
-            aspect-ratio: 1/1; 
-            display: flex; align-items: center; justify-content: center; 
-            overflow: hidden; 
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .card img { max-width: 85%; max-height: 85%; object-fit: contain; }
-
-        .price-label { font-size: 18px; font-weight: 800; margin-top: 8px; color: var(--txt); font-variant-numeric: tabular-nums; }
-        .debug-filename {
-            font-size: 9px; color: #ffb74d; margin-top: 4px;
-            font-family: monospace; opacity: 0.6;
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-            padding: 0 5px;
-        }
-        .debug-specs { font-size: 10px; color: var(--dim); font-family: monospace; font-weight: bold; margin-top: 2px; }
-        
-        #loading-status { position: absolute; top: 100px; font-size: 11px; color: var(--dim); text-transform: uppercase; letter-spacing: 0.2em; }
-    </style>
-</head>
-<body onload="init()">
-
-    <div class="corner tl" id="d">DATE</div>
-    <div class="corner tr" id="t">TIME</div>
-    <div class="corner bl">V66.15.0</div>
-    <div class="corner br" id="s">RES</div>
-
-    <div class="header-wrap">
-        <h1>Stop Walking. Start Rolling.</h1>
-        <p class="sub">Local Inventory Matchmaker</p>
-    </div>
-
-    <!-- UI container is now hard-coded to 400px wide -->
-    <div class="ui">
-        <div class="group">
-            <span class="type-label">Frame Style</span>
-            <div class="row">
-                <button class="btn" id="b-M" onclick="setS('M')">High-Bar</button>
-                <button class="btn active" id="b-any" onclick="setS('any')">Mixed</button>
-                <button class="btn" id="b-F" onclick="setS('F')">Step-Thru</button>
-            </div>
-        </div>
-
-        <div class="group">
-            <div class="sld-header">
-                <span class="sld-title">Rider Height</span>
-                <span id="hL" class="sld-value">5'8" (173cm)</span>
-            </div>
-            <div class="sld-input-container">
-                <input type="range" id="hS" min="40" max="82" value="68" oninput="runUpdate()">
-            </div>
-        </div>
-
-        <div class="group">
-            <div class="sld-header">
-                <span class="sld-title">Ideal Budget</span>
-                <span id="bL" class="sld-value">$200</span>
-            </div>
-            <div class="sld-input-container">
-                <input type="range" id="bS" min="0" max="100" value="30" oninput="runUpdate()">
-            </div>
-            <div class="match-feedback-row">
-                <div id="matchRange" class="match-msg">Matching Catalog...</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="gallery-container">
-        <img src="https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/collagraphy%20bike%20logo.png" class="watermark">
-        <div id="loading-status">Connecting...</div>
-        <div class="gallery" id="bike-gallery"></div>
-    </div>
-
-    <script>
-        const GITHUB_API = "https://api.github.com/repos/2wheelsearth-OO/Assets/contents/";
-        const RAW_URL = "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/";
-
-        let inventory = [];
-        let styleFilter = 'any';
-
-        function parseBikeData(name) {
-            const pattern = /(\d+)([MFU])(\d{4})/i;
-            const match = name.match(pattern);
-            if (!match) return null;
-            
-            const wPart = match[3].substring(0, 2);
-            const wSize = wPart === '70' ? "700C" : wPart;
-            const fSize = parseInt(match[3].substring(2));
-
-            return {
-                id: name,
-                file: name,
-                price: parseInt(match[1]),
-                type: match[2].toUpperCase(),
-                wheel: wSize,
-                frame: fSize,
-                isChild: (parseInt(wPart) <= 20),
-                img: RAW_URL + encodeURIComponent(name)
-            };
-        }
-
-        async function init() {
-            try {
-                const res = await fetch(GITHUB_API);
-                const files = await res.json();
-                inventory = files
-                    .filter(f => /\.(png|jpg|jpeg|webp)$/i.test(f.name))
-                    .map(f => parseBikeData(f.name))
-                    .filter(b => b !== null)
-                    .sort((a, b) => a.price - b.price);
-
-                document.getElementById('loading-status').style.display = 'none';
-                const gallery = document.getElementById('bike-gallery');
-                
-                inventory.forEach(b => {
-                    const card = document.createElement('div');
-                    card.className = 'card';
-                    card.id = `bike-${b.id}`;
-                    card.innerHTML = `
-                        <div class="img-box"><img loading="lazy" src="${b.img}"></div>
-                        <div class="price-label">$${b.price}</div>
-                        <div class="debug-filename">${b.file}</div>
-                        <div class="debug-specs">${b.wheel} Whl / ${b.frame}" Frame</div>
-                    `;
-                    gallery.appendChild(card);
-                });
-                runUpdate();
-            } catch (e) { console.error("Load failed", e); }
-            setInterval(updateClock, 1000);
-            updateClock();
-        }
-
-        function setS(val) {
-            styleFilter = val;
-            document.querySelectorAll('.btn').forEach(b => b.classList.toggle('active', b.id === `b-${val}`));
-            runUpdate();
-        }
-
-        function runUpdate() {
-            if (!inventory.length) return;
-            
-            const riderH = parseFloat(document.getElementById('hS').value);
-            const budgetIn = document.getElementById('bS').value;
-            const targetPrice = Math.round(50 + (1000 - 50) * Math.pow(budgetIn / 100, 2));
-            
-            const ft = Math.floor(riderH / 12);
-            const inch = Math.round(riderH % 12);
-            const metric = Math.round(riderH * 2.54);
-            
-            document.getElementById('hL').innerText = `${ft}'${inch}" (${metric}cm)`;
-            document.getElementById('bL').innerText = `$${targetPrice}`;
-
-            const isAdult = (riderH >= 60);
-            let spreadFound = 50;
-            let winners = [];
-
-            for (let s = 50; s >= 0; s -= 5) {
-                spreadFound = s;
-                winners = inventory.filter(b => {
-                    const priceOk = (b.price >= (targetPrice - s) && b.price <= (targetPrice + s));
-                    const typeOk = (styleFilter === 'any' || b.type === 'U' || b.type === styleFilter);
-                    const ageOk = (isAdult !== b.isChild);
-                    let sizeOk = !b.isChild 
-                        ? (riderH >= (b.frame + 44) && riderH <= (b.frame + 58)) 
-                        : (riderH >= (b.frame + 30) && riderH <= (b.frame + 55));
-                    return priceOk && typeOk && ageOk && sizeOk;
-                });
-                if (winners.length <= 3) break;
-            }
-
-            const msg = document.getElementById('matchRange');
-            if (winners.length > 0) {
-                msg.innerText = `MATCHES FOUND: $${targetPrice - spreadFound} — $${targetPrice + spreadFound}`;
-                msg.classList.add('show');
-            } else {
-                msg.classList.remove('show');
-            }
-
-            const winnerIds = winners.map(w => w.id);
-            inventory.forEach(b => {
-                const el = document.getElementById(`bike-${b.id}`);
-                if (el) el.style.display = winnerIds.includes(b.id) ? 'block' : 'none';
-            });
-        }
-
-        function updateClock() {
-            const now = new Date();
-            document.getElementById('d').innerText = now.toLocaleDateString().toUpperCase();
-            document.getElementById('t').innerText = now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
-            const res = document.getElementById('s');
-            if(res) res.innerText = `${window.innerWidth}X${window.innerHeight}`;
-        }
-    </script>
-</body>
-</html>
