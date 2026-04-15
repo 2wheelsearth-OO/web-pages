@@ -1,4 +1,4 @@
-<!-- VERSION 66.11.7 - Updated Repository Paths & Inventory Sync -->
+<!-- VERSION 66.11.10 - Smart Filename Parsing (No IDs required) -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,6 +14,8 @@
             --dim: #9aa0a6;
             --brd: #3c4043;
             --box: #1e1e21;
+            --accent: #4c4c4f;
+            --highlight: #72f272;
         }
 
         html, body { 
@@ -60,19 +62,22 @@
             letter-spacing: -0.01em;
         }
 
-        .btn.active { background: var(--box); color: var(--txt); border-color: #4c4c4f; }
+        .btn.active { background: var(--box); color: var(--txt); border-color: var(--accent); }
 
-        .sld-wrap { padding: 15px 0 5px; }
-        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
+        .sld-wrap { padding: 15px 0 5px; position: relative; }
+        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; position: relative; z-index: 2; }
         input[type=range]::-webkit-slider-runnable-track { height: 1px; background: #2a2a2e; }
         input[type=range]::-webkit-slider-thumb {
-            height: 24px; width: 24px; -webkit-appearance: none; margin-top: -23px; 
+            height: 24px; width: 24px; -webkit-appearance: none; margin-top: -12px; 
             background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23c4c7c5" stroke-width="2"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-3 11.5V14l-3-3 4-3 2 3h2"/></svg>') no-repeat center;
             background-size: contain; filter: drop-shadow(0 2px 2px #000);
+            cursor: pointer;
         }
 
         .vals { display: flex; justify-content: space-between; font-size: 11px; color: var(--dim); margin-top: 4px; }
         .bold { color: var(--txt); font-weight: 500; }
+        
+        .range-msg { font-size: 9px; text-align: center; color: var(--highlight); margin-top: 6px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
 
         .gallery-container {
             flex: 1;
@@ -112,13 +117,13 @@
         }
         
         .card { 
-            width: 220px; 
+            width: 200px; 
             text-align: center; 
             display: none; 
             z-index: 2; 
             margin-bottom: 20px; 
             content-visibility: auto;
-            contain-intrinsic-size: 220px 200px;
+            contain-intrinsic-size: 200px 180px;
         }
         .img-box { 
             background: rgba(255,255,255,0.02); 
@@ -147,7 +152,7 @@
 
     <div class="corner tl" id="d">DATE</div>
     <div class="corner tr" id="t">TIME</div>
-    <div class="corner bl">V66.11.7</div>
+    <div class="corner bl">V66.11.10</div>
     <div class="corner br" id="s">RES</div>
 
     <div class="header-wrap">
@@ -171,72 +176,78 @@
         </div>
 
         <div class="group">
-            <div class="sld-wrap"><input type="range" id="bS" min="0" max="100" value="30" oninput="upd()"></div>
+            <div class="sld-wrap">
+                <input type="range" id="bS" min="0" max="100" value="30" oninput="upd()">
+            </div>
             <div class="vals"><span>Target Budget</span><span id="bL" class="bold">$200</span></div>
-            <div style="font-size: 9px; text-align: center; color: var(--dim); margin-top: 4px; opacity: 0.6;">Showing bikes within +/- $50</div>
+            <div id="rangeDisplay" class="range-msg">Showing +/- $50</div>
         </div>
     </div>
 
     <div class="gallery-container">
-        <!-- New URL for logo -->
         <img src="https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/collagraphy%20bike%20logo.png" class="watermark">
         <div class="gallery" id="g"></div>
     </div>
 
     <script>
-        const dbRaw = [
-            { id: "200M7023", file: "23 fram Hybrid 700C- 200M7023.png" },
-            { id: "120F2413", file: "Blue checker board girl bike - 120F2413.png" },
-            { id: "180M2021", file: "Green Haro 180M2021.jpg" },
-            { id: "60F2019",  file: "Girl Torker at front of house 60F2019.png" },
-            { id: "600M2618", file: "FULL SUSPENSION TREK FUEL 600M2618.jpg" },
-            { id: "160M2720", file: "Team USA Road Bike 160M2720.jpg" },
-            { id: "400M2618", file: "TREK 3500 WITH ACCESSORY 400M2618.jpg" },
-            { id: "200F2416", file: "Vevor-200F2416.jpg" },
-            { id: "60F2017",  file: "Pink Torker Girl 60F2017.jpg" },
-            { id: "480U2617", file: "Trek 3900 480U2617.jpg" },
-            { id: "1000U2618", file: "Miltary Rank TIDAL FORCE Folding 1000 Watt E...png" }, 
-            { id: "240U2616", file: "Disc Break Alum Full suspension 240U2616.jpg" },
-            { id: "200M2618", file: "1992 BMX RideHard Inferno bicycle $200 18half top tube.png" },
-            { id: "200M2019", file: "200M2019.png" }
+        // List only the filenames. As long as the filename contains 
+        // a code like "200M7023", the script will figure out the rest.
+        const fileList = [
+            "23 fram Hybrid 700C- 200M7023.png",
+            "Blue checker board girl bike - 120F2413.png",
+            "Green Haro 180M2021.jpg",
+            "Girl Torker at front of house 60F2019.png",
+            "FULL SUSPENSION TREK FUEL 600M2618.jpg",
+            "Team USA Road Bike 160M2720.jpg",
+            "TREK 3500 WITH ACCESSORY 400M2618.jpg",
+            "Vevor-200F2416.jpg",
+            "Pink Torker Girl 60F2017.jpg",
+            "Trek 3900 480U2617.jpg",
+            "Miltary Rank TIDAL FORCE Folding 1000 Watt E 1000U2618.png", 
+            "Disc Break Alum Full suspension 240U2616.jpg",
+            "1992 BMX RideHard Inferno bicycle $200 18half top tube 200M2618.png",
+            "200M2019.png"
         ];
 
         let bikes = [];
         let curS = 'any';
 
-        function parseBikeId(bike) {
-            const match = bike.id.match(/([MFU])/i);
+        function extractDataFromFilename(filename) {
+            // This regex looks for: Digits(Price) + [M,F,U](Type) + Digits(Wheel/Frame)
+            const regex = /(\d+)([MFU])(\d{4})/i;
+            const match = filename.match(regex);
+            
             if (!match) return null;
-            const mfuIndex = match.index;
-            const price = parseInt(bike.id.substring(0, mfuIndex));
-            const mfu = bike.id[mfuIndex].toUpperCase();
-            const tail = bike.id.substring(mfuIndex + 1);
+
+            const price = parseInt(match[1]);
+            const mfu = match[2].toUpperCase();
+            const tail = match[3];
             const wheelSize = parseInt(tail.substring(0, 2));
             const frameSize = parseInt(tail.substring(2));
             const isChildrenWheel = (wheelSize <= 20);
-            
-            // Central Repository Reference
             const baseUrl = "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/";
             
             return {
-                id: bike.id,
+                id: filename, // Use filename as the unique key
                 price,
                 mfu,
                 wheelSize: wheelSize === 70 ? "700C" : wheelSize,
                 numWheel: wheelSize,
                 frameSize,
                 isChildrenWheel,
-                url: baseUrl + encodeURIComponent(bike.file)
+                url: baseUrl + encodeURIComponent(filename)
             };
         }
 
         function init() {
-            bikes = dbRaw.map(parseBikeId).filter(b => b !== null);
+            // Map the simple file list into bike objects
+            bikes = fileList.map(extractDataFromFilename).filter(b => b !== null);
+            
             const g = document.getElementById('g');
             bikes.forEach(b => {
                 const div = document.createElement('div');
                 div.className = 'card';
-                div.id = `card-${b.id}`;
+                div.id = `card-${b.id}`; // The id is now the filename string
                 div.innerHTML = `
                     <div class="img-box">
                         <img loading="lazy" decoding="async" src="${b.url}" onerror="this.src='https://via.placeholder.com/220x165/1e1e21/9aa0a6?text=Image+Missing'">
@@ -267,20 +278,39 @@
 
             const riderIsAdultHeight = (h >= 60);
 
+            let bestSpread = 50;
+            let currentMatches = [];
+
+            // Shrink range loop to keep results <= 3
+            for (let spread = 50; spread >= 0; spread -= 5) {
+                bestSpread = spread;
+                currentMatches = bikes.filter(bike => {
+                    const priceMatch = (bike.price >= (targetBudget - spread) && bike.price <= (targetBudget + spread));
+                    const typeMatch = (curS === 'any' || bike.mfu === 'U' || bike.mfu === curS);
+                    const categoryMatch = (riderIsAdultHeight !== bike.isChildrenWheel);
+                    
+                    let frameMatch = false;
+                    if (!bike.isChildrenWheel) {
+                        frameMatch = (h >= (bike.frameSize + 44) && h <= (bike.frameSize + 58));
+                    } else {
+                        frameMatch = (h >= (bike.frameSize + 30) && h <= (bike.frameSize + 55));
+                    }
+                    return priceMatch && typeMatch && categoryMatch && frameMatch;
+                });
+
+                if (currentMatches.length <= 3) break;
+            }
+
+            const minB = targetBudget - bestSpread;
+            const maxB = targetBudget + bestSpread;
+            document.getElementById('rangeDisplay').innerText = 
+                currentMatches.length === 0 ? "No matches found" : 
+                `Best matches ($${minB} — $${maxB})`;
+            
+            const matchIds = currentMatches.map(m => m.id);
             bikes.forEach(bike => {
                 const el = document.getElementById(`card-${bike.id}`);
-                const priceMatch = (bike.price >= (targetBudget - 50) && bike.price <= (targetBudget + 50));
-                const typeMatch = (curS === 'any' || bike.mfu === 'U' || bike.mfu === curS);
-                const categoryMatch = (riderIsAdultHeight !== bike.isChildrenWheel);
-                
-                let frameMatch = false;
-                if (!bike.isChildrenWheel) {
-                    frameMatch = (h >= (bike.frameSize + 44) && h <= (bike.frameSize + 58));
-                } else {
-                    frameMatch = (h >= (bike.frameSize + 30) && h <= (bike.frameSize + 55));
-                }
-
-                el.style.display = (priceMatch && typeMatch && categoryMatch && frameMatch) ? 'block' : 'none';
+                el.style.display = matchIds.includes(bike.id) ? 'block' : 'none';
             });
         }
 
