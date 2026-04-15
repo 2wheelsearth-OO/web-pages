@@ -1,4 +1,4 @@
-<!-- VERSION 66.9.4 - Compact ID Logic: Auto-detecting Price, Type, Wheel, and Frame -->
+<!-- VERSION 66.9.7 - Hard-Synced Filenames from GitHub Assets Screenshot -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -118,6 +118,7 @@
             align-items: center; 
             justify-content: center; 
             overflow: visible; 
+            position: relative;
         }
         .card img { 
             max-width: 100%; 
@@ -125,6 +126,7 @@
             object-fit: contain; 
             transition: transform 0.5s cubic-bezier(0.2, 1, 0.3, 1); 
             filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+            z-index: 2;
         }
         .card:hover img { transform: translateY(-15px) scale(1.1); }
         .price { font-size: 18px; font-weight: 600; margin-top: 10px; color: var(--txt); letter-spacing: 0.05em; }
@@ -135,7 +137,7 @@
 
     <div class="corner tl" id="d">DATE</div>
     <div class="corner tr" id="t">TIME</div>
-    <div class="corner bl">V66.9.4</div>
+    <div class="corner bl">V66.9.7</div>
     <div class="corner br" id="s">RES</div>
 
     <div class="header-wrap">
@@ -170,45 +172,47 @@
     </div>
 
     <script>
-        // Database using your Compact Naming Convention: PriceMFUWheelSizeFrameSize
+        // Filenames here are copied EXACTLY from your GitHub Assets screenshot.
+        // Spaces and specific extensions (.jpg vs .png) are critical.
         const dbRaw = [
-            { id: "120F2413", url: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Blue%20checker%20board%20girl%20bike%20-%20120F2413.png" },
-            { id: "180M2618", url: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Green%20Haro%20180M2021.jpg" },
-            { id: "60F2419",  url: "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/Girl%20Torker%20at%20front%20of%20house%2060F2019.png" },
-            { id: "250U7021", url: "https://via.placeholder.com/220x165/1e1e21/9aa0a6?text=Road+700C" },
-            { id: "90U2012",  url: "https://via.placeholder.com/220x165/1e1e21/9aa0a6?text=BMX+20" }
+            { id: "120F2413", file: "Blue checker board girl bike - 120F2413.png" },
+            { id: "180M2021", file: "Green Haro 180M2021.jpg" },
+            { id: "60F2019",  file: "Girl Torker at front of house 60F2019.png" },
+            { id: "600M2618", file: "FULL SUSPENSION TREK FUEL 600M2618.jpg" },
+            { id: "160M2720", file: "Team USA Road Bike 160M2720.jpg" },
+            { id: "400M2618", file: "TREK 3500 WITH ACCESSORY 400M2618.jpg" },
+            { id: "200F2416", file: "Vevor-200F2416.jpg" },
+            { id: "60F2017",  file: "Pink Torker Girl 60F2017.jpg" },
+            { id: "480U2617", file: "Trek 3900 480U2617.jpg" },
+            { id: "200M7023", file: "23 fram Hybrid 700C- 200M7023.png" }
         ];
 
         let bikes = [];
         let curS = 'any';
 
         function parseBikeId(bike) {
-            // Find the character index (M, F, or U)
             const match = bike.id.match(/([MFU])/i);
             if (!match) return null;
 
             const mfuIndex = match.index;
             const price = parseInt(bike.id.substring(0, mfuIndex));
             const mfu = bike.id[mfuIndex].toUpperCase();
-            
-            // Post-letter string (e.g., 2413 or 7021)
             const specs = bike.id.substring(mfuIndex + 1);
             const wheelSize = parseInt(specs.substring(0, 2));
             const frameSize = parseInt(specs.substring(2));
 
             let minH, maxH;
-            
-            // Applied measurement definitions:
             if (wheelSize >= 24) {
-                // Seat tube measurement (Crank to top of seat tube)
                 minH = frameSize + 44; 
                 maxH = frameSize + 56;
             } else {
-                // Horizontal measurement (Seat post center to wheel shaft center)
-                // for wheel size 20 or smaller
                 minH = frameSize + 32; 
                 maxH = frameSize + 50;
             }
+
+            // Create the full GitHub Raw URL
+            const baseUrl = "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/";
+            const fullUrl = baseUrl + encodeURIComponent(bike.file);
 
             return {
                 id: bike.id,
@@ -218,7 +222,7 @@
                 frameSize,
                 minH,
                 maxH,
-                url: bike.url
+                url: fullUrl
             };
         }
 
@@ -232,7 +236,7 @@
                 div.id = `card-${b.id}`;
                 div.innerHTML = `
                     <div class="img-box">
-                        <img src="${b.url}" onerror="this.src='https://via.placeholder.com/220x165/1e1e21/9aa0a6?text=Bike+Photo'">
+                        <img src="${b.url}" onerror="this.src='https://via.placeholder.com/220x165/1e1e21/9aa0a6?text=Check+Filename'">
                     </div>
                     <div class="price">$${b.price}</div>
                     <div class="debug-id">${b.wheelSize} whl / ${b.frameSize}" frm</div>
@@ -254,6 +258,7 @@
         function upd() {
             const h = parseFloat(document.getElementById('hS').value);
             const bRaw = document.getElementById('bS').value;
+            // Budget logic: slider 0-100 maps to $50 - $1000
             const budgetLimit = Math.round(50 + (1000 - 50) * Math.pow(bRaw / 100, 2));
             
             document.getElementById('hL').innerText = `${Math.floor(h/12)}'${Math.round(h%12)}"`;
@@ -264,7 +269,6 @@
                 const typeMatch = (curS === 'any' || bike.mfu === 'U' || bike.mfu === curS);
                 const heightMatch = (h >= bike.minH && h <= bike.maxH);
                 const budgetMatch = (bike.price <= budgetLimit);
-
                 el.style.display = (typeMatch && heightMatch && budgetMatch) ? 'block' : 'none';
             });
         }
