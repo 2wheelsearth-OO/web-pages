@@ -1,4 +1,4 @@
-<!-- VERSION 66.12.1 - Debug Mode: Filenames visible for management -->
+<!-- VERSION 66.12.5 - Reverted Icons & Readability Fix -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,57 +16,60 @@
             --box: #1e1e21;
             --accent: #4c4c4f;
             --highlight: #72f272;
+            --font-main: 16px;
         }
 
         html, body { 
             height: 100vh; overflow: hidden; margin: 0; 
             background: var(--bg); color: var(--txt);
-            font-family: "Google Sans", sans-serif;
+            font-family: "Google Sans", -apple-system, sans-serif;
             -webkit-font-smoothing: antialiased;
+            font-size: var(--font-main);
         }
 
-        body { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 40px 10px 20px; box-sizing: border-box; }
+        body { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 20px 10px 10px; box-sizing: border-box; }
 
-        .corner { position: fixed; font-size: 10px; color: var(--dim); letter-spacing: 0.1em; text-transform: uppercase; z-index: 100; }
-        .tl { top: 15px; left: 20px; } .tr { top: 15px; right: 20px; }
-        .bl { bottom: 15px; left: 20px; } .br { bottom: 15px; right: 20px; }
+        .corner { position: fixed; font-size: 11px; color: var(--dim); letter-spacing: 0.1em; text-transform: uppercase; z-index: 100; opacity: 0.5; }
+        .tl { top: 10px; left: 15px; } .tr { top: 10px; right: 15px; }
+        .bl { bottom: 10px; left: 15px; } .br { bottom: 10px; right: 15px; }
         
-        .header-wrap { width: 100%; max-width: 600px; text-align: center; margin-bottom: 20px; padding: 0 10px; }
+        .header-wrap { width: 100%; max-width: 600px; text-align: center; margin-bottom: 12px; }
         
         h1 { 
             font-family: 'Permanent Marker', cursive; 
-            font-size: 1.8rem;
+            font-size: 2rem; 
             line-height: 1;
             margin: 0; 
-            opacity: 0.7; 
-            white-space: nowrap; 
+            opacity: 0.8; 
             display: inline-block;
-            transform: scaleY(1.4) rotate(-0.5deg);
-            letter-spacing: -0.02em;
+            transform: scaleY(1.2) rotate(-0.5deg);
             text-transform: uppercase;
         }
 
-        .sub { font-size: 11px; color: var(--dim); margin-top: 10px; letter-spacing: 0.05em; opacity: 0.6; }
+        .sub { font-size: 13px; color: var(--dim); margin-top: 4px; opacity: 0.7; }
 
-        .ui { width: 100%; max-width: 550px; margin-bottom: 10px; position: relative; z-index: 10; }
-        .group { margin-bottom: 16px; }
-        .label { font-size: 9px; color: var(--dim); text-transform: uppercase; text-align: center; display: block; margin-bottom: 8px; opacity: 0.5; }
+        .ui { width: 100%; max-width: 500px; margin-bottom: 5px; position: relative; z-index: 10; }
+        .group { margin-bottom: 10px; } 
+        
+        .label { font-size: 12px; color: var(--dim); text-transform: uppercase; text-align: center; display: block; margin-bottom: 4px; font-weight: 600; opacity: 0.6; }
 
-        .row { display: flex; gap: 4px; padding: 0 5px; }
+        .row { display: flex; gap: 6px; padding: 0 5px; }
+        
         .btn { 
-            flex: 1; padding: 14px 4px; border: 1px solid var(--brd); background: transparent; 
-            color: var(--dim); border-radius: 10px; cursor: pointer; font-size: 8px;
-            transition: 0.2s; text-transform: uppercase; line-height: 1;
-            display: flex; align-items: center; justify-content: center; text-align: center;
-            white-space: nowrap; 
-            letter-spacing: -0.01em;
+            flex: 1; padding: 10px 4px; border: 1px solid var(--brd); background: transparent; 
+            color: var(--dim); border-radius: 10px; cursor: pointer; 
+            font-size: 12px; font-weight: 600;
+            text-transform: uppercase;
+            display: flex; align-items: center; justify-content: center;
         }
 
-        .btn.active { background: var(--box); color: var(--txt); border-color: var(--accent); }
+        .btn.active { background: var(--box); color: #fff; border-color: var(--highlight); }
 
-        .sld-wrap { padding: 15px 0 5px; position: relative; }
-        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; position: relative; z-index: 2; }
-        input[type=range]::-webkit-slider-runnable-track { height: 1px; background: #2a2a2e; }
+        .sld-wrap { padding: 6px 0 2px; position: relative; }
+        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; cursor: pointer; }
+        input[type=range]::-webkit-slider-runnable-track { height: 1px; background: #3c4043; }
+        
+        /* RESTORED ORIGINAL SLIDER THUMB ICON */
         input[type=range]::-webkit-slider-thumb {
             height: 24px; width: 24px; -webkit-appearance: none; margin-top: -12px; 
             background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23c4c7c5" stroke-width="2"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-3 11.5V14l-3-3 4-3 2 3h2"/></svg>') no-repeat center;
@@ -74,96 +77,77 @@
             cursor: pointer;
         }
 
-        .vals { display: flex; justify-content: space-between; font-size: 11px; color: var(--dim); margin-top: 4px; }
-        .bold { color: var(--txt); font-weight: 500; }
+        .vals { display: flex; justify-content: space-between; font-size: 14px; color: var(--dim); margin-top: 1px; }
+        .bold { color: var(--txt); font-weight: 700; font-size: 16px; }
         
-        .range-msg { font-size: 9px; text-align: center; color: var(--highlight); margin-top: 6px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+        .range-msg { font-size: 13px; text-align: center; color: var(--highlight); margin-top: 2px; font-weight: 700; text-transform: uppercase; }
 
         .gallery-container {
             flex: 1;
             width: 100%;
             position: relative;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             overflow: hidden;
+            margin-top: 5px;
         }
 
         .gallery { 
             display: flex; 
             gap: 15px; 
             width: 100%; 
-            max-width: 900px; 
+            max-width: 1000px; 
             justify-content: center; 
-            flex-wrap: wrap; 
-            overflow-y: auto; 
-            padding: 20px;
+            flex-wrap: nowrap; 
+            overflow-x: auto; 
+            padding: 10px;
             box-sizing: border-box;
             z-index: 5;
-            scroll-behavior: smooth;
         }
 
         .watermark { 
             position: absolute; 
-            width: 280px; 
+            width: 250px; 
             opacity: 0.02; 
             filter: invert(1); 
             pointer-events: none; 
-            top: 50%; 
-            left: 50%; 
-            transform: translate(-50%, -50%); 
-            z-index: 1; 
+            top: 50%; left: 50%; transform: translate(-50%, -50%); 
         }
         
-        .card { 
-            width: 200px; 
-            text-align: center; 
-            display: none; 
-            z-index: 2; 
-            margin-bottom: 20px; 
-        }
+        .card { width: 230px; flex-shrink: 0; text-align: center; display: none; }
         .img-box { 
             background: rgba(255,255,255,0.02); 
             border-radius: 12px;
             aspect-ratio: 4/3; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
+            display: flex; align-items: center; justify-content: center; 
             overflow: hidden; 
-            position: relative;
+            border: 1px solid rgba(255,255,255,0.05);
         }
-        .card img { 
-            max-width: 100%; 
-            max-height: 100%; 
-            object-fit: contain; 
-            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3));
-        }
-        .price { font-size: 18px; font-weight: 600; margin-top: 10px; color: var(--txt); letter-spacing: 0.05em; }
+        .card img { max-width: 100%; max-height: 100%; object-fit: contain; }
+
+        .price { font-size: 22px; font-weight: 800; margin-top: 8px; color: var(--txt); }
         
-        /* New Filename Debug Style */
+        /* INCREASED SIZE TO MATCH CHAT WINDOW (~14-16px) */
         .filename-debug {
-            font-size: 8px;
-            color: #fb8c00;
-            margin-top: 6px;
-            font-family: monospace;
-            background: rgba(0,0,0,0.3);
-            padding: 4px;
-            border-radius: 4px;
-            word-break: break-all;
-            border: 1px dashed rgba(251, 140, 0, 0.3);
+            font-size: 15px; color: #ffb74d; margin-top: 6px;
+            font-family: monospace; background: rgba(0,0,0,0.2);
+            padding: 5px; border-radius: 4px; word-break: break-all;
+            border: 1px dashed rgba(255,255,255,0.1);
+            line-height: 1.2;
         }
 
-        .debug-id { font-size: 9px; color: var(--dim); margin-top: 4px; font-family: monospace; }
+        /* INCREASED SIZE TO MATCH CHAT WINDOW */
+        .debug-id { font-size: 14px; color: var(--dim); margin-top: 4px; font-family: monospace; font-weight: bold; }
         
-        #loading { font-size: 10px; color: var(--dim); text-transform: uppercase; letter-spacing: 0.2em; }
+        #loading { font-size: 12px; color: var(--dim); text-transform: uppercase; letter-spacing: 0.2em; }
     </style>
 </head>
 <body onload="init()">
 
     <div class="corner tl" id="d">DATE</div>
     <div class="corner tr" id="t">TIME</div>
-    <div class="corner bl">V66.12.1</div>
+    <div class="corner bl">V66.12.5</div>
     <div class="corner br" id="s">RES</div>
 
     <div class="header-wrap">
@@ -187,17 +171,15 @@
         </div>
 
         <div class="group">
-            <div class="sld-wrap">
-                <input type="range" id="bS" min="0" max="100" value="30" oninput="upd()">
-            </div>
+            <div class="sld-wrap"><input type="range" id="bS" min="0" max="100" value="30" oninput="upd()"></div>
             <div class="vals"><span>Target Budget</span><span id="bL" class="bold">$200</span></div>
-            <div id="rangeDisplay" class="range-msg">Scanning inventory...</div>
+            <div id="rangeDisplay" class="range-msg">Scanning...</div>
         </div>
     </div>
 
     <div class="gallery-container">
         <img src="https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/collagraphy%20bike%20logo.png" class="watermark">
-        <div id="loading">Connecting to Repo...</div>
+        <div id="loading">Connecting...</div>
         <div class="gallery" id="g"></div>
     </div>
 
@@ -212,21 +194,14 @@
             const regex = /(\d+)([MFU])(\d{4})/i;
             const match = filename.match(regex);
             if (!match) return null;
-
-            const price = parseInt(match[1]);
-            const mfu = match[2].toUpperCase();
-            const tail = match[3];
-            const wheelSize = parseInt(tail.substring(0, 2));
-            const frameSize = parseInt(tail.substring(2));
-            
+            const wheelSize = parseInt(match[3].substring(0, 2));
             return {
                 id: filename,
-                filename: filename, // Keep original name for display
-                price,
-                mfu,
+                filename: filename,
+                price: parseInt(match[1]),
+                mfu: match[2].toUpperCase(),
                 wheelSize: wheelSize === 70 ? "700C" : wheelSize,
-                numWheel: wheelSize,
-                frameSize,
+                frameSize: parseInt(match[3].substring(2)),
                 isChildrenWheel: (wheelSize <= 20),
                 url: RAW_BASE_URL + encodeURIComponent(filename)
             };
@@ -236,48 +211,39 @@
             try {
                 const response = await fetch(GITHUB_REPO_URL);
                 const files = await response.json();
-                
                 bikes = files
                     .filter(file => /\.(png|jpg|jpeg|webp)$/i.test(file.name))
                     .map(file => extractDataFromFilename(file.name))
-                    .filter(b => b !== null);
+                    .filter(b => b !== null)
+                    .sort((a, b) => a.price - b.price);
 
                 document.getElementById('loading').style.display = 'none';
-                
                 const g = document.getElementById('g');
                 bikes.forEach(b => {
                     const div = document.createElement('div');
                     div.className = 'card';
                     div.id = `card-${b.id}`;
                     div.innerHTML = `
-                        <div class="img-box">
-                            <img loading="lazy" src="${b.url}">
-                        </div>
+                        <div class="img-box"><img loading="lazy" src="${b.url}"></div>
                         <div class="price">$${b.price}</div>
                         <div class="filename-debug">${b.filename}</div>
                         <div class="debug-id">${b.wheelSize} whl / ${b.frameSize}" frm</div>
                     `;
                     g.appendChild(div);
                 });
-
                 upd();
-            } catch (err) {
-                document.getElementById('loading').innerText = "Sync Error: Check Connection";
-                console.error(err);
-            }
+            } catch (err) { console.error(err); }
             setInterval(tick, 1000);
         }
 
         function setS(val) {
             curS = val;
-            document.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
-            document.getElementById(`b-${val}`).classList.add('active');
+            document.querySelectorAll('.btn').forEach(b => b.classList.toggle('active', b.id === `b-${val}`));
             upd();
         }
 
         function upd() {
-            if (bikes.length === 0) return;
-
+            if (!bikes.length) return;
             const h = parseFloat(document.getElementById('hS').value);
             const bRaw = document.getElementById('bS').value;
             const targetBudget = Math.round(50 + (1000 - 50) * Math.pow(bRaw / 100, 2));
@@ -292,30 +258,20 @@
             for (let spread = 50; spread >= 0; spread -= 5) {
                 bestSpread = spread;
                 currentMatches = bikes.filter(bike => {
-                    const priceMatch = (bike.price >= (targetBudget - spread) && bike.price <= (targetBudget + spread));
-                    const typeMatch = (curS === 'any' || bike.mfu === 'U' || bike.mfu === curS);
-                    const categoryMatch = (riderIsAdultHeight !== bike.isChildrenWheel);
-                    
-                    let frameMatch = false;
-                    if (!bike.isChildrenWheel) {
-                        frameMatch = (h >= (bike.frameSize + 44) && h <= (bike.frameSize + 58));
-                    } else {
-                        frameMatch = (h >= (bike.frameSize + 30) && h <= (bike.frameSize + 55));
-                    }
-                    return priceMatch && typeMatch && categoryMatch && frameMatch;
+                    const pMatch = (bike.price >= (targetBudget - spread) && bike.price <= (targetBudget + spread));
+                    const tMatch = (curS === 'any' || bike.mfu === 'U' || bike.mfu === curS);
+                    const cMatch = (riderIsAdultHeight !== bike.isChildrenWheel);
+                    let fMatch = !bike.isChildrenWheel ? (h >= (bike.frameSize + 44) && h <= (bike.frameSize + 58)) : (h >= (bike.frameSize + 30) && h <= (bike.frameSize + 55));
+                    return pMatch && tMatch && cMatch && fMatch;
                 });
                 if (currentMatches.length <= 3) break;
             }
 
-            const minB = targetBudget - bestSpread;
-            const maxB = targetBudget + bestSpread;
-            document.getElementById('rangeDisplay').innerText = 
-                currentMatches.length === 0 ? "No matches found" : `Best matches ($${minB} — $${maxB})`;
-            
+            document.getElementById('rangeDisplay').innerText = currentMatches.length ? `Matches ($${targetBudget - bestSpread} — $${targetBudget + bestSpread})` : "No matches";
             const matchIds = currentMatches.map(m => m.id);
-            bikes.forEach(bike => {
-                const el = document.getElementById(`card-${bike.id}`);
-                if (el) el.style.display = matchIds.includes(bike.id) ? 'block' : 'none';
+            bikes.forEach(b => {
+                const el = document.getElementById(`card-${b.id}`);
+                if (el) el.style.display = matchIds.includes(b.id) ? 'block' : 'none';
             });
         }
 
