@@ -1,30 +1,74 @@
 :root {
-    --bg: #0e0e11; --txt: #e3e3e3; --dim: #9aa0a6;
-    --brd: #3c4043; --box: #1e1e21; --highlight: #72f272;
+    --bg: #0e0e11; 
+    --txt: #e3e3e3; 
+    --dim: #9aa0a6;
+    --brd: #3c4043; 
+    --box: #1e1e21; 
+    --highlight: #72f272;
 }
 
 html, body { 
-    height: 100%; margin: 0; background: var(--bg); color: var(--txt);
-    font-family: sans-serif; overflow: hidden;
-    display: flex; flex-direction: column; align-items: center; padding-top: 40px;
+    height: 100%; 
+    margin: 0; 
+    background: var(--bg); 
+    color: var(--txt);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+    overflow-x: hidden; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    padding-top: 40px;
 }
 
-.corner { position: fixed; font-size: 10px; color: var(--dim); text-transform: uppercase; opacity: 0.4; }
-.tl { top: 10px; left: 15px; } .tr { top: 10px; right: 15px; }
+/* Fixed HUD Elements */
+.corner { position: fixed; font-size: 10px; color: var(--dim); letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.4; z-index: 100; }
+.tl { top: 10px; left: 15px; } 
+.tr { top: 10px; right: 15px; }
 
-.header-wrap { text-align: center; margin-bottom: 20px; }
-h1 { font-family: 'Permanent Marker', cursive; font-size: 1.6rem; text-transform: uppercase; }
+/* Header Section */
+.header-wrap { text-align: center; margin-bottom: 20px; flex-shrink: 0; }
+h1 { font-family: 'Permanent Marker', cursive; font-size: 1.8rem; margin: 0; text-transform: uppercase; color: var(--highlight); }
+.sub { font-size: 11px; color: var(--dim); text-transform: uppercase; letter-spacing: 2px; }
 
-.ui { width: 400px; z-index: 10; }
-.row { display: flex; gap: 8px; margin-top: 10px; }
-.btn { flex: 1; padding: 10px; border: 1px solid var(--brd); background: transparent; color: var(--dim); border-radius: 8px; cursor: pointer; text-transform: uppercase; }
+/* UI Controls */
+.ui { width: 400px; max-width: 90vw; z-index: 10; margin-bottom: 20px; }
+.group { margin-bottom: 15px; }
+.type-label { font-size: 10px; color: var(--dim); text-transform: uppercase; display: block; margin-bottom: 8px; text-align: center; }
+
+.row { display: flex; gap: 8px; }
+.btn { 
+    flex: 1; padding: 10px; border: 1px solid var(--brd); background: transparent; 
+    color: var(--dim); border-radius: 8px; cursor: pointer; font-size: 11px; 
+    font-weight: 600; text-transform: uppercase; transition: 0.2s;
+}
 .btn.active { background: var(--box); color: #fff; border-color: var(--highlight); }
 
-.sld-header { display: flex; justify-content: space-between; }
-.sld-value { color: var(--highlight); font-weight: bold; }
+/* Slider Styling */
+.sld-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
+.sld-title { font-size: 12px; color: var(--dim); }
+.sld-value { font-size: 14px; font-weight: bold; color: var(--highlight); }
 
-.gallery { display: flex; gap: 15px; padding: 20px; overflow-x: auto; }
+input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; cursor: pointer; }
+input[type=range]::-webkit-slider-runnable-track { height: 2px; background: var(--brd); }
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none; height: 18px; width: 18px; background: #fff; 
+    border-radius: 50%; margin-top: -8px; border: 2px solid var(--highlight);
+}
+
+/* Gallery & Cards */
+.gallery-container { width: 100%; display: flex; justify-content: center; }
+.gallery { 
+    display: flex; gap: 15px; padding: 20px; overflow-x: auto; 
+    scrollbar-width: none; /* Firefox */
+}
+.gallery::-webkit-scrollbar { display: none; /* Chrome/Safari */ }
+
 .card { 
     width: 160px; background: var(--box); border: 1px solid var(--brd); 
-    padding: 15px; border-radius: 12px; flex-shrink: 0; text-align: center; 
+    padding: 15px; border-radius: 12px; flex-shrink: 0; text-align: center;
+    transition: transform 0.2s;
 }
+.card:hover { transform: translateY(-5px); border-color: var(--highlight); }
+
+.card h3 { font-size: 14px; margin: 10px 0 5px 0; }
+.card p { font-size: 16px; font-weight: 800; color: var(--highlight); margin: 0; }
