@@ -1,4 +1,4 @@
-<!-- VERSION 66.12.5 - Reverted Icons & Readability Fix -->
+<!-- VERSION 66.12.8 - Restored Original Text & Details -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,24 +20,32 @@
         }
 
         html, body { 
-            height: 100vh; overflow: hidden; margin: 0; 
+            height: 100%; margin: 0; 
             background: var(--bg); color: var(--txt);
             font-family: "Google Sans", -apple-system, sans-serif;
             -webkit-font-smoothing: antialiased;
-            font-size: var(--font-main);
+            overflow: hidden;
         }
 
-        body { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 20px 10px 10px; box-sizing: border-box; }
+        /* Center the entire website on device display */
+        body { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            padding: 10px; 
+            box-sizing: border-box; 
+        }
 
         .corner { position: fixed; font-size: 11px; color: var(--dim); letter-spacing: 0.1em; text-transform: uppercase; z-index: 100; opacity: 0.5; }
         .tl { top: 10px; left: 15px; } .tr { top: 10px; right: 15px; }
         .bl { bottom: 10px; left: 15px; } .br { bottom: 10px; right: 15px; }
         
-        .header-wrap { width: 100%; max-width: 600px; text-align: center; margin-bottom: 12px; }
+        .header-wrap { width: 100%; max-width: 500px; text-align: center; margin-bottom: 8px; }
         
         h1 { 
             font-family: 'Permanent Marker', cursive; 
-            font-size: 2rem; 
+            font-size: 1.8rem; 
             line-height: 1;
             margin: 0; 
             opacity: 0.8; 
@@ -46,10 +54,11 @@
             text-transform: uppercase;
         }
 
+        /* Restored original styling */
         .sub { font-size: 13px; color: var(--dim); margin-top: 4px; opacity: 0.7; }
 
-        .ui { width: 100%; max-width: 500px; margin-bottom: 5px; position: relative; z-index: 10; }
-        .group { margin-bottom: 10px; } 
+        .ui { width: 100%; max-width: 500px; margin-bottom: 0px; position: relative; z-index: 10; }
+        .group { margin-bottom: 8px; } 
         
         .label { font-size: 12px; color: var(--dim); text-transform: uppercase; text-align: center; display: block; margin-bottom: 4px; font-weight: 600; opacity: 0.6; }
 
@@ -65,11 +74,11 @@
 
         .btn.active { background: var(--box); color: #fff; border-color: var(--highlight); }
 
-        .sld-wrap { padding: 6px 0 2px; position: relative; }
+        .sld-wrap { padding: 4px 0 2px; position: relative; }
         input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; cursor: pointer; }
         input[type=range]::-webkit-slider-runnable-track { height: 1px; background: #3c4043; }
         
-        /* RESTORED ORIGINAL SLIDER THUMB ICON */
+        /* Restored original slider thumb */
         input[type=range]::-webkit-slider-thumb {
             height: 24px; width: 24px; -webkit-appearance: none; margin-top: -12px; 
             background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23c4c7c5" stroke-width="2"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-3 11.5V14l-3-3 4-3 2 3h2"/></svg>') no-repeat center;
@@ -80,17 +89,25 @@
         .vals { display: flex; justify-content: space-between; font-size: 14px; color: var(--dim); margin-top: 1px; }
         .bold { color: var(--txt); font-weight: 700; font-size: 16px; }
         
-        .range-msg { font-size: 13px; text-align: center; color: var(--highlight); margin-top: 2px; font-weight: 700; text-transform: uppercase; }
+        /* Align Matches text to Target Budget right-side */
+        .range-msg { 
+            font-size: 13px; 
+            text-align: right; 
+            color: var(--highlight); 
+            margin-top: 1px; 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            padding-right: 5px;
+        }
 
         .gallery-container {
-            flex: 1;
             width: 100%;
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            margin-top: 5px;
+            margin-top: 0px; 
         }
 
         .gallery { 
@@ -101,7 +118,7 @@
             justify-content: center; 
             flex-wrap: nowrap; 
             overflow-x: auto; 
-            padding: 10px;
+            padding: 5px 10px;
             box-sizing: border-box;
             z-index: 5;
         }
@@ -115,7 +132,7 @@
             top: 50%; left: 50%; transform: translate(-50%, -50%); 
         }
         
-        .card { width: 230px; flex-shrink: 0; text-align: center; display: none; }
+        .card { width: 210px; flex-shrink: 0; text-align: center; display: none; }
         .img-box { 
             background: rgba(255,255,255,0.02); 
             border-radius: 12px;
@@ -126,18 +143,16 @@
         }
         .card img { max-width: 100%; max-height: 100%; object-fit: contain; }
 
-        .price { font-size: 22px; font-weight: 800; margin-top: 8px; color: var(--txt); }
+        .price { font-size: 20px; font-weight: 800; margin-top: 6px; color: var(--txt); }
         
-        /* INCREASED SIZE TO MATCH CHAT WINDOW (~14-16px) */
         .filename-debug {
-            font-size: 15px; color: #ffb74d; margin-top: 6px;
+            font-size: 15px; color: #ffb74d; margin-top: 4px;
             font-family: monospace; background: rgba(0,0,0,0.2);
             padding: 5px; border-radius: 4px; word-break: break-all;
             border: 1px dashed rgba(255,255,255,0.1);
             line-height: 1.2;
         }
 
-        /* INCREASED SIZE TO MATCH CHAT WINDOW */
         .debug-id { font-size: 14px; color: var(--dim); margin-top: 4px; font-family: monospace; font-weight: bold; }
         
         #loading { font-size: 12px; color: var(--dim); text-transform: uppercase; letter-spacing: 0.2em; }
@@ -147,7 +162,7 @@
 
     <div class="corner tl" id="d">DATE</div>
     <div class="corner tr" id="t">TIME</div>
-    <div class="corner bl">V66.12.5</div>
+    <div class="corner bl">V66.12.8</div>
     <div class="corner br" id="s">RES</div>
 
     <div class="header-wrap">
@@ -167,7 +182,7 @@
 
         <div class="group">
             <div class="sld-wrap"><input type="range" id="hS" min="40" max="82" value="68" oninput="upd()"></div>
-            <div class="vals"><span>Rider Height</span><span id="hL" class="bold">5'8"</span></div>
+            <div class="vals"><span>Rider Height</span><span id="hL" class="bold">5'8" (173cm)</span></div>
         </div>
 
         <div class="group">
@@ -248,7 +263,10 @@
             const bRaw = document.getElementById('bS').value;
             const targetBudget = Math.round(50 + (1000 - 50) * Math.pow(bRaw / 100, 2));
             
-            document.getElementById('hL').innerText = `${Math.floor(h/12)}'${Math.round(h%12)}"`;
+            const feet = Math.floor(h / 12);
+            const inches = Math.round(h % 12);
+            const cm = Math.round(h * 2.54);
+            document.getElementById('hL').innerText = `${feet}'${inches}" (${cm}cm)`;
             document.getElementById('bL').innerText = `$${targetBudget}`;
 
             const riderIsAdultHeight = (h >= 60);
