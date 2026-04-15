@@ -1,4 +1,4 @@
-<!-- VERSION 66.12.0 - Full GitHub API Integration (No manual file list) -->
+<!-- VERSION 66.12.1 - Debug Mode: Filenames visible for management -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -140,6 +140,20 @@
             filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3));
         }
         .price { font-size: 18px; font-weight: 600; margin-top: 10px; color: var(--txt); letter-spacing: 0.05em; }
+        
+        /* New Filename Debug Style */
+        .filename-debug {
+            font-size: 8px;
+            color: #fb8c00;
+            margin-top: 6px;
+            font-family: monospace;
+            background: rgba(0,0,0,0.3);
+            padding: 4px;
+            border-radius: 4px;
+            word-break: break-all;
+            border: 1px dashed rgba(251, 140, 0, 0.3);
+        }
+
         .debug-id { font-size: 9px; color: var(--dim); margin-top: 4px; font-family: monospace; }
         
         #loading { font-size: 10px; color: var(--dim); text-transform: uppercase; letter-spacing: 0.2em; }
@@ -149,12 +163,12 @@
 
     <div class="corner tl" id="d">DATE</div>
     <div class="corner tr" id="t">TIME</div>
-    <div class="corner bl">V66.12.0</div>
+    <div class="corner bl">V66.12.1</div>
     <div class="corner br" id="s">RES</div>
 
     <div class="header-wrap">
         <h1>Stop Walking. Start Rolling.</h1>
-        <p class="sub">Inventory synced live from GitHub</p>
+        <p class="sub">Inventory Management Mode</p>
     </div>
 
     <div class="ui">
@@ -188,7 +202,6 @@
     </div>
 
     <script>
-        // CONFIG: The app will now read all files from this folder automatically
         const GITHUB_REPO_URL = "https://api.github.com/repos/2wheelsearth-OO/Assets/contents/";
         const RAW_BASE_URL = "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/";
 
@@ -196,7 +209,6 @@
         let curS = 'any';
 
         function extractDataFromFilename(filename) {
-            // Pattern: [Price][M/F/U][WheelSize][FrameSize] e.g. 200M2618
             const regex = /(\d+)([MFU])(\d{4})/i;
             const match = filename.match(regex);
             if (!match) return null;
@@ -209,6 +221,7 @@
             
             return {
                 id: filename,
+                filename: filename, // Keep original name for display
                 price,
                 mfu,
                 wheelSize: wheelSize === 70 ? "700C" : wheelSize,
@@ -224,7 +237,6 @@
                 const response = await fetch(GITHUB_REPO_URL);
                 const files = await response.json();
                 
-                // Filter for image files and parse them
                 bikes = files
                     .filter(file => /\.(png|jpg|jpeg|webp)$/i.test(file.name))
                     .map(file => extractDataFromFilename(file.name))
@@ -242,6 +254,7 @@
                             <img loading="lazy" src="${b.url}">
                         </div>
                         <div class="price">$${b.price}</div>
+                        <div class="filename-debug">${b.filename}</div>
                         <div class="debug-id">${b.wheelSize} whl / ${b.frameSize}" frm</div>
                     `;
                     g.appendChild(div);
