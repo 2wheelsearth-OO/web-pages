@@ -1,14 +1,18 @@
+<!-- VERSION 66.15.0 - Professional Split Version -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Velocipede | Matchmaker</title>
+    <!-- External Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+    <!-- Professional Link to External CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
-<body onload="init()">
+<body>
 
+    <!-- Corner Status Indicators -->
     <div class="corner tl" id="d">DATE</div>
     <div class="corner tr" id="t">TIME</div>
     <div class="corner bl">V66.15.0</div>
@@ -19,7 +23,9 @@
         <p class="sub">Local Inventory Matchmaker</p>
     </div>
 
+    <!-- UI Container with Fixed Width to prevent jitter -->
     <div class="ui">
+        <!-- Frame Style Selection -->
         <div class="group">
             <span class="type-label">Frame Style</span>
             <div class="row">
@@ -29,6 +35,7 @@
             </div>
         </div>
 
+        <!-- Height Slider -->
         <div class="group">
             <div class="sld-header">
                 <span class="sld-title">Rider Height</span>
@@ -39,6 +46,7 @@
             </div>
         </div>
 
+        <!-- Budget Slider -->
         <div class="group">
             <div class="sld-header">
                 <span class="sld-title">Ideal Budget</span>
@@ -53,12 +61,32 @@
         </div>
     </div>
 
+    <!-- Isolated Gallery Area -->
     <div class="gallery-container">
         <img src="https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/collagraphy%20bike%20logo.png" class="watermark">
-        <div id="loading-status">Connecting...</div>
+        <div id="loading-status">Connecting to Inventory...</div>
         <div class="gallery" id="bike-gallery"></div>
     </div>
 
+    <!-- Professional Link to External Logic -->
     <script src="index.js"></script>
+    
+    <script>
+        /**
+         * Safe initialization: Prevents "ReferenceError: init is not defined"
+         * by waiting for the DOM to be ready and ensuring index.js is available.
+         */
+        document.addEventListener('DOMContentLoaded', () => {
+            const checkAndInit = () => {
+                if (typeof init === 'function') {
+                    init();
+                } else {
+                    // Try again in 50ms if script isn't ready
+                    setTimeout(checkAndInit, 50);
+                }
+            };
+            checkAndInit();
+        });
+    </script>
 </body>
 </html>
