@@ -2,41 +2,63 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Velocipede Matchmaker</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Velocipede | Matchmaker</title>
     <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <div class="container">
-        <div class="header-wrap">
-            <h1>VELOCIPEDE</h1>
-            <p>Matchmaker</p>
-        </div>
+<body onload="init()">
 
-        <div class="ui">
-            <div class="group">
-                <label class="sec-label">Bike Type</label>
-                <div class="row">
-                    <button class="btn active" onclick="filterType('all')">ALL</button>
-                    <button class="btn" onclick="filterType('road')">Road</button>
-                    <button class="btn" onclick="filterType('mtb')">MTB</button>
-                </div>
-            </div>
+    <div class="corner tl" id="d">DATE</div>
+    <div class="corner tr" id="t">TIME</div>
+    <div class="corner bl">V66.15.0</div>
+    <div class="corner br" id="s">RES</div>
 
-            <div class="group">
-                <div class="sld-header">
-                    <span class="sld-title">Max Price</span>
-                    <span id="price-display">$2000</span>
-                </div>
-                <input type="range" id="price-slider" min="200" max="5000" step="100" value="2000" oninput="updatePrice(this.value)">
+    <div class="header-wrap">
+        <h1>Stop Walking. Start Rolling.</h1>
+        <p class="sub">Local Inventory Matchmaker</p>
+    </div>
+
+    <div class="ui">
+        <div class="group">
+            <span class="type-label">Frame Style</span>
+            <div class="row">
+                <button class="btn" id="b-M" onclick="setS('M')">High-Bar</button>
+                <button class="btn active" id="b-any" onclick="setS('any')">Mixed</button>
+                <button class="btn" id="b-F" onclick="setS('F')">Step-Thru</button>
             </div>
         </div>
 
-        <div class="gallery-container">
-            <div id="bike-list" class="gallery"></div>
+        <div class="group">
+            <div class="sld-header">
+                <span class="sld-title">Rider Height</span>
+                <span id="hL" class="sld-value">5'8" (173cm)</span>
+            </div>
+            <div class="sld-input-container">
+                <input type="range" id="hS" min="40" max="82" value="68" oninput="runUpdate()">
+            </div>
+        </div>
+
+        <div class="group">
+            <div class="sld-header">
+                <span class="sld-title">Ideal Budget</span>
+                <span id="bL" class="sld-value">$200</span>
+            </div>
+            <div class="sld-input-container">
+                <input type="range" id="bS" min="0" max="100" value="30" oninput="runUpdate()">
+            </div>
+            <div class="match-feedback-row">
+                <div id="matchRange" class="match-msg">Matching Catalog...</div>
+            </div>
         </div>
     </div>
+
+    <div class="gallery-container">
+        <img src="https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/collagraphy%20bike%20logo.png" class="watermark">
+        <div id="loading-status">Connecting...</div>
+        <div class="gallery" id="bike-gallery"></div>
+    </div>
+
     <script src="index.js"></script>
 </body>
 </html>
