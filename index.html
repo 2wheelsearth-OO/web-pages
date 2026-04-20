@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Velocipede | Matchmaker</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=66.15.0">
+    
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -54,109 +56,22 @@
     </div>
 
     <div class="gallery-container">
-        <img src="https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/collagraphy%20bike%20logo.png" class="watermark">
+        <img src="https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/collagraphy%20bike%20logo.png" class="watermark" alt="Logo">
         <div id="loading-status">Connecting to Inventory...</div>
         <div class="gallery" id="bike-gallery"></div>
     </div>
 
-    <script src="index.js"></script>
-    
+    <script src="index.js" defer></script>
+
     <script>
         /**
-         * Safe initialization: Prevents "ReferenceError: init is not defined"
-         * by waiting for the DOM to be ready and ensuring index.js is available.
+         * Initialize once the DOM is ready. 
+         * No more polling loops needed thanks to 'defer' on index.js
          */
-        document.addEventListener('DOMContentLoaded', () => {
-            const checkAndInit = () => {
-                if (typeof init === 'function') {
-                    init();
-                } else {
-                    // Try again in 50ms if script isn't ready
-                    setTimeout(checkAndInit, 50);
-                }
-            };
-            checkAndInit();
-        });
-    </script>
-</body>
-</html><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Velocipede | Matchmaker</title>
-    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=66.15.0">
-</head>
-<body>
-
-    <div class="corner tl" id="d">DATE</div>
-    <div class="corner tr" id="t">TIME</div>
-    <div class="corner bl">V66.15.0</div>
-    <div class="corner br" id="s">RES</div>
-
-    <div class="header-wrap">
-        <h1>Stop Walking. Start Rolling.</h1>
-        <p class="sub">Local Inventory Matchmaker</p>
-    </div>
-
-    <div class="ui">
-        <div class="group">
-            <span class="type-label">Frame Style</span>
-            <div class="row">
-                <button class="btn" id="b-M" onclick="setS('M')">High-Bar</button>
-                <button class="btn active" id="b-any" onclick="setS('any')">Mixed</button>
-                <button class="btn" id="b-F" onclick="setS('F')">Step-Thru</button>
-            </div>
-        </div>
-
-        <div class="group">
-            <div class="sld-header">
-                <span class="sld-title">Rider Height</span>
-                <span id="hL" class="sld-value">5'8" (173cm)</span>
-            </div>
-            <div class="sld-input-container">
-                <input type="range" id="hS" min="40" max="82" value="68" oninput="runUpdate()">
-            </div>
-        </div>
-
-        <div class="group">
-            <div class="sld-header">
-                <span class="sld-title">Ideal Budget</span>
-                <span id="bL" class="sld-value">$200</span>
-            </div>
-            <div class="sld-input-container">
-                <input type="range" id="bS" min="0" max="100" value="30" oninput="runUpdate()">
-            </div>
-            <div class="match-feedback-row">
-                <div id="matchRange" class="match-msg">Matching Catalog...</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="gallery-container">
-        <img src="https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/collagraphy%20bike%20logo.png" class="watermark">
-        <div id="loading-status">Connecting to Inventory...</div>
-        <div class="gallery" id="bike-gallery"></div>
-    </div>
-
-    <script src="index.js"></script>
-    
-    <script>
-        /**
-         * Safe initialization: Prevents "ReferenceError: init is not defined"
-         * by waiting for the DOM to be ready and ensuring index.js is available.
-         */
-        document.addEventListener('DOMContentLoaded', () => {
-            const checkAndInit = () => {
-                if (typeof init === 'function') {
-                    init();
-                } else {
-                    // Try again in 50ms if script isn't ready
-                    setTimeout(checkAndInit, 50);
-                }
-            };
-            checkAndInit();
+        window.addEventListener('DOMContentLoaded', () => {
+            if (typeof init === 'function') {
+                init();
+            }
         });
     </script>
 </body>
