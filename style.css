@@ -10,7 +10,7 @@
 
 html, body { 
     /* Occupies the full height of the screen resolution */
-    width: 80vw;
+    width: 100vw;
     height: 100vh; 
     margin: 0auto; 
     
