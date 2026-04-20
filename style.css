@@ -11,7 +11,7 @@
 html, body { 
     /* Occupies the full height of the screen resolution */
     height: 100vh; 
-    margin: 20atuo; 
+    margin: 120atuo; 
     
     /* Theming */
     background: var(--bg); 
