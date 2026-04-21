@@ -9,22 +9,39 @@
 }
 
 html, body { 
+    /* 1. Reset potential browser defaults */
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100vh;
+    box-sizing: border-box;
+
+    /* 2. Force absolute centering */
     display: flex;
     flex-direction: column;
-    align-items: center;      /* Centers horizontally */
-    justify-content: center;  /* Centers vertically */
+    align-items: center;      /* Horizontal Center */
+    justify-content: center;  /* Vertical Center (Equal Top/Bottom) */
     
-    width: 100%;
-    height: 100vh;            /* Required for vertical centering */
-    margin: 0;
-    padding: 0;               /* Remove padding so it doesn't offset the center */
-    box-sizing: border-box;
-    
+    /* 3. Theming */
     background: var(--bg); 
     color: var(--txt);
     font-family: "Google Sans", -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
-    overflow: hidden;         /* Keeps everything in one clean view */
+    
+    /* 4. Fix for viewport height issues */
+    overflow: hidden; 
+}
+
+/* 5. CRITICAL FIX: Stop children from pushing the center */
+.header-wrap, .ui, .gallery-container {
+    flex-grow: 0 !important; 
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+/* 6. Add a controlled gap between your UI and the Bikes */
+.ui {
+    margin-bottom: 20px !important;
 }
 
 /* IMPORTANT: Ensure no child is "growing" and pushing others away */
