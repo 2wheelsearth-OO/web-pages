@@ -8,15 +8,15 @@
     --highlight: #72f272;
 }
 
-/* 1. MASTER LAYOUT & CENTERING */
+/* 1. MASTER LAYOUT & ABSOLUTE CENTERING */
 html, body {
     display: flex;
     flex-direction: column;
     align-items: center;      
-    justify-content: center;  /* THIS handles the equal top/bottom padding */
+    justify-content: center;  /* Forces equal padding top/bottom for centered items */
     
     width: 100vw;
-    height: 100vh;            /* MUST be 100vh to define the center point */
+    height: 100vh;            
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -25,54 +25,54 @@ html, body {
     color: var(--txt);
     font-family: "Google Sans", -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
-    overflow: hidden;         
+    overflow: hidden;         /* Prevents any dizzy jumping */
 }
 
-/* 2. UI ANCHOR */
-.header-wrap {
-    width: 100%;
-    max-width: 500px;
-    text-align: center;
-    margin-bottom: 20px;
+/* 2. UI ANCHOR (This stays locked in the dead center) */
+.header-wrap, .ui {
+    flex-shrink: 0;
     z-index: 20;
+    position: relative;
+    /* We remove margins so they don't push against the center */
+    margin: 0 !important; 
 }
 
-.ui {
-    width: 400px;
-    max-width: 90vw;
-    z-index: 20;
-    margin: 0 !important; /* Remove manual margins that fight the center */
-}
-
-/* 3. FLOATING GALLERY (The "No-Push" Fix) */
+/* 3. FLOATING GALLERY (Pushed to bottom so it doesn't move the UI) */
 .gallery-container {
-    position: absolute;      /* This is the secret—it removes bikes from the center calculation */
-    bottom: 8vh;             /* Adjust this to move bikes up/down without moving the UI */
+    position: absolute;      /* Takes bikes out of the center calculation */
+    bottom: 6vh;             /* Locks bikes near the bottom of every device */
     width: 100%;
-    height: auto;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     pointer-events: none;    
 }
 
 .gallery {
     display: flex;
     gap: 15px;
+    justify-content: center;
     pointer-events: auto;    
 }
 
-/* 4. LARGE BICYCLE SLIDER HANDLE */
+/* 4. LARGE BICYCLE SLIDER HANDLE (Twice the size) */
 input[type=range]::-webkit-slider-thumb {
-    height: 48px;            /* Twice the size */
-    width: 48px;             /* Twice the size */
+    height: 48px;             
+    width: 48px;              
     -webkit-appearance: none;
-    margin-top: -22px;       /* Adjusted for 48px height to stay on the line */
+    
+    /* -24px is exactly half of 48px, keeping it perfectly on the track */
+    margin-top: -24px;        
+    
     background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-3 11.5V14l-3-3 4-3 2 3h2"/></svg>') no-repeat center;
     background-size: contain; 
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
     border: none;
     cursor: pointer;
 }
+
+/* 5. SPACING TWEAKS */
+.header-wrap { margin-bottom: 25px !important; } /* Gap between Title and Sliders */
 
 .group { margin-bottom: 18px; position: relative; width: 100%; } 
 .type-label { font-size: 11px; color: var(--dim); text-transform: uppercase; text-align: center; display: block; margin-bottom: 8px; font-weight: 600; opacity: 0.6; }
