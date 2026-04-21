@@ -9,13 +9,16 @@
 }
 
 html, body { 
-    /* Occupies the full height of the screen resolution */
-    display: flex;
-    flex-direction: column; /* Ensures items stack vertically */
-    align-items: center;    /* Centers items horizontally */
-    width: 100%;            /* Use 100% instead of 100vw to avoid scrollbar issues */
-    min-height: 100vh;      /* Ensures the page is at least full screen height */
-    margin: 0 auto;         /* Added the missing space between 0 and auto */
+display: flex;
+    flex-direction: column; /* This is the missing piece! */
+    align-items: center;    /* This handles horizontal centering */
+    justify-content: flex-start; /* Keeps content at the top */
+    
+    width: 100%;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
     
     /* Theming */
     background: var(--bg); 
