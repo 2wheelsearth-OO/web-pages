@@ -8,47 +8,56 @@
     --highlight: #72f272;
 }
 
-html, body { 
-    /* 1. Reset potential browser defaults */
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100vh;
-    box-sizing: border-box;
-
-    /* 2. Force absolute centering */
+html, body {
     display: flex;
     flex-direction: column;
-    align-items: center;      /* Horizontal Center */
-    justify-content: center;  /* Vertical Center (Equal Top/Bottom) */
+    align-items: center;
+    justify-content: center; /* This now keeps the UI locked in the center */
     
-    /* 3. Theming */
-    background: var(--bg); 
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    
+    background: var(--bg);
     color: var(--txt);
     font-family: "Google Sans", -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
-    
-    /* 4. Fix for viewport height issues */
-    overflow: hidden; 
+    overflow: hidden;
 }
 
-/* 5. CRITICAL FIX: Stop children from pushing the center */
-.header-wrap, .ui, .gallery-container {
-    flex-grow: 0 !important; 
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
+/* 1. This wrap stays centered and NEVER moves */
+.header-wrap, .ui {
+    flex-shrink: 0;
+    z-index: 10;
 }
 
-/* 6. Add a controlled gap between your UI and the Bikes */
-.ui {
-    margin-bottom: 20px !important;
+/* 2. This keeps the bottom area from pushing the UI up */
+.gallery-container {
+    position: absolute; /* Takes it out of the layout flow */
+    bottom: 10%;        /* Keeps it near the bottom */
+    width: 100%;
+    height: 300px;      /* Fixed height so it doesn't collapse */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none; /* Allows clicks to pass through to UI if needed */
 }
 
-/* IMPORTANT: Ensure no child is "growing" and pushing others away */
-.header-wrap, .ui, .gallery-container {
-    flex-grow: 0; 
-    margin-top: 0;
-    margin-bottom: 0;
+/* 3. Ensure the bikes/watermark don't move the UI */
+.gallery {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    pointer-events: auto; /* Re-enable clicks for the cards */
+}
+
+.watermark {
+    /* Keep your existing watermark styles, but ensure it's inside the container */
+    opacity: 0.06;
+    filter: invert(1);
 }
 
 /* Adjust spacing between elements manually for the best look */
