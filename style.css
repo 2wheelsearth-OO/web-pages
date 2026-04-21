@@ -10,10 +10,12 @@
 
 html, body { 
     /* Occupies the full height of the screen resolution */
-    width: 100vw;
-    height: 100vh; 
-    margin: 0auto; 
-    flex-direction: column;
+    display: flex;
+    flex-direction: column; /* Ensures items stack vertically */
+    align-items: center;    /* Centers items horizontally */
+    width: 100%;            /* Use 100% instead of 100vw to avoid scrollbar issues */
+    min-height: 100vh;      /* Ensures the page is at least full screen height */
+    margin: 0 auto;         /* Added the missing space between 0 and auto */
     
     /* Theming */
     background: var(--bg); 
