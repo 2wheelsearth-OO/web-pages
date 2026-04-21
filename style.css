@@ -8,13 +8,14 @@
     --highlight: #72f272;
 }
 
+/* 1. MASTER LAYOUT & CENTERING */
 html, body {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center; /* This now keeps the UI locked in the center */
+    align-items: center;      /* Horizontal Center */
+    justify-content: center;  /* Vertical Center - Equal Top/Bottom Padding */
     
-    width: 100%;
+    width: 100vw;
     height: 100vh;
     margin: 0;
     padding: 0;
@@ -24,40 +25,45 @@ html, body {
     color: var(--txt);
     font-family: "Google Sans", -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
-    overflow: hidden;
+    overflow: hidden;         /* Prevents UI jumping/scrolling */
 }
 
-/* 1. This wrap stays centered and NEVER moves */
+/* 2. UI ANCHOR (Keeps text from moving) */
 .header-wrap, .ui {
     flex-shrink: 0;
     z-index: 10;
+    position: relative;
 }
 
-/* 2. This keeps the bottom area from pushing the UI up */
+/* 3. FLOATING GALLERY (Prevents UI push-up) */
 .gallery-container {
-    position: absolute; /* Takes it out of the layout flow */
-    bottom: 10%;        /* Keeps it near the bottom */
+    position: absolute;
+    bottom: 5vh;              /* Locked to bottom 5% of screen */
     width: 100%;
-    height: 300px;      /* Fixed height so it doesn't collapse */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    pointer-events: none; /* Allows clicks to pass through to UI if needed */
+    pointer-events: none;     /* Clicks pass through to background */
 }
 
-/* 3. Ensure the bikes/watermark don't move the UI */
 .gallery {
     display: flex;
     gap: 15px;
     justify-content: center;
-    pointer-events: auto; /* Re-enable clicks for the cards */
+    pointer-events: auto;     /* Re-enables clicking on bike cards */
 }
 
-.watermark {
-    /* Keep your existing watermark styles, but ensure it's inside the container */
-    opacity: 0.06;
-    filter: invert(1);
+/* 4. LARGE BICYCLE SLIDER HANDLE */
+input[type=range]::-webkit-slider-thumb {
+    height: 48px;             /* Twice the size (was 24px) */
+    width: 48px;              /* Twice the size (was 24px) */
+    -webkit-appearance: none;
+    
+    /* Correct vertical alignment: Half of height (48 / 2 = 24) */
+    margin-top: -24px;        
+    
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-3 11.5V14l-3-3 4-3 2 3h2"/></svg>') no-repeat center;
+    background-size: contain; 
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
+    border: none;
+    cursor: pointer;
 }
 
 /* Adjust spacing between elements manually for the best look */
