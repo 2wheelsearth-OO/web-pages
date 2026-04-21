@@ -12,11 +12,11 @@
 html, body {
     display: flex;
     flex-direction: column;
-    align-items: center;      /* Horizontal Center */
-    justify-content: center;  /* Vertical Center - Equal Top/Bottom Padding */
+    align-items: center;      
+    justify-content: center;  /* THIS handles the equal top/bottom padding */
     
     width: 100vw;
-    height: 100vh;
+    height: 100vh;            /* MUST be 100vh to define the center point */
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -25,72 +25,53 @@ html, body {
     color: var(--txt);
     font-family: "Google Sans", -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
-    overflow: hidden;         /* Prevents UI jumping/scrolling */
+    overflow: hidden;         
 }
 
-/* 2. UI ANCHOR (Keeps text from moving) */
-.header-wrap, .ui {
-    flex-shrink: 0;
-    z-index: 10;
-    position: relative;
-}
-
-/* 3. FLOATING GALLERY (Prevents UI push-up) */
-.gallery-container {
-    position: absolute;
-    bottom: 5vh;              /* Locked to bottom 5% of screen */
+/* 2. UI ANCHOR */
+.header-wrap {
     width: 100%;
-    pointer-events: none;     /* Clicks pass through to background */
+    max-width: 500px;
+    text-align: center;
+    margin-bottom: 20px;
+    z-index: 20;
+}
+
+.ui {
+    width: 400px;
+    max-width: 90vw;
+    z-index: 20;
+    margin: 0 !important; /* Remove manual margins that fight the center */
+}
+
+/* 3. FLOATING GALLERY (The "No-Push" Fix) */
+.gallery-container {
+    position: absolute;      /* This is the secret—it removes bikes from the center calculation */
+    bottom: 8vh;             /* Adjust this to move bikes up/down without moving the UI */
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;    
 }
 
 .gallery {
     display: flex;
     gap: 15px;
-    justify-content: center;
-    pointer-events: auto;     /* Re-enables clicking on bike cards */
+    pointer-events: auto;    
 }
 
 /* 4. LARGE BICYCLE SLIDER HANDLE */
 input[type=range]::-webkit-slider-thumb {
-    height: 48px;             /* Twice the size (was 24px) */
-    width: 48px;              /* Twice the size (was 24px) */
+    height: 48px;            /* Twice the size */
+    width: 48px;             /* Twice the size */
     -webkit-appearance: none;
-    
-    /* Correct vertical alignment: Half of height (48 / 2 = 24) */
-    margin-top: -24px;        
-    
+    margin-top: -22px;       /* Adjusted for 48px height to stay on the line */
     background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-3 11.5V14l-3-3 4-3 2 3h2"/></svg>') no-repeat center;
     background-size: contain; 
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
     border: none;
     cursor: pointer;
-}
-
-/* Adjust spacing between elements manually for the best look */
-.ui { margin: 20px 0; }
-
-.corner { position: fixed; font-size: 10px; color: var(--dim); letter-spacing: 0.1em; text-transform: uppercase; z-index: 100; opacity: 0.4; }
-.tl { top: 10px; left: 15px; } .tr { top: 10px; right: 15px; }
-.bl { bottom: 10px; left: 15px; } .br { bottom: 10px; right: 15px; }
-
-.header-wrap { width: 100%; max-width: 500px; text-align: center; margin-bottom: 20px; flex-shrink: 0; }
-h1 { 
-    font-family: 'Permanent Marker', cursive; 
-    font-size: 1.6rem; 
-    margin: 0; 
-    transform: scaleY(1.2) rotate(-0.5deg);
-    text-transform: uppercase;
-}
-.sub { font-size: 11px; color: var(--dim); margin-top: 2px; opacity: 0.7; text-transform: uppercase; letter-spacing: 1px; }
-
-.ui { 
-    width: 400px; 
-    min-width: 400px; 
-    max-width: 400px;
-    z-index: 10; 
-    padding: 0; 
-    box-sizing: border-box; 
-    flex-shrink: 0;
 }
 
 .group { margin-bottom: 18px; position: relative; width: 100%; } 
