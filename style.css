@@ -9,22 +9,27 @@
 }
 
 html, body { 
-display: flex;
-    flex-direction: column; /* This is the missing piece! */
-    align-items: center;    /* This handles horizontal centering */
-    justify-content: flex-start; /* Keeps content at the top */
+    /* 1. Flexbox centering */
+    display: flex;
+    flex-direction: column;   /* Stacks content vertically */
+    align-items: center;      /* Centers content horizontally */
+    justify-content: center;  /* Centers content vertically (Equal top/bottom space) */
     
+    /* 2. Layout & Sizing */
     width: 100%;
-    min-height: 100vh;
+    height: 100vh;            /* Uses exactly 100% of the viewport height */
     margin: 0;
-    padding: 20px;
+    padding: 20px;            /* Minimum safety gap */
     box-sizing: border-box;
     
-    /* Theming */
+    /* 3. Theming */
     background: var(--bg); 
     color: var(--txt);
     font-family: "Google Sans", -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
+    
+    /* 4. Prevent unexpected scrolling */
+    overflow: hidden; 
 }
 
 .corner { position: fixed; font-size: 10px; color: var(--dim); letter-spacing: 0.1em; text-transform: uppercase; z-index: 100; opacity: 0.4; }
