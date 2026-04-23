@@ -8,142 +8,136 @@
     --highlight: #72f272;
 }
 
-/* 1. MASTER LAYOUT & ABSOLUTE CENTERING */
+/* MOBILE-FIRST LAYOUT */
 html, body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;      
-    justify-content: center;  /* Forces equal padding top/bottom for centered items */
-    
-    width: 100vw;
-    height: 100vh;            
+    height: 100%;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    
     background: var(--bg);
     color: var(--txt);
-    font-family: "Google Sans", -apple-system, sans-serif;
+    font-family: "Permanent Marker", "Google Sans", -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
-    overflow: hidden;         /* Prevents any dizzy jumping */
 }
 
-/* 2. UI ANCHOR (This stays locked in the dead center) */
-.header-wrap, .ui {
-    flex-shrink: 0;
-    z-index: 20;
-    position: relative;
-    /* We remove margins so they don't push against the center */
-    margin: 0 !important; 
-}
-
-/* 3. CORNER STATUS INDICATORS - FIXED POSITIONING */
-.corner {
+/* 1) HEADER - fixed to the top and full-width, big brush-style title */
+.header-wrap {
     position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 18px 12px 8px; /* safe top + small bottom spacing */
+    text-align: center;
+    z-index: 40;
+    pointer-events: none; /* title shouldn't capture taps */
+}
+.header-wrap h1 {
+    margin: 0;
+    font-family: 'Permanent Marker', cursive, system-ui;
+    font-weight: 700;
+    font-size: clamp(28px, 8vw, 44px); /* responsive large brush title */
+    line-height: 1;
+    letter-spacing: 0.02em;
+    color: var(--txt);
+    text-transform: none;
+    pointer-events: none;
+}
+.header-wrap .sub {
+    margin: 6px 0 0;
+    font-family: system-ui, sans-serif;
+    font-weight: 400;
     font-size: 12px;
     color: var(--dim);
-    font-weight: 600;
-    z-index: 100;
-    padding: 10px;
+    pointer-events: none;
 }
 
-.corner.tl {
-    top: 10px;
-    left: 10px;
-}
-
-.corner.tr {
-    top: 10px;
-    right: 10px;
-}
-
-.corner.bl {
-    bottom: 10px;
-    left: 10px;
-}
-
-.corner.br {
-    bottom: 10px;
-    right: 10px;
-}
-
-/* 4. FLOATING GALLERY (Pushed to bottom so it doesn't move the UI) */
+/* 2) MIDDLE HERO / GALLERY - takes all remaining space between header and UI */
+/* Reserve space for header (approx 90px max) and UI (approx 140px) */
 .gallery-container {
-    position: absolute;      /* Takes bikes out of the center calculation */
-    bottom: 6vh;             /* Locks bikes near the bottom of every device */
-    width: 100%;
+    box-sizing: border-box;
+    min-height: 100vh;
+    padding-top: 110px; /* space for the header */
+    padding-bottom: 160px; /* space for the bottom controls */
     display: flex;
     flex-direction: column;
     align-items: center;
-    pointer-events: none;    
+    justify-content: center; /* center images in the available space */
+    width: 100%;
 }
+
+/* Bike hero icon centered when there are no results, sits above gallery */
+.bike-hero {
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 12px;
+    opacity: 0.08; /* subtle */
+}
+.bike-hero svg { width: 140px; height: auto; max-width: 40vw; }
 
 .gallery {
     display: flex;
     gap: 15px;
     justify-content: center;
-    pointer-events: auto;    
+    align-items: center;
+    width: 100%;
+    overflow-x: auto;
+    padding: 12px;
 }
-
-/* 5. LARGE BICYCLE SLIDER HANDLE (Twice the size) */
-input[type=range]::-webkit-slider-thumb {
-    height: 48px;             
-    width: 48px;              
-    -webkit-appearance: none;
-    
-    /* -24px is exactly half of 48px, keeping it perfectly on the track */
-    margin-top: -24px;        
-    
-    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>');
-    background-size: contain; 
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
-    border: none;
-    cursor: pointer;
-}
-
-/* 6. SPACING TWEAKS */
-.header-wrap { margin-bottom: 25px !important; } /* Gap between Title and Sliders */
-
-.group { margin-bottom: 18px; position: relative; width: 100%; } 
-.type-label { font-size: 11px; color: var(--dim); text-transform: uppercase; text-align: center; display: block; margin-bottom: 8px; font-weight: 600; opacity: 0.6; }
-.row { display: flex; gap: 8px; }
-.btn { 
-    flex: 1; padding: 10px 2px; border: 1px solid var(--brd); background: transparent; 
-    color: var(--dim); border-radius: 8px; cursor: pointer; 
-    font-size: 11px; font-weight: 600; text-transform: uppercase;
-}
-.btn.active { background: var(--box); color: #fff; border-color: var(--highlight); }
-
-.sld-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; height: 20px; }
-.sld-title { font-size: 13px; color: var(--dim); }
-.sld-value { font-size: 16px; font-weight: 800; color: var(--txt); font-variant-numeric: tabular-nums; }
-
-.sld-input-container { width: 100%; height: 24px; display: flex; align-items: center; }
-
-input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; cursor: pointer; margin: 0; }
-input[type=range]::-webkit-slider-runnable-track { height: 1px; background: #3c4043; }
-input[type=range]::-webkit-slider-thumb {
-    height: 24px; width: 24px; -webkit-appearance: none; margin-top: -12px; 
-    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>');
-    background-size: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
-}
-
-.match-feedback-row { height: 16px; margin-top: 4px; text-align: right; }
-.match-msg { font-size: 12px; color: var(--highlight); font-weight: 800; text-transform: uppercase; visibility: hidden; }
-.match-msg.show { visibility: visible; }
-
-.gallery-container { width: 100%; flex-grow: 1; position: relative; display: flex; align-items: flex-start; justify-content: center; margin-top: 10px; overflow: hidden; }
-.gallery { display: flex; gap: 15px; width: 100%; justify-content: center; overflow-x: auto; padding: 20px; z-index: 5; scrollbar-width: none; }
-.gallery::-webkit-scrollbar { display: none; }
-
-.watermark { position: absolute; width: 180px; opacity: 0.06; filter: invert(1); pointer-events: none; top: 100px; left: 50%; transform: translateX(-50%); }
 
 .card { width: 160px; flex-shrink: 0; text-align: center; display: none; }
-.img-box { background: rgba(255,255,255,0.03); border-radius: 12px; aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); }
-.card img { max-width: 85%; max-height: 85%; object-fit: contain; }
+.card img { width: 100%; height: auto; border-radius: 12px; display: block; }
+.price-label { margin-top: 8px; font-size: 18px; font-weight: 800; color: var(--txt); }
 
-.price-label { font-size: 18px; font-weight: 800; margin-top: 8px; color: var(--txt); font-variant-numeric: tabular-nums; }
-.debug-filename { font-size: 9px; color: #ffb74d; margin-top: 4px; font-family: monospace; opacity: 0.6; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0 5px; }
-.debug-specs { font-size: 10px; color: var(--dim); font-family: monospace; font-weight: bold; margin-top: 2px; }
+/* 3) BOTTOM UI - fixed controls for mobile (buttons + sliders) */
+.ui {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 12px 12px 20px;
+    box-sizing: border-box;
+    z-index: 45;
+    backdrop-filter: blur(6px);
+    background: linear-gradient(180deg, rgba(14,14,17,0.0), rgba(14,14,17,0.65));
+}
 
-#loading-status { position: absolute; top: 100px; font-size: 11px; color: var(--dim); text-transform: uppercase; letter-spacing: 0.2em; }
+.group { margin-bottom: 14px; width: 100%; }
+.type-label { font-size: 11px; color: var(--dim); text-transform: uppercase; display: block; margin-bottom: 8px; text-align: center; }
+.row { display: flex; gap: 8px; }
+.btn { flex: 1; padding: 12px 8px; border: 1px solid var(--brd); background: rgba(255,255,255,0.02); color: var(--txt); border-radius: 10px; cursor: pointer; font-size: 13px; font-weight: 700; text-transform: uppercase; }
+.btn.active { background: var(--highlight); color: #071; border-color: var(--highlight); box-shadow: 0 6px 14px rgba(114,242,114,0.08); }
+
+.sld-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+.sld-title { font-size: 13px; color: var(--dim); }
+.sld-value { font-size: 16px; font-weight: 800; color: var(--txt); }
+
+.sld-input-container { width: 100%; height: 36px; display: flex; align-items: center; }
+input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; cursor: pointer; margin: 0; }
+input[type=range]::-webkit-slider-runnable-track { height: 4px; background: #333; border-radius: 2px; }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 20px; width: 20px; margin-top: -8px; background: var(--highlight); border-radius: 50%; box-shadow: 0 2px 6px rgba(0,0,0,0.6); }
+
+.match-feedback-row { height: 18px; margin-top: 6px; text-align: center; }
+.match-msg { font-size: 13px; color: var(--highlight); font-weight: 800; text-transform: uppercase; visibility: visible; }
+
+/* Corner indicators - keep small and unobtrusive on mobile */
+.corner { position: fixed; font-size: 11px; color: var(--dim); font-weight: 600; z-index: 100; padding: 6px; background: transparent; }
+.corner.tl { top: 8px; left: 8px; }
+.corner.tr { top: 8px; right: 8px; }
+.corner.bl { bottom: 80px; left: 8px; }
+.corner.br { bottom: 80px; right: 8px; }
+
+/* Watermark smaller on mobile */
+.watermark { position: absolute; width: 120px; opacity: 0.04; top: 160px; left: 50%; transform: translateX(-50%); pointer-events: none; }
+
+/* Larger screens - gentle adjustments */
+@media (min-width: 768px) {
+    .header-wrap h1 { font-size: clamp(34px, 5vw, 56px); }
+    .bike-hero svg { width: 220px; }
+    .gallery { padding: 24px; }
+    .corner { font-size: 12px; }
+    .ui { padding-left: 24px; padding-right: 24px; }
+}
