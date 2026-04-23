@@ -37,7 +37,37 @@ html, body {
     margin: 0 !important; 
 }
 
-/* 3. FLOATING GALLERY (Pushed to bottom so it doesn't move the UI) */
+/* 3. CORNER STATUS INDICATORS - FIXED POSITIONING */
+.corner {
+    position: fixed;
+    font-size: 12px;
+    color: var(--dim);
+    font-weight: 600;
+    z-index: 100;
+    padding: 10px;
+}
+
+.corner.tl {
+    top: 10px;
+    left: 10px;
+}
+
+.corner.tr {
+    top: 10px;
+    right: 10px;
+}
+
+.corner.bl {
+    bottom: 10px;
+    left: 10px;
+}
+
+.corner.br {
+    bottom: 10px;
+    right: 10px;
+}
+
+/* 4. FLOATING GALLERY (Pushed to bottom so it doesn't move the UI) */
 .gallery-container {
     position: absolute;      /* Takes bikes out of the center calculation */
     bottom: 6vh;             /* Locks bikes near the bottom of every device */
@@ -55,7 +85,7 @@ html, body {
     pointer-events: auto;    
 }
 
-/* 4. LARGE BICYCLE SLIDER HANDLE (Twice the size) */
+/* 5. LARGE BICYCLE SLIDER HANDLE (Twice the size) */
 input[type=range]::-webkit-slider-thumb {
     height: 48px;             
     width: 48px;              
@@ -64,14 +94,14 @@ input[type=range]::-webkit-slider-thumb {
     /* -24px is exactly half of 48px, keeping it perfectly on the track */
     margin-top: -24px;        
     
-    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-3 11.5V14l-3-3 4-3 2 3h2"/></svg>') no-repeat center;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>');
     background-size: contain; 
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
     border: none;
     cursor: pointer;
 }
 
-/* 5. SPACING TWEAKS */
+/* 6. SPACING TWEAKS */
 .header-wrap { margin-bottom: 25px !important; } /* Gap between Title and Sliders */
 
 .group { margin-bottom: 18px; position: relative; width: 100%; } 
@@ -94,7 +124,7 @@ input[type=range] { -webkit-appearance: none; width: 100%; background: transpare
 input[type=range]::-webkit-slider-runnable-track { height: 1px; background: #3c4043; }
 input[type=range]::-webkit-slider-thumb {
     height: 24px; width: 24px; -webkit-appearance: none; margin-top: -12px; 
-    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-3 11.5V14l-3-3 4-3 2 3h2"/></svg>') no-repeat center;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>');
     background-size: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
 }
 
