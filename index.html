@@ -7,8 +7,18 @@
     <title>Velocipede | Matchmaker</title>
     <!-- External Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
-    <!-- Professional Link to External CSS -->
-    <link rel="stylesheet" href="style.css">
+    <!-- Professional Link to External CSS (cache-busted) -->
+    <link rel="stylesheet" href="style.css?v=db03143b4d">
+
+    <!-- INLINE CRITICAL FIX: ensure corner rules load immediately (bypasses cached CSS) -->
+    <style>
+    /* Critical corner positioning - kept inline to guarantee it overrides any cached stylesheet */
+    .corner{position:fixed;font-size:12px;color:var(--dim,#9aa0a6);font-weight:600;z-index:100;padding:10px}
+    .corner.tl{top:10px;left:10px}
+    .corner.tr{top:10px;right:10px}
+    .corner.bl{bottom:10px;left:10px}
+    .corner.br{bottom:10px;right:10px}
+    </style>
 </head>
 <body>
 
