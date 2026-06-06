@@ -243,3 +243,47 @@ input[type=range]::-webkit-slider-thumb {
     font-size: 11px;
     color: var(--dim);
     font-weight: 600;
+    z-index: 100;
+    padding: 6px;
+    background: transparent;
+}
+
+.corner.tl { top: 8px; left: 8px; }
+.corner.tr { top: 8px; right: 8px; }
+.corner.bl { bottom: 80px; left: 8px; }
+.corner.br { bottom: 80px; right: 8px; }
+
+.watermark {
+    position: absolute;
+    width: 120px;
+    opacity: 0.04;
+    top: 160px;
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none;
+}
+
+@media (min-width: 768px) {
+    .header-wrap h1 {
+        font-size: clamp(34px, 5vw, 56px);
+    }
+    
+    .bike-hero svg,
+    .bike-hero img {
+        width: 50vw;
+        max-width: 550px;
+    }
+    
+    .gallery {
+        padding: 24px;
+    }
+    
+    .corner {
+        font-size: 12px;
+    }
+    
+    .ui {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+}
