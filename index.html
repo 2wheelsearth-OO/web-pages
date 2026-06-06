@@ -24,30 +24,29 @@
         overflow-x: hidden;
     }
 
-    /* SIMPLIFIED MIDSECTION CENTERED GRAPHIC CONTAINER */
+    /* MIDSECTION GRAPHIC CONTAINER FRAME */
     .backdrop-container {
         width: 100%;
-        height: 35vh;                 /* Takes up the layout space between title and buttons */
-        min-height: 200px;
-        max-height: 400px;
+        height: 35vh;                 /* Set vertical space allocated between header and sliders */
+        min-height: 250px;            /* Increased slightly to prevent collapsing on mobile viewports */
+        max-height: 450px;            /* Increased to accommodate the requested larger layout scaling */
         position: relative;
         background-color: transparent; 
-        margin: 10px 0;
+        margin: 15px 0;
         display: flex;                
-        justify-content: center;      /* Centers horizontally */
-        align-items: center;          /* Centers vertically */
+        justify-content: center;      
+        align-items: center;          
     }
 
-    /* STATIC WHITE TRANSPARENT BIKE */
+    /* SCALED UP STATIC WHITE TRANSPARENT BIKE */
     .animated-bike {
         width: 100%;
-        height: 50%;                  /* Kept at 1/2 of the layout space size */
+        height: 100%;                 /* FIXED: Expanded from 50% to 100% to fill the full red boundary container */
         background-image: url('https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/collagraphy%20bike%20white%20logo.png');
-        background-size: contain;
+        background-size: contain;     /* Ensures the full graphic expands without clipping at edges */
         background-position: center center; 
         background-repeat: no-repeat;
         opacity: 0.85;                
-        /* All animations, translation movements, and dynamic hiding states removed completely */
     }
     </style>
 </head>
