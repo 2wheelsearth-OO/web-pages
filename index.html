@@ -15,24 +15,31 @@
     .corner.bl{bottom:10px;left:10px}
     .corner.br{bottom:10px;right:10px}
 
-    /* ALL DARK THEME BACKGROUND */
+    /* ALL DARK THEME BACKGROUND & NO RIGHT SLIDER BAR */
     body {
         background-color: #121212;
         color: #ffffff;
         margin: 0;
         padding: 0;
         overflow-x: hidden;
+        
+        /* Hides the right side slider/scrollbar track across all modern browsers */
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none;  /* IE and Edge */
+    }
+    
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    body::-webkit-scrollbar {
+        display: none;
     }
 
-    /* MIDSECTION GRAPHIC CONTAINER FRAME */
+    /* MIDSECTION GRAPHIC CONTAINER FRAME - DYNAMIC HEIGHT */
     .backdrop-container {
         width: 100%;
-        height: 35vh;                 
-        min-height: 250px;            
-        max-height: 450px;            
+        height: auto;                 /* Changed from fixed vh to auto to prevent overlap text bugs */
+        padding-top: 40px;
         position: relative;
         background-color: transparent; 
-        margin: 15px 0 5px 0;
         display: flex;                
         justify-content: center;      
         align-items: center;          
@@ -40,8 +47,9 @@
 
     /* SCALED UP STATIC WHITE TRANSPARENT BIKE */
     .animated-bike {
-        width: 100%;
-        height: 100%;                 
+        width: 90%;
+        max-width: 500px;             /* Keeps the bike crisp and perfectly scaled */
+        height: 250px;                /* Explicit clean bounding layout block */
         background-image: url('https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/collagraphy%20bike%20white%20logo.png');
         background-size: contain;     
         background-position: center center; 
@@ -49,10 +57,26 @@
         opacity: 0.85;                
     }
 
-    /* BOTTOM TITLE WRAP POSITIONING */
+    /* TEXT WRAPPER POSITIONED NATURALLY BELOW */
     .header-wrap {
         text-align: center;
-        margin-bottom: 20px;
+        margin: 10px 0 30px 0;
+        padding: 0 15px;
+    }
+
+    .header-wrap h1 {
+        margin: 0;
+        font-size: 2.5rem;
+        line-height: 1.2;
+    }
+
+    /* AUTOMATION RULES:
+       When actual matching inventory blocks load inside the bike-gallery element, 
+       this tells the browser to hide both the bike icon and the heading text layout blocks completely.
+    */
+    body:has(#bike-gallery > *) .backdrop-container,
+    body:has(#bike-gallery > *) .header-wrap {
+        display: none !important;
     }
     </style>
 </head>
