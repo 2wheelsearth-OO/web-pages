@@ -67,28 +67,29 @@ html, body {
     width: 100%;
 }
 
-/* FIXED: Changed positioning to place the graphic cleanly at the top */
+/* 1. Turn this into a full-screen, centered background layer */
 .bike-hero {
-    position: absolute;
-    top: 50%;                 /* Center vertically relative to the screen */
+    position: fixed;          /* Keeps it in place on the screen */
+    top: 35%;                 /* Positions it right behind where the cards live */
     left: 50%; 
-    transform: translate(-50%, -50%); /* Perfectly center it as a backdrop */
-    pointer-events: none; 
+    transform: translate(-50%, -50%); 
+    pointer-events: none;     /* Stops it from blocking clicks/taps */
     display: flex;
     align-items: center;
     justify-content: center;
-    width: auto;              /* FIXED: Removed 100% so it doesn't push elements down */
-    margin-bottom: 0;         /* Clear the bottom margin */
-    opacity: 0.05;            /* Make it very subtle like a background watermark */
-    z-index: 1;               /* Push it behind the cards (z-index: 10 was overlapping them) */
+    width: 100vw;             /* Let it use the full width of the viewport */
+    height: auto;
+    margin-bottom: 0; 
+    opacity: 0.15;            /* Gives it a subtle, ghostly watermark presence */
+    z-index: 1;               /* Keeps it safely behind your cards and UI */
 }
 
-/* Make the SVG graphic blow up larger to look like a true backdrop */
+/* 2. Reverse the colors and scale up the actual graphic */
 .bike-hero svg { 
-    width: 280px; 
+    width: 450px;             /* Blows it up so it feels like a backdrop */
     height: auto; 
-    max-width: 80vw; 
-    filter: invert(1);        /* Ensures the colors are reversed nicely against the dark mode */
+    max-width: 85vw; 
+    filter: invert(1);        /* CRITICAL: Flips the dark icon into a bright neon-white outline */
 }
 
 .gallery {
