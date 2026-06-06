@@ -16,28 +16,26 @@ html, body {
     box-sizing: border-box;
     background: var(--bg);
     color: var(--txt);
-    /* FIXED: Changed from "Permanent Marker" to clean Arial */
     font-family: Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
 }
 
-/* 1) HEADER - fixed to the top and full-width, big brush-style title */
+/* 1) HEADER - fixed to the top and full-width */
 .header-wrap {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    padding: 18px 12px 8px; /* safe top + small bottom spacing */
+    padding: 18px 12px 8px;
     text-align: center;
     z-index: 40;
-    pointer-events: none; /* title shouldn't capture taps */
+    pointer-events: none;
 }
 .header-wrap h1 {
     margin: 0;
-    /* FIXED: Changed from 'Permanent Marker' to match Arial */
     font-family: Arial, sans-serif;
     font-weight: 700;
-    font-size: clamp(28px, 8vw, 44px); /* responsive large brush title */
+    font-size: clamp(28px, 8vw, 44px);
     line-height: 1;
     letter-spacing: 0.02em;
     color: var(--txt);
@@ -53,56 +51,83 @@ html, body {
     pointer-events: none;
 }
 
-/* 2) MIDDLE HERO / GALLERY - takes all remaining space between header and UI */
-/* Reserve space for header (approx 90px max) and UI (approx 140px) */
+/* 2) MIDDLE HERO / GALLERY - Main content container */
 .gallery-container {
     box-sizing: border-box;
     min-height: 100vh;
-    padding-top: 110px; /* space for the header */
-    padding-bottom: 160px; /* space for the bottom controls */
+    padding-top: 110px; 
+    padding-bottom: 160px; 
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center; /* center images in the available space */
+    justify-content: center; 
     width: 100%;
 }
 
-/* 1. Pull the container completely out of the flex layout and lock it to the viewport */
+/* FIXED: Massive Full-Screen Background Backdrop Layer */
 .bike-hero {
-    position: fixed;          /* CRITICAL: Completely detaches it from the flex layout grid */
-    top: 50%;                 /* Positions it exactly in the vertical center of the screen */
+    position: fixed;          
+    top: 50%;                 
     left: 50%; 
-    transform: translate(-50%, -50%); /* Keeps it perfectly centered */
-    pointer-events: none;     /* Allows users to tap right through it to select bikes */
-    width: 100vw;             /* Forces the wrapper to span the full screen width */
-    height: 100vh;            /* Forces the wrapper to span the full screen height */
+    transform: translate(-50%, -50%); 
+    pointer-events: none;     
+    width: 100vw;             
+    height: 100vh;            
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0;                /* Clear margins that might push it out of bounds */
+    margin: 0;                
     padding: 0;
-    z-index: 1;               /* Sits right above the body background, but under your text/UI */
+    z-index: 1;               /* Sits cleanly underneath product cards & UI */
 }
 
-/* 2. Target the SVG graphic inside it to force the color reverse and blow up the size */
+/* FIXED: Forces dark graphic file lines to invert into bright white outlines */
 .bike-hero svg,
 .bike-hero img { 
-    width: 75vw;              /* Blows it up to take up 75% of the screen width */
-    max-width: 600px;         /* Limits its size so it doesn't look absurdly giant on desktop */
+    width: 75vw;              
+    max-width: 500px;         
     height: auto; 
     display: block;
-    
-    /* THE TRIPLE THREAT FILTER: 
-       Inverts black lines to white -> boosts brightness -> drops opacity to 4% ghost-level */
     filter: invert(1) brightness(2) opacity(0.04) !important; 
 }
-.card { width: 160px; flex-shrink: 0; text-align: center; display: none; }
-.card img { width: 100%; 
-    height: 110px;       /* CHANGED FROM 'auto' */
-    object-fit: cover;   /* ADDED THIS LINE */
+
+/* FIXED: Enabled flex layout on the gallery so items sit perfectly straight */
+.gallery {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: flex-start; /* Aligns both card items evenly at the top horizontal plane */
+    width: 100%;
+    overflow-x: auto;
+    padding: 12px;
+    position: relative;
+    z-index: 10;             /* Pushes product images in front of the background bike line art */
+}
+
+/* FIXED: Clean column container properties */
+.card { 
+    width: 160px; 
+    flex-shrink: 0; 
+    text-align: center; 
+    display: none; 
+    flex-direction: column;
+}
+
+/* FIXED: Aligns the bottom profile of all images completely straight across */
+.card img { 
+    width: 100%; 
+    height: 110px;       
+    object-fit: cover;   
     border-radius: 12px; 
-    display: block; }
-.price-label { margin-top: 8px; font-size: 18px; font-weight: 800; color: var(--txt); }
+    display: block; 
+}
+
+.price-label { 
+    margin-top: 8px; 
+    font-size: 18px; 
+    font-weight: 800; 
+    color: var(--txt); 
+}
 
 /* 3) BOTTOM UI - fixed controls for mobile (buttons + sliders) */
 .ui {
@@ -131,26 +156,4 @@ html, body {
 .sld-input-container { width: 100%; height: 36px; display: flex; align-items: center; }
 input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; cursor: pointer; margin: 0; }
 input[type=range]::-webkit-slider-runnable-track { height: 4px; background: #333; border-radius: 2px; }
-input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 20px; width: 20px; margin-top: -8px; background: var(--highlight); border-radius: 50%; box-shadow: 0 2px 6px rgba(0,0,0,0.6); }
-
-.match-feedback-row { height: 18px; margin-top: 6px; text-align: center; }
-.match-msg { font-size: 13px; color: var(--highlight); font-weight: 800; text-transform: uppercase; visibility: visible; }
-
-/* Corner indicators - keep small and unobtrusive on mobile */
-.corner { position: fixed; font-size: 11px; color: var(--dim); font-weight: 600; z-index: 100; padding: 6px; background: transparent; }
-.corner.tl { top: 8px; left: 8px; }
-.corner.tr { top: 8px; right: 8px; }
-.corner.bl { bottom: 80px; left: 8px; }
-.corner.br { bottom: 80px; right: 8px; }
-
-/* Watermark smaller on mobile */
-.watermark { position: absolute; width: 120px; opacity: 0.04; top: 160px; left: 50%; transform: translateX(-50%); pointer-events: none; }
-
-/* Larger screens - gentle adjustments */
-@media (min-width: 768px) {
-    .header-wrap h1 { font-size: clamp(34px, 5vw, 56px); }
-    .bike-hero svg { width: 220px; }
-    .gallery { padding: 24px; }
-    .corner { font-size: 12px; }
-    .ui { padding-left: 24px; padding-right: 24px; }
-}
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 20px; width: 20px; margin-top: -8px; background: var(--highlight); border-radius: 50%;
