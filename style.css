@@ -68,26 +68,27 @@ html, body {
 }
 
 .bike-hero {
-    position: fixed;          /* Breaks it out of the layout so it floats behind cards */
-    top: 40%;                 /* Vertically centers it right behind your cards */
+    position: fixed;          /* Breaks it out of the layout completely */
+    top: 38%;                 /* Places it right behind the product card line */
     left: 50%; 
     transform: translate(-50%, -50%); 
-    pointer-events: none;     /* Allows users to click right through it to the UI */
+    pointer-events: none;     /* Stops it from blocking clicks on your page */
     width: 100vw;             
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 0; 
-    z-index: 1;               /* Places it safely behind everything else */
+    z-index: 1;               /* Layers it safely behind your cards and text */
 }
 
-.bike-hero svg { 
-    width: 480px;             /* Blows it up to feel like a watermark canvas */
+/* THE CRITICAL FIX: Target 'img' instead of 'svg' */
+.bike-hero img { 
+    width: 450px;             /* Blows it up to look like a giant background watermark */
     height: auto; 
     max-width: 85vw; 
     display: block;
     
-    /* THE REAL FIX: Inverts the dark color to bright white, then crushes the opacity */
+    /* Flips the black image lines to bright white, then makes it a subtle ghost watermark */
     filter: invert(1) brightness(2) opacity(0.04); 
 }
 
