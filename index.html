@@ -27,15 +27,15 @@
     /* MIDSECTION EMPTY SPACE CONTAINER */
     .backdrop-container {
         width: 100%;
-        height: 35vh;                 /* Establishes the empty space gap */
+        height: 35vh;                 
         min-height: 200px;
         max-height: 400px;
         position: relative;
         background-color: #121212;
         margin: 10px 0;
         overflow: hidden;
-        display: flex;                /* Centering blocks */
-        align-items: center;          /* Centers the half-sized bike vertically */
+        display: flex;                
+        align-items: center;          
         opacity: 1;
         transition: opacity 0.4s ease, max-height 0.4s ease, margin 0.4s ease;
     }
@@ -43,19 +43,17 @@
     /* HALF-SIZED ANIMATED BIKE ELEMENT */
     .animated-bike {
         width: 100%;
-        height: 50%;                  /* Scaled down to exactly 1/2 of the layout space */
+        height: 50%;                  
         background-image: url('https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/collagraphy%20bike%20white%20logo.png');
         background-size: contain;
         background-position: center center; 
         background-repeat: no-repeat;
-        opacity: 0.85;                /* Clean, subtle visibility overlay */
-        
-        /* Note: mix-blend-mode and filter removed entirely for pure PNG efficiency */
+        opacity: 0.85;                
         animation: rollAcross 25s linear infinite;
     }
 
-    /* DYNAMIC HIDING CLASS: Triggered by JavaScript when bikes match */
-    body.has-matches .backdrop-container {
+    /* FIXED DYNAMIC AUTOMATION: Hides the backdrop container ONLY when elements exist inside the gallery */
+    body:has(#bike-gallery > *) .backdrop-container {
         opacity: 0;
         max-height: 0;
         min-height: 0;
@@ -80,18 +78,15 @@
     <div class="corner bl">V66.15.0</div>
     <div class="corner br" id="s">RES</div>
 
-    <!-- 1. Top Title Wrap -->
     <div class="header-wrap">
         <h1>Stop Walking. Start Rolling.</h1>
         <p class="sub">Local Inventory Matchmaker</p>
     </div>
 
-    <!-- 2. Midsection Backdrop Layout Space with Rolling Element -->
     <div class="backdrop-container">
         <div class="animated-bike"></div>
     </div>
 
-    <!-- 3. Control UI Sliders Area -->
     <div class="ui">
         <div class="group">
             <span class="type-label">Frame Style</span>
@@ -126,7 +121,6 @@
         </div>
     </div>
 
-    <!-- Catalog container section -->
     <div class="gallery-container">
         <div id="loading-status">Connecting to Inventory...</div>
         <div class="gallery" id="bike-gallery"></div>
