@@ -67,29 +67,28 @@ html, body {
     width: 100%;
 }
 
-/* 1. Turn this into a full-screen, centered background layer */
 .bike-hero {
-    position: fixed;          /* Keeps it in place on the screen */
-    top: 35%;                 /* Positions it right behind where the cards live */
+    position: fixed;          /* Lock it to the screen */
+    top: 40%;                 /* Push it down right behind where the cards load */
     left: 50%; 
-    transform: translate(-50%, -50%); 
-    pointer-events: none;     /* Stops it from blocking clicks/taps */
+    transform: translate(-50%, -50%); /* Perfectly center it */
+    pointer-events: none;     /* Make sure users can click through it */
+    width: 100vw;             /* Give it full screen width space */
     display: flex;
-    align-items: center;
     justify-content: center;
-    width: 100vw;             /* Let it use the full width of the viewport */
-    height: auto;
+    align-items: center;
     margin-bottom: 0; 
-    opacity: 0.15;            /* Gives it a subtle, ghostly watermark presence */
-    z-index: 1;               /* Keeps it safely behind your cards and UI */
+    opacity: 0.06;            /* Make it a subtle, elegant background ghost image */
+    z-index: 1;               /* Keep it safely behind your UI and cards */
 }
 
-/* 2. Reverse the colors and scale up the actual graphic */
+.bike-hero img, 
 .bike-hero svg { 
-    width: 450px;             /* Blows it up so it feels like a backdrop */
+    width: 500px;             /* Blow it up so it looks like a true backdrop canvas */
     height: auto; 
     max-width: 85vw; 
-    filter: invert(1);        /* CRITICAL: Flips the dark icon into a bright neon-white outline */
+    filter: invert(1) brightness(2); /* Forces dark graphics to invert into clean white lines */
+    display: block;
 }
 
 .gallery {
