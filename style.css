@@ -16,7 +16,8 @@ html, body {
     box-sizing: border-box;
     background: var(--bg);
     color: var(--txt);
-    font-family: "Permanent Marker", "Google Sans", -apple-system, sans-serif;
+    /* FIXED: Changed from "Permanent Marker" to clean Arial */
+    font-family: Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
 }
 
@@ -33,7 +34,8 @@ html, body {
 }
 .header-wrap h1 {
     margin: 0;
-    font-family: 'Permanent Marker', cursive, system-ui;
+    /* FIXED: Changed from 'Permanent Marker' to match Arial */
+    font-family: Arial, sans-serif;
     font-weight: 700;
     font-size: clamp(28px, 8vw, 44px); /* responsive large brush title */
     line-height: 1;
@@ -65,15 +67,20 @@ html, body {
     width: 100%;
 }
 
-/* Bike hero icon centered when there are no results, sits above gallery */
+/* FIXED: Changed positioning to place the graphic cleanly at the top */
 .bike-hero {
-    pointer-events: none;
+    position: absolute;
+    top: 85px; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    pointer-events: none; 
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
     margin-bottom: 12px;
-    opacity: 0.08; /* subtle */
+    opacity: 0.9; 
+    z-index: 10; 
 }
 .bike-hero svg { width: 140px; height: auto; max-width: 40vw; }
 
