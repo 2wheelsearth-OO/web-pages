@@ -24,14 +24,14 @@
         overflow-x: hidden;
     }
 
-    /* MIDSECTION EMPTY SPACE CONTAINER */
+    /* MIDSECTION EMPTY SPACE CONTAINER - SET TO TRANSPARENT TO REMOVE COLOR PATCHES */
     .backdrop-container {
         width: 100%;
         height: 35vh;                 
         min-height: 200px;
         max-height: 400px;
         position: relative;
-        background-color: #121212;
+        background-color: transparent; /* FIXED: Now completely matches the page background seamlessly */
         margin: 10px 0;
         overflow: hidden;
         display: flex;                
@@ -52,7 +52,7 @@
         animation: rollAcross 25s linear infinite;
     }
 
-    /* FIXED DYNAMIC AUTOMATION: Hides the backdrop container ONLY when elements exist inside the gallery */
+    /* AUTOMATION ENGINE: Hides the backdrop container when items load into the inventory gallery */
     body:has(#bike-gallery > *) .backdrop-container {
         opacity: 0;
         max-height: 0;
