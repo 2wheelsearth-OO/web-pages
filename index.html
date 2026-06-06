@@ -8,12 +8,20 @@
     <link rel="stylesheet" href="style.css?v=db03143b4d">
 
     <style>
-    /* Critical corner positioning - kept inline to guarantee it overrides any cached stylesheet */
-    .corner{position:fixed;font-size:12px;color:var(--dim,#9aa0a6);font-weight:600;z-index:100;padding:10px}
-    .corner.tl{top:10px;left:10px}
-    .corner.tr{top:10px;right:10px}
-    .corner.bl{bottom:10px;left:10px}
-    .corner.br{bottom:10px;right:10px}
+    /* Absolute corner safety overrides - forced with !important to defeat cached stylesheets */
+    .corner {
+        position: fixed !important;
+        font-size: 12px !important;
+        color: var(--dim, #9aa0a6) !important;
+        font-weight: 600 !important;
+        z-index: 9999 !important;
+        padding: 10px !important;
+        background: transparent !important;
+    }
+    .corner.tl { top: 10px !important; left: 10px !important; }
+    .corner.tr { top: 10px !important; right: 10px !important; }
+    .corner.bl { bottom: 10px !important; left: 10px !important; display: block !important; }
+    .corner.br { bottom: 10px !important; right: 10px !important; }
 
     /* ALL DARK THEME BACKGROUND & NO RIGHT SLIDER BAR */
     body {
@@ -22,13 +30,10 @@
         margin: 0;
         padding: 0;
         overflow-x: hidden;
-        
-        /* Hides the right side slider/scrollbar track across all modern browsers */
-        scrollbar-width: none; /* Firefox */
-        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none; 
+        -ms-overflow-style: none;  
     }
     
-    /* Hide scrollbar for Chrome, Safari and Opera */
     body::-webkit-scrollbar {
         display: none;
     }
@@ -39,7 +44,7 @@
         width: 100%;
     }
 
-    /* MIDSECTION GRAPHIC CONTAINER FRAME - DYNAMIC HEIGHT */
+    /* MIDSECTION GRAPHIC CONTAINER FRAME */
     .backdrop-container {
         width: 100%;
         height: auto;                 
@@ -76,7 +81,7 @@
         line-height: 1.2;
     }
 
-    /* MASTER SWITCH RULE: Managed safely by JavaScript observer below */
+    /* MASTER SWITCH RULE: Managed safely by the refined JavaScript child observer below */
     body.hide-splash #splash-screen-group {
         display: none !important;
     }
@@ -86,7 +91,7 @@
 
     <div class="corner tl" id="d">DATE</div>
     <div class="corner tr" id="t">TIME</div>
-    <div class="corner bl">V66.15.0</div>
+    <div class="corner bl" style="display: block !important;">V66.15.0</div>
     <div class="corner br" id="s">RES</div>
 
     <div id="splash-screen-group">
@@ -151,13 +156,15 @@
             };
             checkAndInit();
 
-            // AUTOMATION OBSERVER LAYER:
-            // Safely toggles layout states based directly on layout updates without layout-breaking side effects
+            // REFINED AUTOMATION OBSERVER LAYER:
             const targetGallery = document.getElementById('bike-gallery');
             if (targetGallery) {
                 const observer = new MutationObserver(() => {
-                    // Check if your external script has built cards inside the gallery component
-                    if (targetGallery.children.length > 0) {
+                    // CRITICAL FIX: Only hide the splash if actual bike IMAGES exist inside the gallery container.
+                    // This keeps the bike visible during status updates and empty load phases.
+                    const dynamicImages = targetGallery.getElementsByTagName('img');
+                    
+                    if (dynamicImages.length > 0) {
                         document.body.classList.add('hide-splash');
                     } else {
                         document.body.classList.remove('hide-splash');
