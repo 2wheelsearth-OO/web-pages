@@ -67,41 +67,35 @@ html, body {
     width: 100%;
 }
 
+/* 1. Pull the container completely out of the flex layout and lock it to the viewport */
 .bike-hero {
-    position: fixed;          /* Breaks it out of the layout completely */
-    top: 38%;                 /* Places it right behind the product card line */
+    position: fixed;          /* CRITICAL: Completely detaches it from the flex layout grid */
+    top: 50%;                 /* Positions it exactly in the vertical center of the screen */
     left: 50%; 
-    transform: translate(-50%, -50%); 
-    pointer-events: none;     /* Stops it from blocking clicks on your page */
-    width: 100vw;             
+    transform: translate(-50%, -50%); /* Keeps it perfectly centered */
+    pointer-events: none;     /* Allows users to tap right through it to select bikes */
+    width: 100vw;             /* Forces the wrapper to span the full screen width */
+    height: 100vh;            /* Forces the wrapper to span the full screen height */
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 0; 
-    z-index: 1;               /* Layers it safely behind your cards and text */
+    margin: 0;                /* Clear margins that might push it out of bounds */
+    padding: 0;
+    z-index: 1;               /* Sits right above the body background, but under your text/UI */
 }
 
-/* THE CRITICAL FIX: Target 'img' instead of 'svg' */
+/* 2. Target the SVG graphic inside it to force the color reverse and blow up the size */
+.bike-hero svg,
 .bike-hero img { 
-    width: 450px;             /* Blows it up to look like a giant background watermark */
+    width: 75vw;              /* Blows it up to take up 75% of the screen width */
+    max-width: 600px;         /* Limits its size so it doesn't look absurdly giant on desktop */
     height: auto; 
-    max-width: 85vw; 
     display: block;
     
-    /* Flips the black image lines to bright white, then makes it a subtle ghost watermark */
-    filter: invert(1) brightness(2) opacity(0.04); 
+    /* THE TRIPLE THREAT FILTER: 
+       Inverts black lines to white -> boosts brightness -> drops opacity to 4% ghost-level */
+    filter: invert(1) brightness(2) opacity(0.04) !important; 
 }
-
-.gallery {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    align-items: flex-start;
-    width: 100%;
-    overflow-x: auto;
-    padding: 12px;
-}
-
 .card { width: 160px; flex-shrink: 0; text-align: center; display: none; }
 .card img { width: 100%; 
     height: 110px;       /* CHANGED FROM 'auto' */
