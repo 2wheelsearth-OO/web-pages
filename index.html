@@ -15,23 +15,59 @@
     .corner.bl{bottom:10px;left:10px}
     .corner.br{bottom:10px;right:10px}
 
-    /* CLEAN WHITE PAPER & ENTIRE BIKE BACKDROP */
+    /* ALL DARK THEME BACKGROUND */
+    body {
+        background-color: #121212;
+        color: #ffffff;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden; /* Prevents horizontal scrollbars during animation */
+    }
+
+    /* ANIMATED LOWERED BIKE BACKDROP OVERLAY */
     .backdrop-container {
         width: 100%;
-        height: 45vh;                 /* Takes up proportional vertical space */
-        min-height: 250px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        height: 35vh;                 /* Adjusted height to lower the horizon line */
+        min-height: 200px;
         position: relative;
-        background-image: url('https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/collagraphy%20bike%20logo.png');
-        background-size: contain;      /* Forces the ENTIRE bike illustration to fit without clipping */
-        background-position: center;   /* Centers the image perfectly */
-        background-repeat: no-repeat;  /* Prevents tiling */
-        background-color: #f7f7f4;     /* Crisp white-paper texture tint companion */
-        border-radius: 8px;
+        background-color: #121212;     /* Blends perfectly with the dark theme */
         margin: 10px 0;
-        /* No color inversion filter here: displays natural dark ink on white paper */
+        overflow: hidden;             /* Masks the bike outside the screen area */
+    }
+
+    .animated-bike {
+        width: 100%;
+        height: 100%;
+        background-image: url('https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/collagraphy%20bike%20logo.png');
+        background-size: contain;
+        background-position: center bottom; /* Lowers the bike to sit on the bottom horizon */
+        background-repeat: no-repeat;
+        
+        /* Blend image cleanly onto dark canvas */
+        mix-blend-mode: screen; 
+        opacity: 0.85;
+
+        /* Core Animation Config */
+        animation: rollAcross 25s linear infinite;
+    }
+
+    /* SLOW ROLL ANIMATION KEYFRAMES */
+    @keyframes rollAcross {
+        0% {
+            transform: translateX(-100%) scaleX(1); /* Starts off-screen to the left */
+        }
+        49% {
+            transform: translateX(100%) scaleX(1);  /* Travels off-screen to the right */
+        }
+        50% {
+            transform: translateX(100%) scaleX(-1); /* Flips orientation silently */
+        }
+        99% {
+            transform: translateX(-100%) scaleX(-1); /* Travels backward to the left */
+        }
+        100% {
+            transform: translateX(-100%) scaleX(1);  /* Resets back to default */
+        }
     }
     </style>
 </head>
@@ -47,7 +83,9 @@
         <p class="sub">Local Inventory Matchmaker</p>
     </div>
 
-    <div class="backdrop-container"></div>
+    <div class="backdrop-container">
+        <div class="animated-bike"></div>
+    </div>
 
     <div class="ui">
         <div class="group">
