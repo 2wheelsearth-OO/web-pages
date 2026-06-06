@@ -31,7 +31,7 @@
         min-height: 200px;
         max-height: 400px;
         position: relative;
-        background-color: transparent; /* FIXED: Now completely matches the page background seamlessly */
+        background-color: transparent; 
         margin: 10px 0;
         overflow: hidden;
         display: flex;                
@@ -52,8 +52,12 @@
         animation: rollAcross 25s linear infinite;
     }
 
-    /* AUTOMATION ENGINE: Hides the backdrop container when items load into the inventory gallery */
-    body:has(#bike-gallery > *) .backdrop-container {
+    /* REFINED AUTOMATION SELECTOR: 
+       Only hides the backdrop when actual visual item divs/cards are built by index.js.
+       Change ".bike-card" below to match the exact class name your JS uses for the bike items if needed!
+    */
+    body:has(#bike-gallery .bike-card) .backdrop-container,
+    body:has(.gallery img) .backdrop-container {
         opacity: 0;
         max-height: 0;
         min-height: 0;
