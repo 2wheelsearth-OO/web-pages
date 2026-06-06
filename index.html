@@ -27,12 +27,12 @@
     /* MIDSECTION GRAPHIC CONTAINER FRAME */
     .backdrop-container {
         width: 100%;
-        height: 35vh;                 /* Set vertical space allocated between header and sliders */
-        min-height: 250px;            /* Increased slightly to prevent collapsing on mobile viewports */
-        max-height: 450px;            /* Increased to accommodate the requested larger layout scaling */
+        height: 35vh;                 
+        min-height: 250px;            
+        max-height: 450px;            
         position: relative;
         background-color: transparent; 
-        margin: 15px 0;
+        margin: 15px 0 5px 0;
         display: flex;                
         justify-content: center;      
         align-items: center;          
@@ -41,12 +41,18 @@
     /* SCALED UP STATIC WHITE TRANSPARENT BIKE */
     .animated-bike {
         width: 100%;
-        height: 100%;                 /* FIXED: Expanded from 50% to 100% to fill the full red boundary container */
+        height: 100%;                 
         background-image: url('https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/collagraphy%20bike%20white%20logo.png');
-        background-size: contain;     /* Ensures the full graphic expands without clipping at edges */
+        background-size: contain;     
         background-position: center center; 
         background-repeat: no-repeat;
         opacity: 0.85;                
+    }
+
+    /* BOTTOM TITLE WRAP POSITIONING */
+    .header-wrap {
+        text-align: center;
+        margin-bottom: 20px;
     }
     </style>
 </head>
@@ -57,13 +63,12 @@
     <div class="corner bl">V66.15.0</div>
     <div class="corner br" id="s">RES</div>
 
-    <div class="header-wrap">
-        <h1>Stop Walking. Start Rolling.</h1>
-        <p class="sub">Local Inventory Matchmaker</p>
-    </div>
-
     <div class="backdrop-container">
         <div class="animated-bike"></div>
+    </div>
+
+    <div class="header-wrap">
+        <h1>Stop Walking. Start Rolling.</h1>
     </div>
 
     <div class="ui">
