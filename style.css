@@ -70,19 +70,26 @@ html, body {
 /* FIXED: Changed positioning to place the graphic cleanly at the top */
 .bike-hero {
     position: absolute;
-    top: 85px; 
+    top: 50%;                 /* Center vertically relative to the screen */
     left: 50%; 
-    transform: translateX(-50%); 
+    transform: translate(-50%, -50%); /* Perfectly center it as a backdrop */
     pointer-events: none; 
     display: flex;
     align-items: center;
     justify-content: center;
-    width: auto;             /* CHANGED FROM 100% */
-    margin-bottom: 12px;
-    opacity: 0.9; 
-    z-index: 10; 
+    width: auto;              /* FIXED: Removed 100% so it doesn't push elements down */
+    margin-bottom: 0;         /* Clear the bottom margin */
+    opacity: 0.05;            /* Make it very subtle like a background watermark */
+    z-index: 1;               /* Push it behind the cards (z-index: 10 was overlapping them) */
 }
-.bike-hero svg { width: 140px; height: auto; max-width: 40vw; }
+
+/* Make the SVG graphic blow up larger to look like a true backdrop */
+.bike-hero svg { 
+    width: 280px; 
+    height: auto; 
+    max-width: 80vw; 
+    filter: invert(1);        /* Ensures the colors are reversed nicely against the dark mode */
+}
 
 .gallery {
     display: flex;
