@@ -15,13 +15,23 @@
     .corner.bl{bottom:10px;left:10px}
     .corner.br{bottom:10px;right:10px}
 
-    /* FULL-SCREEN BACKDROP FIX */
-    body {
+    /* CLEAN WHITE PAPER & ENTIRE BIKE BACKDROP */
+    .backdrop-container {
+        width: 100%;
+        height: 45vh;                 /* Takes up proportional vertical space */
+        min-height: 250px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
         background-image: url('https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/collagraphy%20bike%20logo.png');
-        background-size: cover;          /* Forces image to cover entire screen */
-        background-position: center;     /* Centers the backdrop image */
-        background-repeat: no-repeat;    /* Prevents the image from repeating */
-        background-attachment: fixed;    /* Keeps background static during scroll */
+        background-size: contain;      /* Forces the ENTIRE bike illustration to fit without clipping */
+        background-position: center;   /* Centers the image perfectly */
+        background-repeat: no-repeat;  /* Prevents tiling */
+        background-color: #f7f7f4;     /* Crisp white-paper texture tint companion */
+        border-radius: 8px;
+        margin: 10px 0;
+        /* No color inversion filter here: displays natural dark ink on white paper */
     }
     </style>
 </head>
@@ -37,6 +47,8 @@
         <p class="sub">Local Inventory Matchmaker</p>
     </div>
 
+    <div class="backdrop-container"></div>
+
     <div class="ui">
         <div class="group">
             <span class="type-label">Frame Style</span>
@@ -50,17 +62,17 @@
         <div class="group">
             <div class="sld-header">
                 <span class="sld-title">Rider Height</span>
-                <span id="hL" class="sld-value">5'8" (173cm)</span>
+                <span id="hL" class="sld-value">3'0" (91cm)</span>
             </div>
             <div class="sld-input-container">
-                <input type="range" id="hS" min="40" max="82" value="68" oninput="runUpdate()">
+                <input type="range" id="hS" min="36" max="82" value="36" oninput="runUpdate()">
             </div>
         </div>
 
         <div class="group">
             <div class="sld-header">
                 <span class="sld-title">Ideal Budget</span>
-                <span id="bL" class="sld-value">$200</span>
+                <span id="bL" class="sld-value">$30</span>
             </div>
             <div class="sld-input-container">
                 <input type="range" id="bS" min="0" max="100" value="30" oninput="runUpdate()">
