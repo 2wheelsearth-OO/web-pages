@@ -33,10 +33,16 @@
         display: none;
     }
 
+    /* INITIAL DEFAULT SPLASH STATE */
+    #splash-screen-group {
+        display: block;
+        width: 100%;
+    }
+
     /* MIDSECTION GRAPHIC CONTAINER FRAME - DYNAMIC HEIGHT */
     .backdrop-container {
         width: 100%;
-        height: auto;                 /* Changed from fixed vh to auto to prevent overlap text bugs */
+        height: auto;                 
         padding-top: 40px;
         position: relative;
         background-color: transparent; 
@@ -48,8 +54,8 @@
     /* SCALED UP STATIC WHITE TRANSPARENT BIKE */
     .animated-bike {
         width: 90%;
-        max-width: 500px;             /* Keeps the bike crisp and perfectly scaled */
-        height: 250px;                /* Explicit clean bounding layout block */
+        max-width: 500px;             
+        height: 250px;                
         background-image: url('https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/collagraphy%20bike%20white%20logo.png');
         background-size: contain;     
         background-position: center center; 
@@ -70,12 +76,8 @@
         line-height: 1.2;
     }
 
-    /* AUTOMATION RULES:
-       When actual matching inventory blocks load inside the bike-gallery element, 
-       this tells the browser to hide both the bike icon and the heading text layout blocks completely.
-    */
-    body:has(#bike-gallery > *) .backdrop-container,
-    body:has(#bike-gallery > *) .header-wrap {
+    /* MASTER SWITCH RULE: Managed safely by JavaScript observer below */
+    body.hide-splash #splash-screen-group {
         display: none !important;
     }
     </style>
@@ -87,12 +89,14 @@
     <div class="corner bl">V66.15.0</div>
     <div class="corner br" id="s">RES</div>
 
-    <div class="backdrop-container">
-        <div class="animated-bike"></div>
-    </div>
+    <div id="splash-screen-group">
+        <div class="backdrop-container">
+            <div class="animated-bike"></div>
+        </div>
 
-    <div class="header-wrap">
-        <h1>Stop Walking. Start Rolling.</h1>
+        <div class="header-wrap">
+            <h1>Stop Walking. Start Rolling.</h1>
+        </div>
     </div>
 
     <div class="ui">
@@ -146,6 +150,22 @@
                 }
             };
             checkAndInit();
+
+            // AUTOMATION OBSERVER LAYER:
+            // Safely toggles layout states based directly on layout updates without layout-breaking side effects
+            const targetGallery = document.getElementById('bike-gallery');
+            if (targetGallery) {
+                const observer = new MutationObserver(() => {
+                    // Check if your external script has built cards inside the gallery component
+                    if (targetGallery.children.length > 0) {
+                        document.body.classList.add('hide-splash');
+                    } else {
+                        document.body.classList.remove('hide-splash');
+                    }
+                });
+                
+                observer.observe(targetGallery, { childList: true, subtree: true });
+            }
         });
     </script>
 </body>
