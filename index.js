@@ -1,3 +1,4 @@
+// Version: 672026-1
 const GITHUB_API = "https://api.github.com/repos/2wheelsearth-OO/Assets/contents/";
 const RAW_URL = "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/";
 
@@ -40,7 +41,8 @@ async function init() {
         
         inventory.forEach(b => {
             const card = document.createElement('div');
-            card.className = 'card';
+            // Updated class list to include 'bike-card' so index.html's observer detects it properly
+            card.className = 'card bike-card';
             card.id = `bike-${b.id}`;
             card.innerHTML = `
                 <div class="img-box"><img loading="lazy" src="${b.img}"></div>
@@ -66,8 +68,10 @@ function runUpdate() {
     if (!inventory.length) return;
     
     const riderH = parseFloat(document.getElementById('hS').value);
-    const budgetIn = document.getElementById('bS').value;
-    const targetPrice = Math.round(50 + (1000 - 50) * Math.pow(budgetIn / 100, 2));
+    const budgetIn = parseFloat(document.getElementById('bS').value);
+    
+    // Corrected to linear calculation based on standard $50 to $1000 native parameters
+    const targetPrice = Math.round(budgetIn);
     
     const ft = Math.floor(riderH / 12);
     const inch = Math.round(riderH % 12);
