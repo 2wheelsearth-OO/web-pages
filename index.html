@@ -91,7 +91,7 @@
 
     <div class="corner tl" id="d">DATE</div>
     <div class="corner tr" id="t">TIME</div>
-    <div class="corner bl" style="display: block !important;">V66.15.0</div>
+    <div class="corner bl" style="display: block !important;">672026-1</div>
     <div class="corner br" id="s">RES</div>
 
     <div id="splash-screen-group">
@@ -130,7 +130,7 @@
                 <span id="bL" class="sld-value">$50</span>
             </div>
             <div class="sld-input-container">
-                <input type="range" id="bS" min="50" max="500" value="50" oninput="runUpdate()">
+                <input type="range" id="bS" min="50" max="1000" value="50" oninput="runUpdate()">
             </div>
             <div class="match-feedback-row">
                 <div id="matchRange" class="match-msg">Matching Catalog...</div>
@@ -160,9 +160,8 @@
             const targetGallery = document.getElementById('bike-gallery');
             if (targetGallery) {
                 const observer = new MutationObserver(() => {
-                    // STABLE FIX: Looks directly for generated card wrapper objects like ".bike-card" or active profile images.
-                    // This guarantees your splash logo stays up when text states change or catalog searches initialize.
-                    const hasRealProducts = targetGallery.querySelector('.bike-card') || targetGallery.querySelector('img');
+                    // Strict targeted check: Only remove splash elements if valid catalog matched product item elements exist
+                    const hasRealProducts = targetGallery.querySelector('.bike-card');
                     
                     if (hasRealProducts) {
                         document.body.classList.add('hide-splash');
