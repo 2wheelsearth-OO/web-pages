@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="style.css?v=db03143b4d">
 
     <style>
-    /* Absolute corner safety overrides - forced with !important to defeat cached stylesheets */
+    /* Absolute corner safety overrides to keep text elements anchored inside the screen view */
     .corner {
         position: fixed !important;
         font-size: 12px !important;
@@ -81,7 +81,7 @@
         line-height: 1.2;
     }
 
-    /* MASTER SWITCH RULE: Managed safely by the refined JavaScript child observer below */
+    /* MASTER SWITCH RULE: Managed safely by the refined element counter script below */
     body.hide-splash #splash-screen-group {
         display: none !important;
     }
@@ -127,10 +127,10 @@
         <div class="group">
             <div class="sld-header">
                 <span class="sld-title">Ideal Budget</span>
-                <span id="bL" class="sld-value">$30</span>
+                <span id="bL" class="sld-value">$50</span>
             </div>
             <div class="sld-input-container">
-                <input type="range" id="bS" min="0" max="100" value="30" oninput="runUpdate()">
+                <input type="range" id="bS" min="50" max="500" value="50" oninput="runUpdate()">
             </div>
             <div class="match-feedback-row">
                 <div id="matchRange" class="match-msg">Matching Catalog...</div>
@@ -156,15 +156,15 @@
             };
             checkAndInit();
 
-            // REFINED AUTOMATION OBSERVER LAYER:
+            // EXPLICIT STRUCTURAL CONTROLLER LAYER
             const targetGallery = document.getElementById('bike-gallery');
             if (targetGallery) {
                 const observer = new MutationObserver(() => {
-                    // CRITICAL FIX: Only hide the splash if actual bike IMAGES exist inside the gallery container.
-                    // This keeps the bike visible during status updates and empty load phases.
-                    const dynamicImages = targetGallery.getElementsByTagName('img');
+                    // STABLE FIX: Looks directly for generated card wrapper objects like ".bike-card" or active profile images.
+                    // This guarantees your splash logo stays up when text states change or catalog searches initialize.
+                    const hasRealProducts = targetGallery.querySelector('.bike-card') || targetGallery.querySelector('img');
                     
-                    if (dynamicImages.length > 0) {
+                    if (hasRealProducts) {
                         document.body.classList.add('hide-splash');
                     } else {
                         document.body.classList.remove('hide-splash');
