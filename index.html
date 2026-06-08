@@ -38,17 +38,21 @@
         display: none;
     }
 
-    /* INITIAL DEFAULT SPLASH STATE */
+    /* SPLASH VERTICAL LAYOUT CONFIGURATION */
     #splash-screen-group {
-        display: block;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
         width: 100%;
+        margin-top: 20px;
     }
 
     /* MIDSECTION GRAPHIC CONTAINER FRAME */
     .backdrop-container {
         width: 100%;
-        height: auto;                 
-        padding-top: 40px;
+        max-width: 500px;
+        height: 220px;                 
         position: relative;
         background-color: transparent; 
         display: flex;                
@@ -58,9 +62,8 @@
 
     /* SCALED UP STATIC WHITE TRANSPARENT BIKE */
     .animated-bike {
-        width: 90%;
-        max-width: 500px;             
-        height: 250px;                
+        width: 100%;
+        height: 100%;                
         background-image: url('https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/collagraphy%20bike%20white%20logo.png');
         background-size: contain;     
         background-position: center center; 
@@ -68,20 +71,22 @@
         opacity: 0.85;                
     }
 
-    /* TEXT WRAPPER POSITIONED NATURALLY BELOW */
+    /* TEXT WRAPPER POSITIONED STRUCTURALLY BELOW BICYCLE LOGO FRAME */
     .header-wrap {
         text-align: center;
-        margin: 10px 0 30px 0;
+        margin: 15px 0 25px 0;
         padding: 0 15px;
+        width: 100%;
     }
 
     .header-wrap h1 {
         margin: 0;
-        font-size: 2.5rem;
+        font-size: 2.2rem;
         line-height: 1.2;
+        font-family: 'Permanent Marker', cursive, sans-serif;
     }
 
-    /* MASTER SWITCH RULE: Managed safely by the state controller script below */
+    /* MASTER SWITCH RULE */
     body.hide-splash #splash-screen-group {
         display: none !important;
     }
@@ -91,14 +96,13 @@
 
     <div class="corner tl" id="d">DATE</div>
     <div class="corner tr" id="t">TIME</div>
-    <div class="corner bl" style="display: block !important;">672026-4</div>
+    <div class="corner bl" style="display: block !important;">672026-5</div>
     <div class="corner br" id="s">RES</div>
 
     <div id="splash-screen-group">
         <div class="backdrop-container">
             <div class="animated-bike"></div>
         </div>
-
         <div class="header-wrap">
             <h1>Stop Walking. Start Rolling.</h1>
         </div>
@@ -156,12 +160,11 @@
             };
             checkAndInit();
 
-            // DIRECT USER ACTION INPUT TRACKER
+            // Direct tracking layer based on slider movement interaction states
             const heightSlider = document.getElementById('hS');
             
             const evaluateSplashVisibility = () => {
                 if (heightSlider) {
-                    // If the height slider is moved off its minimum initial position, hide the splash layout
                     if (parseInt(heightSlider.value) > 36) {
                         document.body.classList.add('hide-splash');
                     } else {
@@ -170,10 +173,8 @@
                 }
             };
 
-            // Evaluate state immediately on load execution
             evaluateSplashVisibility();
 
-            // Listen directly to user slider inputs to toggle layout visibility dynamically
             if (heightSlider) {
                 heightSlider.addEventListener('input', evaluateSplashVisibility);
                 heightSlider.addEventListener('change', evaluateSplashVisibility);
