@@ -38,28 +38,22 @@
         display: none;
     }
 
-    /* SPLASH VERTICAL LAYOUT CONFIGURATION - FORCES ELEMENT SEPARATION */
+    /* SPLASH VERTICAL LAYOUT CONFIGURATION */
     #splash-screen-group {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        justify-content: center !important;
+        display: block !important;
         width: 100%;
-        margin-top: 25px;
-        gap: 20px; /* Explicit structural gap between the bike logo and the slogan */
+        text-align: center;
+        margin-top: 20px;
     }
 
     /* MIDSECTION GRAPHIC CONTAINER FRAME */
     .backdrop-container {
-        width: 90%;
+        width: 100%;
         max-width: 450px;
-        height: auto;
-        aspect-ratio: 16 / 9;                 
+        height: 250px;                 
+        margin: 0 auto;
         position: relative;
         background-color: transparent; 
-        display: flex;                
-        justify-content: center;      
-        align-items: center;          
     }
 
     /* SCALED UP STATIC WHITE TRANSPARENT BIKE */
@@ -73,9 +67,12 @@
         opacity: 0.85;                
     }
 
-    /* TEXT WRAPPER POSITIONED NATURALLY BELOW */
+    /* TEXT WRAPPER FORCE-POSITIONED COMPLETELY BELOW THE LOGO GRAPHIC */
     .header-wrap {
-        text-align: center;
+        display: block !important;
+        text-align: center !important;
+        margin-top: 20px !important;
+        margin-bottom: 20px !important;
         padding: 0 15px;
         width: 100%;
         box-sizing: border-box;
@@ -98,7 +95,7 @@
 
     <div class="corner tl" id="d">DATE</div>
     <div class="corner tr" id="t">TIME</div>
-    <div class="corner bl" style="display: block !important;">2026-06-08-version 11</div>
+    <div class="corner bl" style="display: block !important;">2026-06-08-version 12</div>
     <div class="corner br" id="s">RES</div>
 
     <div id="splash-screen-group">
