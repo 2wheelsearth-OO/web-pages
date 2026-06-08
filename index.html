@@ -38,11 +38,12 @@
         display: none;
     }
 
-    /* SPLASH CONTAINER */
+    /* SPLASH CONTAINER USING CLEAN FLEX LAYOUT */
     #splash-screen-group {
-        display: block !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
         width: 100%;
-        text-align: center;
         margin-top: 20px;
     }
 
@@ -51,7 +52,6 @@
         width: 100%;
         max-width: 450px;
         height: 250px;                 
-        margin: 0 auto;
         position: relative;
         background-color: transparent; 
     }
@@ -67,15 +67,14 @@
         opacity: 0.85;                
     }
 
-    /* FORCE RE-POSITION SLOGAN TEXT BELOW THE WHEELS */
+    /* CLEAN BLOCK FLOW POSITIONED RIGHT UNDER THE WHEELS */
     .header-wrap {
         display: block !important;
         position: relative !important;
         text-align: center !important;
-        /* Use transform to forcefully push the rendering position down past the bike container graphics */
-        transform: translateY(240px) !important; 
-        margin-top: 0 !important;
-        margin-bottom: 260px !important; /* Leave empty structural block space so it doesn't collide with sliders below */
+        transform: none !important; /* Stripped out the deep forced translation push */
+        margin-top: -10px !important; /* Pulls text neatly closer to the bottom edge of the bike graphic */
+        margin-bottom: 30px !important;
         padding: 0 15px;
         width: 100%;
         box-sizing: border-box;
@@ -88,7 +87,6 @@
         font-size: 2.2rem !important;
         line-height: 1.2 !important;
         font-family: 'Permanent Marker', cursive, sans-serif !important;
-        top: auto !important;
         position: relative !important;
     }
 
@@ -102,7 +100,7 @@
 
     <div class="corner tl" id="d">DATE</div>
     <div class="corner tr" id="t">TIME</div>
-    <div class="corner bl" style="display: block !important;">2026-06-08-version 13</div>
+    <div class="corner bl" style="display: block !important;">2026-06-08-version 14</div>
     <div class="corner br" id="s">RES</div>
 
     <div id="splash-screen-group">
