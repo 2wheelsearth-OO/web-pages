@@ -38,7 +38,7 @@
         display: none;
     }
 
-    /* SPLASH VERTICAL LAYOUT CONFIGURATION */
+    /* SPLASH CONTAINER */
     #splash-screen-group {
         display: block !important;
         width: 100%;
@@ -67,22 +67,29 @@
         opacity: 0.85;                
     }
 
-    /* TEXT WRAPPER FORCE-POSITIONED COMPLETELY BELOW THE LOGO GRAPHIC */
+    /* FORCE RE-POSITION SLOGAN TEXT BELOW THE WHEELS */
     .header-wrap {
         display: block !important;
+        position: relative !important;
         text-align: center !important;
-        margin-top: 20px !important;
-        margin-bottom: 20px !important;
+        /* Use transform to forcefully push the rendering position down past the bike container graphics */
+        transform: translateY(240px) !important; 
+        margin-top: 0 !important;
+        margin-bottom: 260px !important; /* Leave empty structural block space so it doesn't collide with sliders below */
         padding: 0 15px;
         width: 100%;
         box-sizing: border-box;
+        z-index: 100 !important;
     }
 
     .header-wrap h1 {
-        margin: 0;
-        font-size: 2.2rem;
-        line-height: 1.2;
-        font-family: 'Permanent Marker', cursive, sans-serif;
+        margin: 0 !important;
+        padding: 0 !important;
+        font-size: 2.2rem !important;
+        line-height: 1.2 !important;
+        font-family: 'Permanent Marker', cursive, sans-serif !important;
+        top: auto !important;
+        position: relative !important;
     }
 
     /* MASTER SWITCH RULE */
@@ -95,7 +102,7 @@
 
     <div class="corner tl" id="d">DATE</div>
     <div class="corner tr" id="t">TIME</div>
-    <div class="corner bl" style="display: block !important;">2026-06-08-version 12</div>
+    <div class="corner bl" style="display: block !important;">2026-06-08-version 13</div>
     <div class="corner br" id="s">RES</div>
 
     <div id="splash-screen-group">
