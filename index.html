@@ -40,10 +40,12 @@
 
     /* SPLASH VERTICAL LAYOUT CONFIGURATION */
     #splash-screen-group {
-        display: block;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
         width: 100%;
-        text-align: center;
-        margin-top: 30px;
+        margin-top: 20px;
     }
 
     /* MIDSECTION GRAPHIC CONTAINER FRAME */
@@ -51,9 +53,10 @@
         width: 100%;
         max-width: 500px;
         height: 250px;                 
-        margin: 0 auto;
-        position: relative;
         background-color: transparent; 
+        display: flex;                
+        justify-content: center;      
+        align-items: center;          
     }
 
     /* SCALED UP STATIC WHITE TRANSPARENT BIKE */
@@ -67,13 +70,10 @@
         opacity: 0.85;                
     }
 
-    /* TEXT WRAPPER FORCE-PUSHED COMPLETELY BELOW BICYCLE LOGO FRAME */
+    /* TEXT WRAPPER POSITIONED NATURALLY BELOW */
     .header-wrap {
-        display: block;
-        clear: both;
         text-align: center;
-        margin-top: 25px;
-        margin-bottom: 25px;
+        margin: 20px 0 10px 0;
         padding: 0 15px;
         width: 100%;
     }
@@ -95,7 +95,7 @@
 
     <div class="corner tl" id="d">DATE</div>
     <div class="corner tr" id="t">TIME</div>
-    <div class="corner bl" style="display: block !important;">2026-06-08 - 672026-8</div>
+    <div class="corner bl" style="display: block !important;">2026-06-08 - 672026-9</div>
     <div class="corner br" id="s">RES</div>
 
     <div id="splash-screen-group">
