@@ -38,21 +38,24 @@
         display: none;
     }
 
-    /* SPLASH VERTICAL LAYOUT CONFIGURATION */
+    /* SPLASH VERTICAL LAYOUT CONFIGURATION - FORCES ELEMENT SEPARATION */
     #splash-screen-group {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
         width: 100%;
-        margin-top: 20px;
+        margin-top: 25px;
+        gap: 20px; /* Explicit structural gap between the bike logo and the slogan */
     }
 
     /* MIDSECTION GRAPHIC CONTAINER FRAME */
     .backdrop-container {
-        width: 100%;
-        max-width: 500px;
-        height: 250px;                 
+        width: 90%;
+        max-width: 450px;
+        height: auto;
+        aspect-ratio: 16 / 9;                 
+        position: relative;
         background-color: transparent; 
         display: flex;                
         justify-content: center;      
@@ -73,9 +76,9 @@
     /* TEXT WRAPPER POSITIONED NATURALLY BELOW */
     .header-wrap {
         text-align: center;
-        margin: 20px 0 10px 0;
         padding: 0 15px;
         width: 100%;
+        box-sizing: border-box;
     }
 
     .header-wrap h1 {
@@ -95,7 +98,7 @@
 
     <div class="corner tl" id="d">DATE</div>
     <div class="corner tr" id="t">TIME</div>
-    <div class="corner bl" style="display: block !important;">2026-06-08 - 672026-9</div>
+    <div class="corner bl" style="display: block !important;">2026-06-08-version 11</div>
     <div class="corner br" id="s">RES</div>
 
     <div id="splash-screen-group">
