@@ -81,7 +81,7 @@
         line-height: 1.2;
     }
 
-    /* MASTER SWITCH RULE: Managed safely by the refined element counter script below */
+    /* MASTER SWITCH RULE: Managed safely by the state controller script below */
     body.hide-splash #splash-screen-group {
         display: none !important;
     }
@@ -91,7 +91,7 @@
 
     <div class="corner tl" id="d">DATE</div>
     <div class="corner tr" id="t">TIME</div>
-    <div class="corner bl" style="display: block !important;">672026-3</div>
+    <div class="corner bl" style="display: block !important;">672026-4</div>
     <div class="corner br" id="s">RES</div>
 
     <div id="splash-screen-group">
@@ -156,21 +156,27 @@
             };
             checkAndInit();
 
-            // EXPLICIT STRUCTURAL CONTROLLER LAYER
-            const targetGallery = document.getElementById('bike-gallery');
-            if (targetGallery) {
-                const observer = new MutationObserver(() => {
-                    // Lock protection: Check explicitly for the existence of populated child product items
-                    const productCount = targetGallery.getElementsByClassName('bike-card').length;
-                    
-                    if (productCount > 0) {
+            // DIRECT USER ACTION INPUT TRACKER
+            const heightSlider = document.getElementById('hS');
+            
+            const evaluateSplashVisibility = () => {
+                if (heightSlider) {
+                    // If the height slider is moved off its minimum initial position, hide the splash layout
+                    if (parseInt(heightSlider.value) > 36) {
                         document.body.classList.add('hide-splash');
                     } else {
                         document.body.classList.remove('hide-splash');
                     }
-                });
-                
-                observer.observe(targetGallery, { childList: true, subtree: true });
+                }
+            };
+
+            // Evaluate state immediately on load execution
+            evaluateSplashVisibility();
+
+            // Listen directly to user slider inputs to toggle layout visibility dynamically
+            if (heightSlider) {
+                heightSlider.addEventListener('input', evaluateSplashVisibility);
+                heightSlider.addEventListener('change', evaluateSplashVisibility);
             }
         });
     </script>
