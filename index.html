@@ -91,7 +91,7 @@
 
     <div class="corner tl" id="d">DATE</div>
     <div class="corner tr" id="t">TIME</div>
-    <div class="corner bl" style="display: block !important;">672026-2</div>
+    <div class="corner bl" style="display: block !important;">672026-3</div>
     <div class="corner br" id="s">RES</div>
 
     <div id="splash-screen-group">
@@ -160,10 +160,10 @@
             const targetGallery = document.getElementById('bike-gallery');
             if (targetGallery) {
                 const observer = new MutationObserver(() => {
-                    // Precision check: Only hide splash graphics if matched catalog items exist
-                    const hasRealProducts = targetGallery.querySelector('.bike-card');
+                    // Lock protection: Check explicitly for the existence of populated child product items
+                    const productCount = targetGallery.getElementsByClassName('bike-card').length;
                     
-                    if (hasRealProducts) {
+                    if (productCount > 0) {
                         document.body.classList.add('hide-splash');
                     } else {
                         document.body.classList.remove('hide-splash');
