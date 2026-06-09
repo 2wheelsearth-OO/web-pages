@@ -1,3 +1,26 @@
+// Add to the top of your existing init function or global scope
+const frameLayer = document.getElementById('frame-layer');
+const topBarLayer = document.getElementById('topbar-layer');
+
+function rotateBike(degrees) {
+    // Rotate the two main layers
+    if(frameLayer) frameLayer.style.transform = `rotate(${degrees}deg)`;
+    if(topBarLayer) topBarLayer.style.transform = `rotate(${degrees}deg)`;
+    
+    // Rotate existing gallery cards if needed
+    const bikes = document.querySelectorAll('.bike-card');
+    bikes.forEach(bike => {
+        bike.style.transform = `rotate(${degrees}deg)`;
+        bike.style.transition = 'transform 0.1s ease-out';
+    });
+}
+
+// In your init() function, add the listener for the new rotation slider
+const rotSlider = document.getElementById('rotS');
+if (rotSlider) {
+    rotSlider.addEventListener('input', (e) => rotateBike(e.target.value));
+}
+
 // Version: 672026-1-ROTATION
 const GITHUB_API = "https://api.github.com/repos/2wheelsearth-OO/Assets/contents/";
 const RAW_URL = "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/";
