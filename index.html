@@ -2,67 +2,84 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Velocipede</title>
-    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Velocipede | Matchmaker</title>
     <style>
-        body { background-color: #000; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; color: #fff; font-family: sans-serif; }
-        .phone-frame { width: 100%; max-width: 414px; height: 100%; max-height: 896px; background-color: #121212; display: flex; flex-direction: column; position: relative; }
+        /* Base styling to ensure everything fits the screen */
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background-color: #000; color: #fff; font-family: sans-serif; overflow: hidden; }
         
-        /* Bike Viewer Area */
-        #bike-viewer { flex: 2; display: flex; justify-content: center; align-items: center; position: relative; }
-        #bike-frame { width: 200px; height: 200px; background-image: url('https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/collagraphy%20bike%20white%20logo.png'); background-size: contain; background-repeat: no-repeat; transition: transform 0.1s ease-out; }
-
-        /* UI Area */
-        .ui { flex: 1; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
+        .phone-frame { width: 100%; max-width: 414px; height: 100%; margin: auto; background-color: #121212; position: relative; display: flex; flex-direction: column; padding: 20px; box-sizing: border-box; }
+        
+        /* Bike Display Area */
+        .bike-display { position: relative; width: 100%; height: 200px; flex-shrink: 0; }
+        .bike-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: contain; background-position: center; background-repeat: no-repeat; }
+        #top-tube { transition: transform 0.5s ease-in-out; transform-origin: 25% 40%; }
+        
+        /* Controls and Text */
+        .ui { flex: 1; display: flex; flex-direction: column; gap: 20px; }
         .group { display: flex; flex-direction: column; }
+        label { font-size: 14px; margin-bottom: 5px; }
+        .value-display { font-size: 14px; color: #aaa; margin-bottom: 5px; }
         
-        #splash-screen-group { position: absolute; top: 40px; width: 100%; display: flex; flex-direction: column; align-items: center; z-index: 10; background: #121212; height: 100%; }
-        body.hide-splash #splash-screen-group { display: none; }
+        /* Buttons */
+        .row { display: flex; gap: 10px; }
+        button { cursor: pointer; padding: 10px; background: #333; color: white; border: none; border-radius: 4px; font-size: 14px; }
+        button.active { background-color: #007bff; }
+        
+        /* 4-Corner Information */
+        .corner { position: absolute; font-size: 12px; color: #fff; padding: 10px; }
+        .top-left { top: 0; left: 0; }
+        .top-right { top: 0; right: 0; }
+        .bottom-left { bottom: 0; left: 0; }
+        .bottom-right { bottom: 0; right: 0; }
     </style>
 </head>
 <body>
-
     <div class="phone-frame">
-        <div id="splash-screen-group">
-            <div style="width: 80%; height: 120px; background: url('https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/collagraphy%20bike%20white%20logo.png') center/contain no-repeat;"></div>
-            <h1>Stop Walking. Start Rolling.</h1>
-        </div>
-
-        <div id="bike-viewer">
-            <div id="bike-frame"></div>
+        <div class="corner top-left">Info TL</div>
+        <div class="corner top-right">Info TR</div>
+        <div class="corner bottom-left">2026-06-08-version 23</div>
+        <div class="corner bottom-right">Info BR</div>
+        
+        <div class="bike-display">
+            <div class="bike-layer" style="background-image: url('collagraphy bike frame white logo (1).png');"></div>
+            <div id="top-tube" class="bike-layer" style="background-image: url('collagraphy bike top bar white logo (1).png');"></div>
         </div>
 
         <div class="ui">
             <div class="group">
-                <label>Rider Height</label>
-                <input type="range" id="hS" min="36" max="82" value="36">
+                <label>Frame Style</label>
+                <div class="row" id="btn-group">
+                    <button onclick="setS(this, 'M')" class="active">High-Bar</button>
+                    <button onclick="setS(this, 'X')">Mixed</button>
+                    <button onclick="setS(this, 'F')">Step-Thru</button>
+                </div>
             </div>
             <div class="group">
-                <label>Rotation Control</label>
-                <input type="range" id="rS" min="0" max="360" value="0">
+                <label>Rider Height</label>
+                <div class="value-display" id="h-val">36"</div>
+                <input type="range" id="hS" min="36" max="82" value="36" style="width:100%;" oninput="updateVal('h-val', this.value, '\"')">
+            </div>
+            <div class="group">
+                <label>Ideal Budget</label>
+                <div class="value-display" id="b-val">$50</div>
+                <input type="range" id="bS" min="50" max="1000" value="50" style="width:100%;" oninput="updateVal('b-val', this.value, '$')">
             </div>
         </div>
     </div>
 
     <script>
-        const heightSlider = document.getElementById('hS');
-        const rotationSlider = document.getElementById('rS');
-        const bike = document.getElementById('bike-frame');
-
-        // Logic for hiding the splash screen
-        heightSlider.addEventListener('input', (e) => {
-            if(parseInt(e.target.value) > 36) {
-                document.body.classList.add('hide-splash');
-            } else {
-                document.body.classList.remove('hide-splash');
-            }
-        });
-
-        // Logic for rotating the bike
-        rotationSlider.addEventListener('input', (e) => {
-            bike.style.transform = `rotate(${e.target.value}deg)`;
-        });
+        function setS(btn, style) {
+            document.querySelectorAll('#btn-group button').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const topTube = document.getElementById('top-tube');
+            if (style === 'M') topTube.style.transform = "rotate(0deg)";
+            else if (style === 'F') topTube.style.transform = "rotate(-60deg)";
+            else topTube.style.transform = "rotate(-30deg)";
+        }
+        function updateVal(id, val, prefix) {
+            document.getElementById(id).innerText = (prefix === '$' ? '$' : '') + val + (prefix === '\"' ? '\"' : '');
+        }
     </script>
 </body>
 </html>
