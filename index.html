@@ -5,26 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Velocipede</title>
     <style>
-        /* Existing UI and Layout preserved */
         body { margin: 0; background: #000; color: #fff; font-family: sans-serif; height: 100vh; overflow: hidden; }
         .phone-frame { width: 100%; max-width: 414px; height: 100%; margin: auto; background: #121212; position: relative; padding: 20px; box-sizing: border-box; display: flex; flex-direction: column; }
         
-        /* 4-Corner Information maintained */
+        /* 4-Corner Information */
         .corner { position: absolute; font-size: 12px; color: #fff; padding: 10px; }
         .tl { top: 0; left: 0; } .tr { top: 0; right: 0; }
         .bl { bottom: 0; left: 0; } .br { bottom: 0; right: 0; }
         
-        /* Bike Display Layering (New) */
+        /* BIKE DISPLAY - Fixed layering */
         .bike-display { position: relative; width: 100%; height: 200px; margin-top: 40px; margin-bottom: 20px; }
-        .bike-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: contain; background-position: center; background-repeat: no-repeat; }
+        .bike-frame { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: contain; background-position: center; background-repeat: no-repeat; z-index: 1; }
+        .top-tube { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: contain; background-position: center; background-repeat: no-repeat; z-index: 2; transition: transform 0.5s ease; transform-origin: 25% 40%; }
         
-        /* Rotation Logic */
-        #top-tube { 
-            transition: transform 0.5s ease; 
-            transform-origin: 25% 40%; /* Pivot point for rotation */
-        }
-        
-        /* Existing Buttons and Sliders preserved */
+        /* UI Styling */
         .group { margin-bottom: 20px; }
         .row-label { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 5px; }
         label { font-size: 14px; }
@@ -41,8 +35,8 @@
         <div class="corner br">BR Info</div>
         
         <div class="bike-display">
-            <div class="bike-layer" style="background-image: url('collagraphy bike frame white logo (1).png');"></div>
-            <div id="top-tube" class="bike-layer" style="background-image: url('collagraphy bike top bar white logo (1).png');"></div>
+            <div class="bike-frame" style="background-image: url('collagraphy bike frame white logo (1).png');"></div>
+            <div id="top-tube" class="top-tube" style="background-image: url('collagraphy bike top bar white logo (1).png');"></div>
         </div>
 
         <div class="ui">
@@ -77,14 +71,10 @@
         function setS(btn, style) {
             document.querySelectorAll('#btn-group button').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            
             const t = document.getElementById('top-tube');
-            // High-Bar (M): Default overlap
             if (style === 'M') t.style.transform = "rotate(0deg)";
-            // Mixed (X): Rotate 30 deg counter-clockwise
             else if (style === 'X') t.style.transform = "rotate(-30deg)";
-            // Step-Thru (F): Rotate 60 deg counter-clockwise with offset
-            else if (style === 'F') t.style.transform = "rotate(-60deg) translateX(5px)";
+            else if (style === 'F') t.style.transform = "rotate(-60deg)";
         }
         function updateVal(id, v, p) { document.getElementById(id).innerText = (p === '$' ? '$' : '') + v + (p === '\"' ? '\"' : ''); }
     </script>
