@@ -5,18 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Velocipede | Matchmaker</title>
     <style>
-        body { background-color: #121212; color: #fff; margin: 0; display: flex; justify-content: center; height: 100vh; overflow: hidden; font-family: sans-serif; }
+        body { background-color: #000; margin: 0; display: flex; justify-content: center; height: 100vh; overflow: hidden; font-family: sans-serif; }
+        
+        /* RESTORED: The mobile boundary frame */
         .phone-frame { width: 100%; max-width: 414px; height: 100%; background-color: #121212; display: flex; flex-direction: column; position: relative; }
         
-        /* BIKE DISPLAY: Fixed at the top */
+        /* BIKE DISPLAY: Fixed at the top within the frame */
         .bike-display { position: relative; width: 100%; height: 200px; margin-top: 20px; }
-        .bike-base, .top-tube { position: absolute; width: 100%; height: 100%; background-size: contain; background-position: center; background-repeat: no-repeat; }
-        .top-tube { transition: transform 0.5s ease; transform-origin: 25% 40%; }
+        .bike-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: contain; background-position: center; background-repeat: no-repeat; }
+        
+        /* TOP BAR: Rotates around the pivot point */
+        #top-tube { transition: transform 0.5s ease-in-out; transform-origin: 25% 40%; }
         
         /* UI SECTION */
         .ui { flex: 1; display: flex; flex-direction: column; padding: 20px; gap: 15px; }
         .corner { position: absolute; bottom: 5px; left: 5px; font-size: 8px; color: #444; }
-        button { cursor: pointer; }
+        button { cursor: pointer; padding: 10px; }
     </style>
 </head>
 <body>
@@ -24,8 +28,8 @@
         <div class="corner">2026-06-08-version 23</div>
         
         <div class="bike-display">
-            <div class="bike-base" style="background-image: url('collagraphy bike frame white logo (1).png');"></div>
-            <div id="top-tube" class="top-tube" style="background-image: url('collagraphy bike top bar white logo (1).png');"></div>
+            <div class="bike-layer" style="background-image: url('collagraphy bike frame white logo (1).png');"></div>
+            <div id="top-tube" class="bike-layer" style="background-image: url('collagraphy bike top bar white logo (1).png');"></div>
         </div>
 
         <div class="ui">
@@ -49,11 +53,18 @@
     </div>
 
     <script>
+        // Start by ensuring High-Bar is the default
+        window.onload = () => setS('M');
+
         function setS(style) {
             const topTube = document.getElementById('top-tube');
-            if (style === 'M') topTube.style.transform = "rotate(0deg)";
-            else if (style === 'F') topTube.style.transform = "rotate(-60deg)";
-            else topTube.style.transform = "rotate(-30deg)";
+            if (style === 'M') {
+                topTube.style.transform = "rotate(0deg)";
+            } else if (style === 'F') {
+                topTube.style.transform = "rotate(-60deg)";
+            } else {
+                topTube.style.transform = "rotate(-30deg)";
+            }
         }
     </script>
 </body>
