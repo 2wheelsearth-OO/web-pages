@@ -6,104 +6,59 @@
     <title>Velocipede</title>
     <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
     <style>
-        body {
-            background-color: #000;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
-        }
+        body { background-color: #000; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; color: #fff; }
+        .phone-frame { width: 100%; max-width: 414px; height: 100%; max-height: 896px; background-color: #121212; display: flex; flex-direction: column; position: relative; }
+        
+        /* Bike Viewer Area */
+        #bike-viewer { flex: 2; display: flex; justify-content: center; align-items: center; position: relative; }
+        #bike-frame { width: 200px; height: 200px; background-image: url('https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/collagraphy%20bike%20white%20logo.png'); background-size: contain; background-repeat: no-repeat; transition: transform 0.1s ease-out; }
 
-        .phone-frame {
-            width: 100%;
-            max-width: 414px;
-            height: 100%;
-            max-height: 896px;
-            background-color: #121212;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-        }
-
-        #splash-screen-group {
-            flex: 0 0 auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 40px;
-        }
-
-        .backdrop-container {
-            width: 80%;
-            height: 120px;
-            background-image: url('https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/collagraphy%20bike%20white%20logo.png');
-            background-size: contain;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
-
-        .header-wrap {
-            margin-top: 10px;
-            text-align: center;
-        }
-
-        .header-wrap h1 {
-            color: #fff;
-            margin: 0;
-            font-size: 1.2rem;
-            font-family: 'Permanent Marker', cursive;
-            white-space: nowrap;
-        }
-
-        .ui {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            padding: 20px;
-            gap: 15px;
-        }
-
-        body.hide-splash #splash-screen-group { display: none !important; }
+        /* UI Area */
+        .ui { flex: 1; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
+        .group { display: flex; flex-direction: column; }
+        
+        #splash-screen-group { position: absolute; top: 40px; width: 100%; display: flex; flex-direction: column; align-items: center; }
+        body.hide-splash #splash-screen-group { display: none; }
     </style>
 </head>
 <body>
 
     <div class="phone-frame">
         <div id="splash-screen-group">
-            <div class="backdrop-container"></div>
-            <div class="header-wrap">
-                <h1>Stop Walking. Start Rolling.</h1>
-            </div>
+            <div style="width: 80%; height: 120px; background: url('https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/collagraphy%20bike%20white%20logo.png') center/contain no-repeat;"></div>
+            <h1>Stop Walking. Start Rolling.</h1>
+        </div>
+
+        <div id="bike-viewer">
+            <div id="bike-frame"></div>
         </div>
 
         <div class="ui">
             <div class="group">
-                <span style="color:#aaa; font-size: 0.8rem;">Frame Style</span>
-                <div class="row" style="margin-top: 5px;">
-                    <button class="btn">High-Bar</button>
-                    <button class="btn active">Mixed</button>
-                    <button class="btn">Step-Thru</button>
-                </div>
+                <span>Rider Height</span>
+                <input type="range" id="hS" min="36" max="82" value="36">
             </div>
             <div class="group">
-                <span style="color:#aaa; font-size: 0.8rem;">Rider Height</span>
-                <input type="range" id="hS" min="36" max="82" style="width:100%;">
-            </div>
-            <div class="group" style="padding-bottom: 20px;">
-                <span style="color:#aaa; font-size: 0.8rem;">Ideal Budget</span>
-                <input type="range" id="bS" min="50" max="1000" style="width:100%;">
+                <span>Rotation Speed</span>
+                <input type="range" id="rS" min="0" max="360" value="0">
             </div>
         </div>
     </div>
 
     <script>
         const heightSlider = document.getElementById('hS');
-        heightSlider.addEventListener('input', () => {
-            if(heightSlider.value > 36) document.body.classList.add('hide-splash');
+        const rotationSlider = document.getElementById('rS');
+        const bike = document.getElementById('bike-frame');
+
+        // Handle Splash Screen and Height
+        heightSlider.addEventListener('input', (e) => {
+            if(e.target.value > 36) document.body.classList.add('hide-splash');
             else document.body.classList.remove('hide-splash');
+        });
+
+        // Handle Rotation
+        rotationSlider.addEventListener('input', (e) => {
+            bike.style.transform = `rotate(${e.target.value}deg)`;
         });
     </script>
 </body>
