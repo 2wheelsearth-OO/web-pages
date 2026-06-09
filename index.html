@@ -8,30 +8,41 @@
     <link rel="stylesheet" href="style.css?v=db03143b4d">
 
     <style>
-    /* CORE MOBILE OPTIMIZED LAYOUT */
+    /* FORCE MOBILE APP APPEARANCE ON ALL SCREENS */
     body {
         background-color: #121212;
         color: #ffffff;
         margin: 0;
         padding: 0;
-        overflow: hidden; /* Lock the screen to prevent bounce scrolling */
+        display: flex;
+        justify-content: center;
+        min-height: 100vh;
+    }
+
+    /* THE APP CONTAINER - CONSTRAINED TO PHONE DIMENSIONS */
+    .app-container {
+        width: 100%;
+        max-width: 414px;
         height: 100vh;
         display: flex;
         flex-direction: column;
+        overflow: hidden;
     }
 
+    /* SPLASH SECTION - ORDERED EXPLICITLY */
     #splash-screen-group {
         display: flex !important;
         flex-direction: column !important;
         align-items: center !important;
-        margin-top: 10px;
+        justify-content: center !important;
         flex: 0 0 auto;
+        padding-top: 20px;
     }
 
     .backdrop-container {
         width: 80%;
-        height: 140px; /* Reduced to reclaim vertical space */
-        position: relative;
+        height: 160px;
+        order: 1; /* Bike first */
     }
 
     .animated-bike {
@@ -39,123 +50,93 @@
         height: 100%;                
         background-image: url('https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/collagraphy%20bike%20white%20logo.png');
         background-size: contain;     
-        background-position: center center; 
+        background-position: center; 
         background-repeat: no-repeat;
     }
 
-    /* TEXT SHRUNK TO FIT ONE LINE */
     .header-wrap {
-        text-align: center !important;
-        margin: 5px 0 !important;
-        width: 100%;
+        order: 2; /* Text second (below bike) */
+        text-align: center;
+        margin-top: 10px;
+        padding: 0 20px;
     }
 
     .header-wrap h1 {
-        margin: 0 !important;
-        font-size: 1.4rem !important; /* Smaller size to guarantee single-line fit */
-        font-family: 'Permanent Marker', cursive, sans-serif !important;
+        margin: 0;
+        font-size: 1.5rem;
+        font-family: 'Permanent Marker', cursive;
         white-space: nowrap;
     }
 
-    /* COMPACT UI WRAPPER */
+    /* UI SECTION - REMAINING SPACE */
     .ui {
-        flex: 1 1 auto;
-        padding: 5px 15px;
+        flex: 1;
         display: flex;
         flex-direction: column;
-        justify-content: space-evenly; /* Evenly distribute space for all sliders/buttons */
+        justify-content: center;
+        padding: 0 20px;
     }
 
-    .group { margin-bottom: 5px !important; }
-
-    /* MASTER SWITCH RULE */
     body.hide-splash #splash-screen-group { display: none !important; }
-
-    .corner { position: fixed !important; font-size: 10px !important; color: #555 !important; padding: 5px !important; }
-    .corner.bl { bottom: 5px !important; left: 5px !important; }
+    .corner { position: fixed; bottom: 5px; left: 5px; font-size: 9px; color: #444; }
     </style>
 </head>
 <body>
 
-    <div class="corner bl">2026-06-08-version 17</div>
+    <div class="app-container">
+        <div class="corner">2026-06-08-version 18</div>
 
-    <div id="splash-screen-group">
-        <div class="backdrop-container">
-            <div class="animated-bike"></div>
-        </div>
-        <div class="header-wrap">
-            <h1>Stop Walking. Start Rolling.</h1>
-        </div>
-    </div>
-
-    <div class="ui">
-        <div class="group">
-            <span class="type-label">Frame Style</span>
-            <div class="row">
-                <button class="btn" id="b-M" onclick="setS('M')">High-Bar</button>
-                <button class="btn active" id="b-any" onclick="setS('any')">Mixed</button>
-                <button class="btn" id="b-F" onclick="setS('F')">Step-Thru</button>
+        <div id="splash-screen-group">
+            <div class="backdrop-container">
+                <div class="animated-bike"></div>
+            </div>
+            <div class="header-wrap">
+                <h1>Stop Walking. Start Rolling.</h1>
             </div>
         </div>
 
-        <div class="group">
-            <div class="sld-header">
-                <span class="sld-title">Rider Height</span>
-                <span id="hL" class="sld-value">3'0" (91cm)</span>
+        <div class="ui">
+            <div class="group">
+                <span class="type-label">Frame Style</span>
+                <div class="row">
+                    <button class="btn" id="b-M" onclick="setS('M')">High-Bar</button>
+                    <button class="btn active" id="b-any" onclick="setS('any')">Mixed</button>
+                    <button class="btn" id="b-F" onclick="setS('F')">Step-Thru</button>
+                </div>
             </div>
-            <div class="sld-input-container">
+
+            <div class="group">
+                <div class="sld-header">
+                    <span class="sld-title">Rider Height</span>
+                    <span id="hL" class="sld-value">3'0" (91cm)</span>
+                </div>
                 <input type="range" id="hS" min="36" max="82" value="36" oninput="runUpdate()">
             </div>
-        </div>
 
-        <div class="group">
-            <div class="sld-header">
-                <span class="sld-title">Ideal Budget</span>
-                <span id="bL" class="sld-value">$50</span>
-            </div>
-            <div class="sld-input-container">
+            <div class="group">
+                <div class="sld-header">
+                    <span class="sld-title">Ideal Budget</span>
+                    <span id="bL" class="sld-value">$50</span>
+                </div>
                 <input type="range" id="bS" min="50" max="1000" value="50" oninput="runUpdate()">
-            </div>
-            <div class="match-feedback-row">
                 <div id="matchRange" class="match-msg">Matching Catalog...</div>
             </div>
         </div>
-    </div>
 
-    <div class="gallery-container">
-        <div id="loading-status">Connecting to Inventory...</div>
-        <div class="gallery" id="bike-gallery"></div>
+        <div class="gallery-container">
+            <div id="loading-status">Connecting to Inventory...</div>
+            <div class="gallery" id="bike-gallery"></div>
+        </div>
     </div>
 
     <script src="index.js"></script>
-    
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const checkAndInit = () => {
-                if (typeof init === 'function') {
-                    init();
-                } else {
-                    setTimeout(checkAndInit, 50);
-                }
-            };
-            checkAndInit();
-
-            const heightSlider = document.getElementById('hS');
-            const evaluateSplashVisibility = () => {
-                if (heightSlider) {
-                    if (parseInt(heightSlider.value) > 36) {
-                        document.body.classList.add('hide-splash');
-                    } else {
-                        document.body.classList.remove('hide-splash');
-                    }
-                }
-            };
-            evaluateSplashVisibility();
-            if (heightSlider) {
-                heightSlider.addEventListener('input', evaluateSplashVisibility);
-                heightSlider.addEventListener('change', evaluateSplashVisibility);
-            }
-        });
+        const heightSlider = document.getElementById('hS');
+        const checkSplash = () => {
+            if(heightSlider.value > 36) document.body.classList.add('hide-splash');
+            else document.body.classList.remove('hide-splash');
+        };
+        heightSlider.addEventListener('input', checkSplash);
     </script>
 </body>
 </html>
