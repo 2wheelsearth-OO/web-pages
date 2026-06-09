@@ -4,54 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Velocipede</title>
-    <style>
-        body { background-color: #000; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; color: #fff; font-family: sans-serif; }
-        .phone-frame { width: 100%; max-width: 414px; height: 100%; max-height: 896px; background-color: #121212; display: flex; flex-direction: column; position: relative; }
-        
-        /* Bike Viewer Area with Layered Images */
-        #bike-viewer { flex: 2; display: flex; justify-content: center; align-items: center; position: relative; }
-        .layer { width: 200px; height: 200px; position: absolute; background-size: contain; background-repeat: no-repeat; transition: transform 0.1s ease-out; }
-        
-        #frame-layer { z-index: 1; background-image: url('https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/collagraphy%20bike%20frame%20only.png'); }
-        #topbar-layer { z-index: 2; background-image: url('https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/collagraphy%20bike%20top%20bar%20only.png'); display: none; }
-
-        .ui { flex: 1; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
-    </style>
-</head>
+    </head>
 <body>
 
-    <div class="phone-frame">
-        <div id="bike-viewer">
-            <div id="frame-layer" class="layer"></div>
-            <div id="topbar-layer" class="layer"></div>
-        </div>
-
-        <div class="ui">
-            <button id="btn-highbar">High-Bar</button>
-            <button id="btn-reset">Frame Only</button>
-            <input type="range" id="rS" min="0" max="360" value="0">
-        </div>
+    <div class="header-wrap">
+        <h1>Velocipede</h1>
+        <div class="sub">Stop Walking. Start Rolling.</div>
     </div>
 
+    <div id="bike-viewer" class="bike-hero">
+        <div id="frame-layer" class="layer"></div>
+        <div id="topbar-layer" class="layer"></div>
+    </div>
+
+    <div class="gallery-container">
+        <div id="bike-gallery" class="gallery"></div>
+    </div>
+
+    <div class="ui">
+        <div class="group">
+            <div class="row">
+                <button class="btn" id="btn-highbar">High-Bar</button>
+                <button class="btn" id="btn-reset">Frame Only</button>
+            </div>
+        </div>
+        <input type="range" id="hS" min="36" max="82" value="60">
+        <input type="range" id="bS" min="50" max="1000" value="500">
+        <input type="range" id="rotS" min="0" max="360" value="0">
+    </div>
+
+    <script src="index.js"></script>
     <script>
+        // Overlay logic
         const topBar = document.getElementById('topbar-layer');
-        const layers = document.querySelectorAll('.layer');
-        
-        // Show overlay when High-Bar is clicked
         document.getElementById('btn-highbar').addEventListener('click', () => {
             topBar.style.display = 'block';
         });
-
-        // Hide overlay when Reset is clicked
         document.getElementById('btn-reset').addEventListener('click', () => {
             topBar.style.display = 'none';
-        });
-
-        // Rotate both layers together
-        document.getElementById('rS').addEventListener('input', (e) => {
-            layers.forEach(layer => {
-                layer.style.transform = `rotate(${e.target.value}deg)`;
-            });
         });
     </script>
 </body>
