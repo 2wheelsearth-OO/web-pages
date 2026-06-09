@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Velocipede</title>
     <style>
         body { margin: 0; background: #000; color: #fff; font-family: sans-serif; display: flex; justify-content: center; height: 100vh; overflow: hidden; }
@@ -13,13 +12,14 @@
         .tl { top: 0; left: 0; } .tr { top: 0; right: 0; }
         .bl { bottom: 0; left: 0; } .br { bottom: 0; right: 0; }
         
-        /* THE BIKE DISPLAY - Added back correctly */
-        .bike-display { position: relative; width: 100%; height: 200px; margin-top: 30px; margin-bottom: 20px; }
+        /* THE BIKE LOGO & TITLE */
+        .title { font-size: 20px; font-weight: bold; text-align: center; margin-top: 40px; margin-bottom: 10px; }
+        .bike-display { position: relative; width: 100%; height: 200px; margin-bottom: 20px; }
         .bike-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: contain; background-position: center; background-repeat: no-repeat; }
         #top-tube { transition: transform 0.5s ease; transform-origin: 25% 40%; }
         
-        /* YOUR EXISTING UI STYLES - MAINTAINED */
-        .row-label { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 5px; margin-top: 15px; }
+        /* YOUR EXISTING UI */
+        .row-label { display: flex; justify-content: space-between; align-items: baseline; margin-top: 20px; margin-bottom: 5px; }
         .row-btns { display: flex; gap: 5px; margin-top: 5px; }
         button { cursor: pointer; padding: 8px 12px; background: #333; color: white; border: none; border-radius: 4px; font-size: 14px; flex: 1; }
         button.active { background-color: #007bff; }
@@ -33,6 +33,7 @@
         <div class="corner bl">2026-06-08-v23</div>
         <div class="corner br">BR Info</div>
         
+        <div class="title">Velocipede</div>
         <div class="bike-display">
             <div class="bike-layer" style="background-image: url('collagraphy bike frame white logo (1).png');"></div>
             <div id="top-tube" class="bike-layer" style="background-image: url('collagraphy bike top bar white logo (1).png');"></div>
