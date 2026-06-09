@@ -8,18 +8,18 @@
     <link rel="stylesheet" href="style.css?v=db03143b4d">
 
     <style>
-    /* FORCE MOBILE APP APPEARANCE ON ALL SCREENS */
+    /* CORE MOBILE APP LAYOUT */
     body {
         background-color: #121212;
         color: #ffffff;
         margin: 0;
         padding: 0;
+        overflow: hidden;
+        height: 100vh;
         display: flex;
         justify-content: center;
-        min-height: 100vh;
     }
 
-    /* THE APP CONTAINER - CONSTRAINED TO PHONE DIMENSIONS */
     .app-container {
         width: 100%;
         max-width: 414px;
@@ -29,20 +29,19 @@
         overflow: hidden;
     }
 
-    /* SPLASH SECTION - ORDERED EXPLICITLY */
+    /* SPLASH SECTION - CENTERED AS A UNIT */
     #splash-screen-group {
+        flex: 1;
         display: flex !important;
         flex-direction: column !important;
         align-items: center !important;
-        justify-content: center !important;
-        flex: 0 0 auto;
-        padding-top: 20px;
+        justify-content: center !important; /* Forces logo/text to center of remaining space */
+        padding-top: 10px;
     }
 
     .backdrop-container {
         width: 80%;
-        height: 160px;
-        order: 1; /* Bike first */
+        height: 140px;
     }
 
     .animated-bike {
@@ -55,7 +54,6 @@
     }
 
     .header-wrap {
-        order: 2; /* Text second (below bike) */
         text-align: center;
         margin-top: 10px;
         padding: 0 20px;
@@ -63,18 +61,16 @@
 
     .header-wrap h1 {
         margin: 0;
-        font-size: 1.5rem;
+        font-size: 1.4rem;
         font-family: 'Permanent Marker', cursive;
         white-space: nowrap;
     }
 
-    /* UI SECTION - REMAINING SPACE */
+    /* UI SECTION - PINNED TO BOTTOM */
     .ui {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding: 0 20px;
+        flex: 0 0 auto;
+        padding: 10px 20px 20px 20px;
+        background: #121212;
     }
 
     body.hide-splash #splash-screen-group { display: none !important; }
@@ -84,7 +80,7 @@
 <body>
 
     <div class="app-container">
-        <div class="corner">2026-06-08-version 18</div>
+        <div class="corner">2026-06-08-version 19</div>
 
         <div id="splash-screen-group">
             <div class="backdrop-container">
