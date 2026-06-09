@@ -8,65 +8,32 @@
     <link rel="stylesheet" href="style.css?v=db03143b4d">
 
     <style>
-    /* Absolute corner safety overrides to keep text elements anchored inside the screen view */
-    .corner {
-        position: fixed !important;
-        font-size: 12px !important;
-        color: var(--dim, #9aa0a6) !important;
-        font-weight: 600 !important;
-        z-index: 9999 !important;
-        padding: 10px !important;
-        background: transparent !important;
-    }
-    .corner.tl { top: 10px !important; left: 10px !important; }
-    .corner.tr { top: 10px !important; right: 10px !important; }
-    .corner.bl { bottom: 10px !important; left: 10px !important; display: block !important; }
-    .corner.br { bottom: 10px !important; right: 10px !important; }
-
-    /* RESPONSIVE APP LAYOUT - FULL ON MOBILE, CENTEREED ON DESKTOP */
+    /* CORE MOBILE OPTIMIZED LAYOUT */
     body {
         background-color: #121212;
         color: #ffffff;
         margin: 0;
         padding: 0;
-        overflow-x: hidden;
-        scrollbar-width: none; 
-        -ms-overflow-style: none;  
+        overflow: hidden; /* Lock the screen to prevent bounce scrolling */
+        height: 100vh;
         display: flex;
         flex-direction: column;
-        align-items: center;
-        min-height: 100vh;
-    }
-    
-    body::-webkit-scrollbar {
-        display: none;
     }
 
-    /* Pushes all core UI content to constrain nicely on desktop screens */
-    #splash-screen-group, .ui, .gallery-container {
-        width: 100%;
-        max-width: 414px; /* Matches the maximum width of standard large phone views */
-        box-sizing: border-box;
-    }
-
-    /* SPLASH VERTICAL LAYOUT CONFIGURATION */
     #splash-screen-group {
         display: flex !important;
         flex-direction: column !important;
         align-items: center !important;
-        margin-top: 40px;
+        margin-top: 10px;
+        flex: 0 0 auto;
     }
 
-    /* MIDSECTION GRAPHIC CONTAINER FRAME */
     .backdrop-container {
-        width: 90%;
-        height: auto;
-        aspect-ratio: 16 / 10;                 
+        width: 80%;
+        height: 140px; /* Reduced to reclaim vertical space */
         position: relative;
-        background-color: transparent; 
     }
 
-    /* SCALED UP STATIC WHITE TRANSPARENT BIKE */
     .animated-bike {
         width: 100%;
         height: 100%;                
@@ -74,40 +41,43 @@
         background-size: contain;     
         background-position: center center; 
         background-repeat: no-repeat;
-        opacity: 0.85;                
     }
 
-    /* TEXT WRAPPER POSITIONED STRUCTURALLY BELOW BICYCLE LOGO FRAME */
+    /* TEXT SHRUNK TO FIT ONE LINE */
     .header-wrap {
-        display: block !important;
         text-align: center !important;
-        margin-top: 10px !important;
-        margin-bottom: 25px !important;
-        padding: 0 15px;
+        margin: 5px 0 !important;
         width: 100%;
-        box-sizing: border-box;
     }
 
     .header-wrap h1 {
         margin: 0 !important;
-        padding: 0 !important;
-        font-size: 2.2rem !important;
-        line-height: 1.2 !important;
+        font-size: 1.4rem !important; /* Smaller size to guarantee single-line fit */
         font-family: 'Permanent Marker', cursive, sans-serif !important;
+        white-space: nowrap;
     }
 
-    /* MASTER SWITCH RULE */
-    body.hide-splash #splash-screen-group {
-        display: none !important;
+    /* COMPACT UI WRAPPER */
+    .ui {
+        flex: 1 1 auto;
+        padding: 5px 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly; /* Evenly distribute space for all sliders/buttons */
     }
+
+    .group { margin-bottom: 5px !important; }
+
+    /* MASTER SWITCH RULE */
+    body.hide-splash #splash-screen-group { display: none !important; }
+
+    .corner { position: fixed !important; font-size: 10px !important; color: #555 !important; padding: 5px !important; }
+    .corner.bl { bottom: 5px !important; left: 5px !important; }
     </style>
 </head>
 <body>
 
-    <div class="corner tl" id="d">DATE</div>
-    <div class="corner tr" id="t">TIME</div>
-    <div class="corner bl" style="display: block !important;">2026-06-08-version 16</div>
-    <div class="corner br" id="s">RES</div>
+    <div class="corner bl">2026-06-08-version 17</div>
 
     <div id="splash-screen-group">
         <div class="backdrop-container">
@@ -171,7 +141,6 @@
             checkAndInit();
 
             const heightSlider = document.getElementById('hS');
-            
             const evaluateSplashVisibility = () => {
                 if (heightSlider) {
                     if (parseInt(heightSlider.value) > 36) {
@@ -181,9 +150,7 @@
                     }
                 }
             };
-
             evaluateSplashVisibility();
-
             if (heightSlider) {
                 heightSlider.addEventListener('input', evaluateSplashVisibility);
                 heightSlider.addEventListener('change', evaluateSplashVisibility);
