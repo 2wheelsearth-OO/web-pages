@@ -1,112 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Velocipede | Matchmaker</title>
-    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
-    <style>
-        body {
-            background-color: #121212;
-            color: #ffffff;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            height: 100vh;
-            overflow: hidden;
-            font-family: sans-serif;
-        }
+/* 1. Reset body to center the container */
+body {
+    background-color: #121212;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Centers the phone on desktop */
+    min-height: 100vh;
+}
 
-        /* Mobile Container: Constrains UI to phone aspect ratio */
-        .app-container {
-            width: 100%;
-            max-width: 414px;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
+/* 2. The Phone Container - Restores the screen limit */
+.app-container {
+    width: 100%;
+    max-width: 414px; /* Constraint: Locks width to phone size */
+    height: 100vh;    /* Constraint: Locks height to viewport */
+    background-color: #121212;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Prevents unwanted scrolling */
+}
 
-        /* Splash Section: Keeps logo/text at the top */
-        #splash-screen-group {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 20px;
-            flex: 0 0 auto;
-        }
+/* 3. Splash Section - Forces Logo/Text to the top */
+#splash-screen-group {
+    flex: 0 0 auto; /* Keeps it from growing/shrinking */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+}
 
-        .backdrop-container {
-            width: 70%;
-            height: 100px;
-            background-image: url('https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/collagraphy%20bike%20white%20logo.png');
-            background-size: contain;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
-
-        .header-wrap {
-            text-align: center;
-            margin-top: 5px;
-        }
-
-        .header-wrap h1 {
-            margin: 0;
-            font-size: 1.1rem; /* Smaller font to ensure single-line fit */
-            font-family: 'Permanent Marker', cursive;
-            white-space: nowrap;
-        }
-
-        /* UI Section: Pins buttons and sliders to the bottom */
-        .ui {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            padding: 20px;
-            gap: 15px;
-        }
-
-        /* Hide splash when interaction starts */
-        body.hide-splash #splash-screen-group { display: none !important; }
-    </style>
-</head>
-<body>
-
-    <div class="app-container">
-        <div id="splash-screen-group">
-            <div class="backdrop-container"></div>
-            <div class="header-wrap">
-                <h1>Stop Walking. Start Rolling.</h1>
-            </div>
-        </div>
-
-        <div class="ui">
-            <div class="group">
-                <span class="type-label">Frame Style</span>
-                <div class="row">
-                    <button class="btn">High-Bar</button>
-                    <button class="btn active">Mixed</button>
-                    <button class="btn">Step-Thru</button>
-                </div>
-            </div>
-            <div class="group">
-                <span class="sld-title">Rider Height</span>
-                <input type="range" id="hS" min="36" max="82">
-            </div>
-            <div class="group">
-                <span class="sld-title">Ideal Budget</span>
-                <input type="range" id="bS" min="50" max="1000">
-            </div>
-        </div>
-    </div>
-
-    <script>
-        const heightSlider = document.getElementById('hS');
-        heightSlider.addEventListener('input', () => {
-            if(heightSlider.value > 36) document.body.classList.add('hide-splash');
-            else document.body.classList.remove('hide-splash');
-        });
-    </script>
-</body>
-</html>
+/* 4. UI Section - Forces sliders/buttons to the bottom */
+.ui {
+    flex: 1; /* Takes up remaining space at bottom */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* Pins content to bottom */
+    padding: 20px;
+}
