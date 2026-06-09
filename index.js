@@ -1,32 +1,25 @@
-// Add to the top of your existing init function or global scope
-const frameLayer = document.getElementById('frame-layer');
-const topBarLayer = document.getElementById('topbar-layer');
+// Version: 672026-1-ROTATION-FIXED
+const GITHUB_API = "https://api.github.com/repos/2wheelsearth-OO/Assets/contents/";
+const RAW_URL = "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/";
 
+let inventory = [];
+let styleFilter = 'any';
+
+// --- BIKE ROTATION LOGIC ---
 function rotateBike(degrees) {
-    // Rotate the two main layers
-    if(frameLayer) frameLayer.style.transform = `rotate(${degrees}deg)`;
-    if(topBarLayer) topBarLayer.style.transform = `rotate(${degrees}deg)`;
+    // 1. Rotate the Layered Viewer
+    const frameLayer = document.getElementById('frame-layer');
+    const topBarLayer = document.getElementById('topbar-layer');
+    if (frameLayer) frameLayer.style.transform = `rotate(${degrees}deg)`;
+    if (topBarLayer) topBarLayer.style.transform = `rotate(${degrees}deg)`;
     
-    // Rotate existing gallery cards if needed
+    // 2. Rotate Gallery Cards
     const bikes = document.querySelectorAll('.bike-card');
     bikes.forEach(bike => {
         bike.style.transform = `rotate(${degrees}deg)`;
         bike.style.transition = 'transform 0.1s ease-out';
     });
 }
-
-// In your init() function, add the listener for the new rotation slider
-const rotSlider = document.getElementById('rotS');
-if (rotSlider) {
-    rotSlider.addEventListener('input', (e) => rotateBike(e.target.value));
-}
-
-// Version: 672026-1-ROTATION
-const GITHUB_API = "https://api.github.com/repos/2wheelsearth-OO/Assets/contents/";
-const RAW_URL = "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/";
-
-let inventory = [];
-let styleFilter = 'any';
 
 function parseBikeData(name) {
     const pattern = /(\d+)([MFU])(\d{4})/i;
@@ -49,16 +42,6 @@ function parseBikeData(name) {
     };
 }
 
-// NEW: Function to handle bike rotation
-function rotateBike(degrees) {
-    // This targets the bike elements created in the init function
-    const bikes = document.querySelectorAll('.bike-card');
-    bikes.forEach(bike => {
-        bike.style.transform = `rotate(${degrees}deg)`;
-        bike.style.transition = 'transform 0.1s ease-out';
-    });
-}
-
 async function init() {
     try {
         const res = await fetch(GITHUB_API);
@@ -69,23 +52,26 @@ async function init() {
             .filter(b => b !== null)
             .sort((a, b) => a.price - b.price);
 
-        document.getElementById('loading-status').style.display = 'none';
-        const gallery = document.getElementById('bike-gallery');
+        const loadingStatus = document.getElementById('loading-status');
+        if (loadingStatus) loadingStatus.style.display = 'none';
         
-        inventory.forEach(b => {
-            const card = document.createElement('div');
-            card.className = 'card bike-card';
-            card.id = `bike-${b.id}`;
-            card.innerHTML = `
-                <div class="img-box"><img loading="lazy" src="${b.img}"></div>
-                <div class="price-label">$${b.price}</div>
-                <div class="debug-filename">${b.file}</div>
-                <div class="debug-specs">${b.wheel} Whl / ${b.frame}" Frame</div>
-            `;
-            gallery.appendChild(card);
-        });
+        const gallery = document.getElementById('bike-gallery');
+        if (gallery) {
+            inventory.forEach(b => {
+                const card = document.createElement('div');
+                card.className = 'card bike-card';
+                card.id = `bike-${b.id}`;
+                card.innerHTML = `
+                    <div class="img-box"><img loading="lazy" src="${b.img}"></div>
+                    <div class="price-label">$${b.price}</div>
+                    <div class="debug-filename">${b.file}</div>
+                    <div class="debug-specs">${b.wheel} Whl / ${b.frame}" Frame</div>
+                `;
+                gallery.appendChild(card);
+            });
+        }
 
-        // Add event listener for rotation slider if it exists in your HTML
+        // Add event listener for rotation slider
         const rotSlider = document.getElementById('rotS');
         if (rotSlider) {
             rotSlider.addEventListener('input', (e) => rotateBike(e.target.value));
@@ -93,6 +79,7 @@ async function init() {
 
         runUpdate();
     } catch (e) { console.error("Load failed", e); }
+    
     setInterval(updateClock, 1000);
     updateClock();
 }
@@ -106,16 +93,19 @@ function setS(val) {
 function runUpdate() {
     if (!inventory.length) return;
     
-    const riderH = parseFloat(document.getElementById('hS').value);
-    const budgetIn = parseFloat(document.getElementById('bS').value);
-    
+    const hS = document.getElementById('hS');
+    const bS = document.getElementById('bS');
+    if (!hS || !bS) return;
+
+    const riderH = parseFloat(hS.value);
+    const budgetIn = parseFloat(bS.value);
     const targetPrice = Math.round(budgetIn);
-    const ft = Math.floor(riderH / 12);
-    const inch = Math.round(riderH % 12);
-    const metric = Math.round(riderH * 2.54);
     
-    document.getElementById('hL').innerText = `${ft}'${inch}" (${metric}cm)`;
-    document.getElementById('bL').innerText = `$${targetPrice}`;
+    // Update labels if they exist
+    const hL = document.getElementById('hL');
+    const bL = document.getElementById('bL');
+    if (hL) hL.innerText = `${Math.floor(riderH / 12)}'${Math.round(riderH % 12)}" (${Math.round(riderH * 2.54)}cm)`;
+    if (bL) bL.innerText = `$${targetPrice}`;
 
     const isAdult = (riderH >= 60);
     let spreadFound = 50;
@@ -136,11 +126,13 @@ function runUpdate() {
     }
 
     const msg = document.getElementById('matchRange');
-    if (winners.length > 0) {
-        msg.innerText = `MATCHES FOUND: $${targetPrice - spreadFound} — $${targetPrice + spreadFound}`;
-        msg.classList.add('show');
-    } else {
-        msg.classList.remove('show');
+    if (msg) {
+        if (winners.length > 0) {
+            msg.innerText = `MATCHES FOUND: $${targetPrice - spreadFound} — $${targetPrice + spreadFound}`;
+            msg.classList.add('show');
+        } else {
+            msg.classList.remove('show');
+        }
     }
 
     const winnerIds = winners.map(w => w.id);
@@ -151,12 +143,13 @@ function runUpdate() {
 }
 
 function updateClock() {
+    const d = document.getElementById('d');
+    const t = document.getElementById('t');
+    const s = document.getElementById('s');
     const now = new Date();
-    document.getElementById('d').innerText = now.toLocaleDateString().toUpperCase();
-    document.getElementById('t').innerText = now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
-    const res = document.getElementById('s');
-    if(res) res.innerText = `${window.innerWidth}X${window.innerHeight}`;
+    if(d) d.innerText = now.toLocaleDateString().toUpperCase();
+    if(t) t.innerText = now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+    if(s) s.innerText = `${window.innerWidth}X${window.innerHeight}`;
 }
 
-// Initial call
 init();
