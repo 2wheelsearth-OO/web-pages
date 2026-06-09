@@ -2,38 +2,41 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Velocipede</title>
     <style>
-        body { margin: 0; background-color: #000; color: #fff; font-family: sans-serif; }
-        
-        /* THE BIKE LAYER CONTAINER */
-        .bike-display { position: relative; width: 100%; height: 250px; margin-bottom: 20px; }
-        .bike-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: contain; background-position: center; background-repeat: no-repeat; }
-        #top-tube { transition: transform 0.5s ease; transform-origin: 25% 40%; }
+        :root { --bg: #0e0e11; --txt: #e3e3e3; --highlight: #72f272; }
+        body { margin: 0; background: var(--bg); color: var(--txt); font-family: sans-serif; height: 100vh; display: flex; flex-direction: column; }
 
-        /* ALL YOUR ORIGINAL UI STYLES REMAIN UNTOUCHED */
-        .ui-container { padding: 20px; }
-        button { cursor: pointer; padding: 10px; margin: 5px; }
+        /* BIKE LAYER CONTAINER */
+        .bike-display { position: relative; width: 100%; height: 300px; display: flex; justify-content: center; align-items: center; margin-top: 20px; }
+        .bike-layer { position: absolute; width: 300px; height: 300px; background-size: contain; background-position: center; background-repeat: no-repeat; }
+        #frame-layer { z-index: 1; }
+        #top-tube { z-index: 2; transition: transform 0.5s ease; transform-origin: 25% 40%; }
+
+        .ui-container { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
+        button { cursor: pointer; padding: 10px; margin: 5px; background: #333; color: white; border: none; border-radius: 5px; }
+        button:active { background: var(--highlight); color: #000; }
         input { width: 100%; margin-bottom: 20px; }
     </style>
 </head>
 <body>
 
-    <div class="ui-container">
-        <div class="bike-display">
-            <div class="bike-layer" style="background-image: url('collagraphy bike frame white logo (1).png');"></div>
-            <div id="top-tube" class="bike-layer" style="background-image: url('collagraphy bike top bar white logo (1).png');"></div>
-        </div>
+    <div class="bike-display">
+        <div id="frame-layer" class="bike-layer" style="background-image: url('https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/collagraphy%20bike%20frame%20white%20logo%20(1).png');"></div>
+        <div id="top-tube" class="bike-layer" style="background-image: url('https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/collagraphy%20bike%20top%20bar%20white%20logo%20(1).png');"></div>
+    </div>
 
+    <div class="ui-container">
         <button onclick="rotateTube('high')">High-Bar</button>
         <button onclick="rotateTube('mix')">Mixed</button>
         <button onclick="rotateTube('step')">Step-Thru</button>
         
         <label>Rider Height</label>
-        <input type="range">
+        <input type="range" min="36" max="82">
         
         <label>Ideal Budget</label>
-        <input type="range">
+        <input type="range" min="50" max="1000">
     </div>
 
     <script>
