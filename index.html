@@ -2,44 +2,47 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Velocipede</title>
     <style>
         body { margin: 0; background: #000; color: #fff; font-family: sans-serif; display: flex; justify-content: center; height: 100vh; overflow: hidden; }
         .phone-frame { width: 100%; max-width: 414px; height: 100%; background: #121212; position: relative; padding: 20px; box-sizing: border-box; display: flex; flex-direction: column; }
         
         /* 4-Corner Information */
-        .corner { position: absolute; font-size: 10px; color: #666; padding: 10px; }
+        .corner { position: absolute; font-size: 12px; color: #fff; padding: 10px; }
         .tl { top: 0; left: 0; } .tr { top: 0; right: 0; }
         .bl { bottom: 0; left: 0; } .br { bottom: 0; right: 0; }
         
-        /* BIKE DISPLAY */
-        .bike-container { position: relative; width: 100%; height: 220px; margin-top: 20px; margin-bottom: 10px; }
-        .bike-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: contain; background-position: center; background-repeat: no-repeat; }
-        #top-tube { transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-origin: 25% 40%; }
+        /* Title */
+        .title { text-align: center; font-size: 20px; font-weight: bold; margin-top: 20px; }
         
-        /* UI */
-        .group { margin-top: 15px; }
-        .row-label { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 5px; font-size: 0.9rem; color: #aaa; }
+        /* Bike Display */
+        .bike-display { position: relative; width: 100%; height: 200px; margin: 20px 0; }
+        .bike-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: contain; background-position: center; background-repeat: no-repeat; }
+        #top-tube { transition: transform 0.5s ease; transform-origin: 25% 40%; }
+        
+        /* UI Rows */
+        .row-label { display: flex; justify-content: space-between; align-items: baseline; margin-top: 15px; margin-bottom: 5px; }
         .row-btns { display: flex; gap: 5px; margin-top: 5px; }
-        button { cursor: pointer; padding: 10px; background: #222; color: #fff; border: 1px solid #444; border-radius: 6px; font-size: 13px; flex: 1; transition: 0.2s; }
-        button.active { background-color: #007bff; border-color: #007bff; }
-        input { width: 100%; margin-bottom: 15px; accent-color: #007bff; }
+        button { cursor: pointer; padding: 8px 12px; background: #333; color: white; border: none; border-radius: 4px; font-size: 14px; flex: 1; }
+        button.active { background-color: #007bff; }
+        input { width: 100%; }
     </style>
 </head>
 <body>
     <div class="phone-frame">
-        <div class="corner tl">v2026.06.08</div>
-        <div class="corner tr">USER_ID_001</div>
+        <div class="corner tl">TL Info</div>
+        <div class="corner tr">TR Info</div>
+        <div class="corner bl">2026-06-08-v23</div>
+        <div class="corner br">BR Info</div>
         
-        <div style="text-align: center; font-weight: bold; margin-top: 20px; font-size: 1.2rem;">Velocipede</div>
+        <div class="title">Velocipede</div>
         
-        <div class="bike-container">
-            <div class="bike-layer" style="background-image: url('https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/collagraphy%20bike%20frame%20white%20logo%20(1).png');"></div>
-            <div id="top-tube" class="bike-layer" style="background-image: url('https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/collagraphy%20bike%20top%20bar%20white%20logo%20(1).png');"></div>
+        <div class="bike-display">
+            <div class="bike-layer" style="background-image: url('collagraphy bike frame white logo (1).png');"></div>
+            <div id="top-tube" class="bike-layer" style="background-image: url('collagraphy bike top bar white logo (1).png');"></div>
         </div>
 
-        <label style="font-size: 0.8rem; color: #777;">Frame Style</label>
+        <label>Frame Style</label>
         <div class="row-btns" id="btn-group">
             <button onclick="setS(this, 'M')" class="active">High-Bar</button>
             <button onclick="setS(this, 'X')">Mixed</button>
@@ -64,16 +67,11 @@
             document.querySelectorAll('#btn-group button').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             const t = document.getElementById('top-tube');
-            
-            // Adjust rotation and slight position offsets for natural look
-            if (style === 'M') t.style.transform = "rotate(0deg) translate(0, 0)";
-            else if (style === 'X') t.style.transform = "rotate(-30deg) translate(-2px, 5px)";
-            else if (style === 'F') t.style.transform = "rotate(-60deg) translate(2px, 15px)";
+            if (style === 'M') t.style.transform = "rotate(0deg)";
+            else if (style === 'X') t.style.transform = "rotate(-30deg)";
+            else if (style === 'F') t.style.transform = "rotate(-60deg)";
         }
-        
-        function updateVal(id, v, p) { 
-            document.getElementById(id).innerText = (p === '$' ? '$' : '') + v + (p === '\"' ? '\"' : ''); 
-        }
+        function updateVal(id, v, p) { document.getElementById(id).innerText = (p === '$' ? '$' : '') + v + (p === '\"' ? '\"' : ''); }
     </script>
 </body>
 </html>
