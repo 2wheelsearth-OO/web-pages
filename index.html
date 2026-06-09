@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Velocipede | Matchmaker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
     <style>
-        /* Force body to fill the screen and center the app */
         body {
             background-color: #121212;
             color: #ffffff;
@@ -18,7 +18,7 @@
             font-family: sans-serif;
         }
 
-        /* App container constrained to mobile phone proportions */
+        /* Mobile Container: Constrains UI to phone aspect ratio */
         .app-container {
             width: 100%;
             max-width: 414px;
@@ -27,7 +27,7 @@
             flex-direction: column;
         }
 
-        /* Splash section pinned to the top */
+        /* Splash Section: Keeps logo/text at the top */
         #splash-screen-group {
             display: flex;
             flex-direction: column;
@@ -37,8 +37,8 @@
         }
 
         .backdrop-container {
-            width: 80%;
-            height: 120px;
+            width: 70%;
+            height: 100px;
             background-image: url('https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/collagraphy%20bike%20white%20logo.png');
             background-size: contain;
             background-position: center;
@@ -47,36 +47,33 @@
 
         .header-wrap {
             text-align: center;
-            margin-top: 10px;
+            margin-top: 5px;
         }
 
         .header-wrap h1 {
             margin: 0;
-            font-size: 1.2rem;
+            font-size: 1.1rem; /* Smaller font to ensure single-line fit */
             font-family: 'Permanent Marker', cursive;
+            white-space: nowrap;
         }
 
-        /* UI section takes up the remaining space at the bottom */
+        /* UI Section: Pins buttons and sliders to the bottom */
         .ui {
             flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
             padding: 20px;
-            gap: 10px;
+            gap: 15px;
         }
 
         /* Hide splash when interaction starts */
         body.hide-splash #splash-screen-group { display: none !important; }
-        
-        .corner { position: fixed; bottom: 5px; left: 5px; font-size: 9px; color: #444; }
     </style>
 </head>
 <body>
 
     <div class="app-container">
-        <div class="corner">2026-06-08-version 20</div>
-
         <div id="splash-screen-group">
             <div class="backdrop-container"></div>
             <div class="header-wrap">
