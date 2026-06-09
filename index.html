@@ -13,16 +13,15 @@
         .tl { top: 0; left: 0; } .tr { top: 0; right: 0; }
         .bl { bottom: 0; left: 0; } .br { bottom: 0; right: 0; }
         
-        /* Bike Display */
+        /* THE BIKE DISPLAY - Added back correctly */
         .bike-display { position: relative; width: 100%; height: 200px; margin-top: 30px; margin-bottom: 20px; }
         .bike-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: contain; background-position: center; background-repeat: no-repeat; }
         #top-tube { transition: transform 0.5s ease; transform-origin: 25% 40%; }
         
-        /* UI Elements */
-        .group { margin-bottom: 20px; }
-        .row-label { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 5px; }
-        .row-btns { display: flex; gap: 5px; margin-bottom: 10px; }
-        button { cursor: pointer; padding: 8px 12px; background: #333; color: white; border: none; border-radius: 4px; font-size: 12px; flex: 1; }
+        /* YOUR EXISTING UI STYLES - MAINTAINED */
+        .row-label { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 5px; margin-top: 15px; }
+        .row-btns { display: flex; gap: 5px; margin-top: 5px; }
+        button { cursor: pointer; padding: 8px 12px; background: #333; color: white; border: none; border-radius: 4px; font-size: 14px; flex: 1; }
         button.active { background-color: #007bff; }
         input { width: 100%; }
     </style>
@@ -39,30 +38,24 @@
             <div id="top-tube" class="bike-layer" style="background-image: url('collagraphy bike top bar white logo (1).png');"></div>
         </div>
 
-        <div class="ui">
-            <label style="font-size: 14px;">Frame Style</label>
-            <div class="row-btns" id="btn-group">
-                <button onclick="setS(this, 'M')" class="active">High-Bar</button>
-                <button onclick="setS(this, 'X')">Mixed</button>
-                <button onclick="setS(this, 'F')">Step-Thru</button>
-            </div>
-            
-            <div class="group">
-                <div class="row-label">
-                    <label>Rider Height</label>
-                    <span id="h-val">36"</span>
-                </div>
-                <input type="range" min="36" max="82" value="36" oninput="updateVal('h-val', this.value, '\"')">
-            </div>
-            
-            <div class="group">
-                <div class="row-label">
-                    <label>Ideal Budget</label>
-                    <span id="b-val">$50</span>
-                </div>
-                <input type="range" min="50" max="1000" value="50" oninput="updateVal('b-val', this.value, '$')">
-            </div>
+        <label>Frame Style</label>
+        <div class="row-btns" id="btn-group">
+            <button onclick="setS(this, 'M')" class="active">High-Bar</button>
+            <button onclick="setS(this, 'X')">Mixed</button>
+            <button onclick="setS(this, 'F')">Step-Thru</button>
         </div>
+        
+        <div class="row-label">
+            <label>Rider Height</label>
+            <span id="h-val">36"</span>
+        </div>
+        <input type="range" min="36" max="82" value="36" oninput="updateVal('h-val', this.value, '\"')">
+        
+        <div class="row-label">
+            <label>Ideal Budget</label>
+            <span id="b-val">$50</span>
+        </div>
+        <input type="range" min="50" max="1000" value="50" oninput="updateVal('b-val', this.value, '$')">
     </div>
 
     <script>
