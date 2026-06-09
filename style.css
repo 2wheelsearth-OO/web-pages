@@ -1,93 +1,32 @@
-:root {
-    --bg: #0e0e11;
-    --txt: #e3e3e3;
-    --dim: #9aa0a6;
-    --brd: #3c4043;
-    --box: #1e1e21;
-    --accent: #4c4c4f;
-    --highlight: #72f272;
-}
-
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    background: var(--bg);
-    color: var(--txt);
-    font-family: Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-}
-
-.header-wrap {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding: 18px 12px 8px;
-    text-align: center;
-    z-index: 40;
-    pointer-events: none;
-}
-
-.header-wrap h1 {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    font-weight: 700;
-    font-size: clamp(28px, 8vw, 44px);
-    line-height: 1;
-    letter-spacing: 0.02em;
-    color: var(--txt);
-    text-transform: none;
-    pointer-events: none;
-}
-
-.header-wrap .sub {
-    margin: 6px 0 0;
-    font-family: system-ui, sans-serif;
-    font-weight: 400;
-    font-size: 12px;
-    color: var(--dim);
-    pointer-events: none;
-}
-
-.gallery-container {
-    box-sizing: border-box;
-    min-height: 100vh;
-    padding-top: 110px;
-    padding-bottom: 160px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-}
-
+/* --- UPDATED BIKE DISPLAY STYLES --- */
 .bike-hero {
     position: fixed;
-    top: 50%;
+    top: 45%; /* Moved up slightly to make room for UI */
     left: 50%;
     transform: translate(-50%, -50%);
-    pointer-events: none;
-    width: 100vw;
-    height: 100vh;
+    width: 300px;
+    height: 300px;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0;
-    padding: 0;
     z-index: 1;
+    pointer-events: none;
 }
 
-.bike-hero svg,
-.bike-hero img {
-    width: 75vw;
-    max-width: 500px;
-    height: auto;
-    display: block;
-    filter: invert(1) brightness(2) opacity(0.04) !important;
+.layer {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: transform 0.1s ease-out;
 }
 
+#frame-layer { z-index: 1; }
+#topbar-layer { z-index: 2; display: none; } /* Hidden by default */
+
+/* --- RESTORE YOUR REMAINING STYLES --- */
 .gallery {
     display: flex;
     gap: 15px;
@@ -99,191 +38,4 @@ html, body {
     position: relative;
     z-index: 10;
 }
-
-.card {
-    width: 160px;
-    flex-shrink: 0;
-    text-align: center;
-    display: none;
-    flex-direction: column;
-}
-
-.card img {
-    width: 100%;
-    height: 110px;
-    object-fit: cover;
-    border-radius: 12px;
-    display: block;
-}
-
-.price-label {
-    margin-top: 8px;
-    font-size: 18px;
-    font-weight: 800;
-    color: var(--txt);
-}
-
-.ui {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    padding: 12px 12px 20px;
-    box-sizing: border-box;
-    z-index: 45;
-    backdrop-filter: blur(6px);
-    background: linear-gradient(180deg, rgba(14,14,17,0.0), rgba(14,14,17,0.65));
-}
-
-.group {
-    margin-bottom: 14px;
-    width: 100%;
-}
-
-.type-label {
-    font-size: 11px;
-    color: var(--dim);
-    text-transform: uppercase;
-    display: block;
-    margin-bottom: 8px;
-    text-align: center;
-}
-
-.row {
-    display: flex;
-    gap: 8px;
-}
-
-.btn {
-    flex: 1;
-    padding: 12px 8px;
-    border: 1px solid var(--brd);
-    background: rgba(255,255,255,0.02);
-    color: var(--txt);
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 700;
-    text-transform: uppercase;
-}
-
-.btn.active {
-    background: var(--highlight);
-    color: #071;
-    border-color: var(--highlight);
-    box-shadow: 0 6px 14px rgba(114,242,114,0.08);
-}
-
-.sld-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 8px;
-}
-
-.sld-title {
-    font-size: 13px;
-    color: var(--dim);
-}
-
-.sld-value {
-    font-size: 16px;
-    font-weight: 800;
-    color: var(--txt);
-}
-
-.sld-input-container {
-    width: 100%;
-    height: 36px;
-    display: flex;
-    align-items: center;
-}
-
-input[type=range] {
-    -webkit-appearance: none;
-    width: 100%;
-    background: transparent;
-    cursor: pointer;
-    margin: 0;
-}
-
-input[type=range]::-webkit-slider-runnable-track {
-    height: 4px;
-    background: #333;
-    border-radius: 2px;
-}
-
-input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    height: 20px;
-    width: 20px;
-    margin-top: -8px;
-    background: var(--highlight);
-    border-radius: 50%;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.6);
-}
-
-.match-feedback-row {
-    height: 18px;
-    margin-top: 6px;
-    text-align: center;
-}
-
-.match-msg {
-    font-size: 13px;
-    color: var(--highlight);
-    font-weight: 800;
-    text-transform: uppercase;
-    visibility: visible;
-}
-
-.corner {
-    position: fixed;
-    font-size: 11px;
-    color: var(--dim);
-    font-weight: 600;
-    z-index: 100;
-    padding: 6px;
-    background: transparent;
-}
-
-.corner.tl { top: 8px; left: 8px; }
-.corner.tr { top: 8px; right: 8px; }
-.corner.bl { bottom: 80px; left: 8px; }
-.corner.br { bottom: 80px; right: 8px; }
-
-.watermark {
-    position: absolute;
-    width: 120px;
-    opacity: 0.04;
-    top: 160px;
-    left: 50%;
-    transform: translateX(-50%);
-    pointer-events: none;
-}
-
-@media (min-width: 768px) {
-    .header-wrap h1 {
-        font-size: clamp(34px, 5vw, 56px);
-    }
-    
-    .bike-hero svg,
-    .bike-hero img {
-        width: 50vw;
-        max-width: 550px;
-    }
-    
-    .gallery {
-        padding: 24px;
-    }
-    
-    .corner {
-        font-size: 12px;
-    }
-    
-    .ui {
-        padding-left: 24px;
-        padding-right: 24px;
-    }
-}
+/* ... keep your existing .card, .price-label, .ui, .btn, etc. styles below ... */
