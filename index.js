@@ -1,4 +1,4 @@
-// Version: 672026-1
+// Version: 672026-1-ROTATION
 const GITHUB_API = "https://api.github.com/repos/2wheelsearth-OO/Assets/contents/";
 const RAW_URL = "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/";
 
@@ -26,6 +26,16 @@ function parseBikeData(name) {
     };
 }
 
+// NEW: Function to handle bike rotation
+function rotateBike(degrees) {
+    // This targets the bike elements created in the init function
+    const bikes = document.querySelectorAll('.bike-card');
+    bikes.forEach(bike => {
+        bike.style.transform = `rotate(${degrees}deg)`;
+        bike.style.transition = 'transform 0.1s ease-out';
+    });
+}
+
 async function init() {
     try {
         const res = await fetch(GITHUB_API);
@@ -41,7 +51,6 @@ async function init() {
         
         inventory.forEach(b => {
             const card = document.createElement('div');
-            // Updated class list to include 'bike-card' so index.html's observer detects it properly
             card.className = 'card bike-card';
             card.id = `bike-${b.id}`;
             card.innerHTML = `
@@ -52,6 +61,13 @@ async function init() {
             `;
             gallery.appendChild(card);
         });
+
+        // Add event listener for rotation slider if it exists in your HTML
+        const rotSlider = document.getElementById('rotS');
+        if (rotSlider) {
+            rotSlider.addEventListener('input', (e) => rotateBike(e.target.value));
+        }
+
         runUpdate();
     } catch (e) { console.error("Load failed", e); }
     setInterval(updateClock, 1000);
@@ -70,9 +86,7 @@ function runUpdate() {
     const riderH = parseFloat(document.getElementById('hS').value);
     const budgetIn = parseFloat(document.getElementById('bS').value);
     
-    // Corrected to linear calculation based on standard $50 to $1000 native parameters
     const targetPrice = Math.round(budgetIn);
-    
     const ft = Math.floor(riderH / 12);
     const inch = Math.round(riderH % 12);
     const metric = Math.round(riderH * 2.54);
@@ -120,3 +134,6 @@ function updateClock() {
     const res = document.getElementById('s');
     if(res) res.innerText = `${window.innerWidth}X${window.innerHeight}`;
 }
+
+// Initial call
+init();
