@@ -3,14 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Velocipede | Matchmaker</title>
+    <title>Velocipede</title>
     <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
     <style>
-        /* 1. RESET BODY: Centers the phone-frame on any screen */
         body {
-            background-color: #000; /* Dark outside the phone area */
+            background-color: #000;
             margin: 0;
-            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -18,21 +16,17 @@
             overflow: hidden;
         }
 
-        /* 2. THE PHONE SCREEN BOUNDARY */
         .phone-frame {
             width: 100%;
-            max-width: 414px; /* Exact iPhone-style width */
+            max-width: 414px;
             height: 100%;
-            max-height: 896px; /* Exact iPhone-style height */
+            max-height: 896px;
             background-color: #121212;
             display: flex;
             flex-direction: column;
-            border: 2px solid #333;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
             position: relative;
         }
 
-        /* 3. SPLASH: Stays at the top */
         #splash-screen-group {
             flex: 0 0 auto;
             display: flex;
@@ -63,7 +57,6 @@
             white-space: nowrap;
         }
 
-        /* 4. UI: Fills the remaining space at the bottom */
         .ui {
             flex: 1;
             display: flex;
@@ -73,16 +66,12 @@
             gap: 15px;
         }
 
-        /* 5. DYNAMIC HIDE */
         body.hide-splash #splash-screen-group { display: none !important; }
-        .corner { position: absolute; bottom: 5px; left: 5px; font-size: 8px; color: #444; }
     </style>
 </head>
 <body>
 
     <div class="phone-frame">
-        <div class="corner">2026-06-08-version 22</div>
-
         <div id="splash-screen-group">
             <div class="backdrop-container"></div>
             <div class="header-wrap">
