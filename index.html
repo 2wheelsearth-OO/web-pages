@@ -4,8 +4,27 @@
     <meta charset="UTF-8">
     <title>Velocipede</title>
     <style>
-        body { margin: 0; background: #000; color: #fff; font-family: sans-serif; display: flex; justify-content: center; height: 100vh; overflow: hidden; }
-        .phone-frame { width: 100%; max-width: 414px; height: 100%; background: #121212; position: relative; padding: 20px; box-sizing: border-box; display: flex; flex-direction: column; }
+        body { 
+            margin: 0; 
+            background: #000; 
+            color: #fff; 
+            font-family: sans-serif; 
+            display: flex; 
+            justify-content: center; 
+            height: 100vh; 
+            overflow: hidden; 
+        }
+        .phone-frame { 
+            width: 100%; 
+            max-width: 414px; 
+            height: 100%; 
+            background: #121212; 
+            position: relative; 
+            padding: 20px; 
+            box-sizing: border-box; 
+            display: flex; 
+            flex-direction: column; 
+        }
         
         /* 4-Corner Information */
         .corner { position: absolute; font-size: 10px; color: #888; padding: 10px; }
@@ -15,17 +34,36 @@
         /* Title */
         .title { font-size: 18px; font-weight: bold; text-align: center; margin-top: 20px; margin-bottom: 10px; }
         
-        /* BIKE DISPLAY - Placed correctly */
-        .bike-container { position: relative; width: 100%; height: 200px; margin-bottom: 20px; }
-        .bike-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: contain; background-position: center; background-repeat: no-repeat; }
-        #top-tube { transition: transform 0.5s ease; transform-origin: 25% 40%; }
+        /* BIKE DISPLAY */
+        .bike-container { 
+            position: relative; 
+            width: 100%; 
+            height: 200px; 
+            margin-bottom: 20px; 
+            /* Added transition for smooth scaling when height is adjusted */
+            transition: transform 0.3s ease; 
+        }
+        .bike-layer { 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background-size: contain; 
+            background-position: center; 
+            background-repeat: no-repeat; 
+        }
+        #top-tube { 
+            transition: transform 0.5s ease; 
+            transform-origin: 25% 40%; 
+        }
         
         /* UI STYLES */
         .row-label { display: flex; justify-content: space-between; align-items: baseline; margin-top: 15px; margin-bottom: 5px; }
         .row-btns { display: flex; gap: 5px; margin-top: 5px; }
-        button { cursor: pointer; padding: 8px 12px; background: #333; color: white; border: 1px solid #444; border-radius: 4px; font-size: 14px; flex: 1; }
+        button { cursor: pointer; padding: 8px 12px; background: #333; color: white; border: 1px solid #444; border-radius: 4px; font-size: 14px; flex: 1; transition: background 0.2s; }
         button.active { background-color: #007bff; border-color: #007bff; }
-        input { width: 100%; }
+        input { width: 100%; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -37,8 +75,8 @@
         
         <div class="title">Velocipede</div>
         
-        <div class="bike-container">
-            <!-- Replace these URLs with the exact filenames from your GitHub repo if they differ -->
+        <div class="bike-container" id="main-bike">
+            <!-- Ensure these URLs are publicly accessible. If they still don't show, host them locally. -->
             <div class="bike-layer" style="background-image: url('https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/collagraphy%20bike%20frame%20white%20logo%20(1).png');"></div>
             <div id="top-tube" class="bike-layer" style="background-image: url('https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/collagraphy%20bike%20top%20bar%20white%20logo%20(1).png');"></div>
         </div>
@@ -54,25 +92,60 @@
             <label>Rider Height</label>
             <span id="h-val">36"</span>
         </div>
-        <input type="range" min="36" max="82" value="36" oninput="updateVal('h-val', this.value, '\"')">
+        <input type="range" id="height-slider" min="36" max="82" value="36" oninput="updateVal('h-val', this.value, '\"')">
         
         <div class="row-label">
             <label>Ideal Budget</label>
             <span id="b-val">$50</span>
         </div>
-        <input type="range" min="50" max="1000" value="50" oninput="updateVal('b-val', this.value, '$')">
+        <input type="range" id="budget-slider" min="50" max="1000" value="50" step="50" oninput="updateVal('b-val', this.value, '$')">
     </div>
 
     <script>
+        // Track global states for our filters
+        let currentStyle = 'M';
+
+        // Handles Frame Style button clicks
         function setS(btn, style) {
             document.querySelectorAll('#btn-group button').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            const t = document.getElementById('top-tube');
-            if (style === 'M') t.style.transform = "rotate(0deg)";
-            else if (style === 'X') t.style.transform = "rotate(-30deg)";
-            else if (style === 'F') t.style.transform = "rotate(-60deg)";
+            currentStyle = style;
+            updateBikeVisuals();
         }
-        function updateVal(id, v, p) { document.getElementById(id).innerText = (p === '$' ? '$' : '') + v + (p === '\"' ? '\"' : ''); }
+
+        // Handles Slider inputs and updates the UI text
+        function updateVal(id, v, p) { 
+            document.getElementById(id).innerText = (p === '$' ? '$' : '') + v + (p === '\"' ? '\"' : ''); 
+            updateBikeVisuals();
+        }
+
+        // Central function to update the bicycle display based on ALL active filters
+        function updateBikeVisuals() {
+            // 1. Update Top Tube Angle (Frame Style)
+            const tube = document.getElementById('top-tube');
+            if (currentStyle === 'M') tube.style.transform = "rotate(0deg)";
+            else if (currentStyle === 'X') tube.style.transform = "rotate(-30deg)";
+            else if (currentStyle === 'F') tube.style.transform = "rotate(-60deg)";
+
+            // 2. Update Bike Size (Rider Height Filter)
+            const heightVal = parseInt(document.getElementById('height-slider').value);
+            // Map the height slider (36 to 82) to a CSS scale factor (e.g., 0.75x to 1.15x size)
+            const minHeight = 36;
+            const maxHeight = 82;
+            const minScale = 0.75;
+            const maxScale = 1.15;
+            
+            const scaleFactor = minScale + ((heightVal - minHeight) / (maxHeight - minHeight)) * (maxScale - minScale);
+            document.getElementById('main-bike').style.transform = `scale(${scaleFactor})`;
+
+            // 3. (Optional) Ideal Budget Filter Logic
+            // If you wanted the budget to filter out bikes, you could tie an array of image URLs to this value
+            // const budgetVal = parseInt(document.getElementById('budget-slider').value);
+            // Example: if (budgetVal < 200) { hide premium features }
+        }
+        
+        // Initialize visuals on load
+        updateBikeVisuals();
     </script>
 </body>
 </html>
