@@ -1,151 +1,343 @@
+<!-- VERSION 66.15.0 - Fixed UI Width / Gallery Isolation / No Jitter -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Velocipede</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Velocipede | Matchmaker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+    
     <style>
-        body { 
-            margin: 0; 
-            background: #000; 
-            color: #fff; 
-            font-family: sans-serif; 
-            display: flex; 
-            justify-content: center; 
-            height: 100vh; 
-            overflow: hidden; 
+        :root {
+            --bg: #0e0e11;
+            --txt: #e3e3e3;
+            --dim: #9aa0a6;
+            --brd: #3c4043;
+            --box: #1e1e21;
+            --accent: #4c4c4f;
+            --highlight: #72f272;
         }
-        .phone-frame { 
-            width: 100%; 
-            max-width: 414px; 
-            height: 100%; 
-            background: #121212; 
-            position: relative; 
-            padding: 20px; 
-            box-sizing: border-box; 
+
+        html, body { 
+            height: 100%; margin: 0; 
+            background: var(--bg); color: var(--txt);
+            font-family: "Google Sans", -apple-system, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            overflow: hidden;
             display: flex; 
             flex-direction: column; 
+            align-items: center; 
+            justify-content: flex-start; /* Start from top to prevent vertical jumping */
+            padding-top: 40px;
+        }
+
+        /* Fixed elements */
+        .corner { position: fixed; font-size: 10px; color: var(--dim); letter-spacing: 0.1em; text-transform: uppercase; z-index: 100; opacity: 0.4; }
+        .tl { top: 10px; left: 15px; } .tr { top: 10px; right: 15px; }
+        .bl { bottom: 10px; left: 15px; } .br { bottom: 10px; right: 15px; }
+        
+        .header-wrap { width: 100%; max-width: 500px; text-align: center; margin-bottom: 20px; flex-shrink: 0; }
+        h1 { 
+            font-family: 'Permanent Marker', cursive; 
+            font-size: 1.6rem; 
+            margin: 0; 
+            transform: scaleY(1.2) rotate(-0.5deg);
+            text-transform: uppercase;
+        }
+        .sub { font-size: 11px; color: var(--dim); margin-top: 2px; opacity: 0.7; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* HARD-FIXED WIDTH UI CONTAINER */
+        .ui { 
+            width: 400px; /* Locked width - will not change regardless of gallery content */
+            min-width: 400px; 
+            max-width: 400px;
+            z-index: 10; 
+            padding: 0; 
+            box-sizing: border-box; 
+            flex-shrink: 0;
         }
         
-        /* 4-Corner Information */
-        .corner { position: absolute; font-size: 10px; color: #888; padding: 10px; }
-        .tl { top: 0; left: 0; } .tr { top: 0; right: 0; }
-        .bl { bottom: 0; left: 0; } .br { bottom: 0; right: 0; }
+        .group { margin-bottom: 18px; position: relative; width: 100%; } 
         
-        /* Title */
-        .title { font-size: 18px; font-weight: bold; text-align: center; margin-top: 20px; margin-bottom: 10px; }
-        
-        /* BIKE DISPLAY */
-        .bike-container { 
-            position: relative; 
+        .type-label { font-size: 11px; color: var(--dim); text-transform: uppercase; text-align: center; display: block; margin-bottom: 8px; font-weight: 600; opacity: 0.6; }
+        .row { display: flex; gap: 8px; }
+        .btn { 
+            flex: 1; padding: 10px 2px; border: 1px solid var(--brd); background: transparent; 
+            color: var(--dim); border-radius: 8px; cursor: pointer; 
+            font-size: 11px; font-weight: 600; text-transform: uppercase;
+        }
+        .btn.active { background: var(--box); color: #fff; border-color: var(--highlight); }
+
+        .sld-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 6px;
+            height: 20px;
+        }
+        .sld-title { font-size: 13px; color: var(--dim); }
+        .sld-value { font-size: 16px; font-weight: 800; color: var(--txt); font-variant-numeric: tabular-nums; }
+
+        .sld-input-container {
+            width: 100%;
+            height: 24px;
+            display: flex;
+            align-items: center;
+        }
+
+        input[type=range] { 
+            -webkit-appearance: none; 
             width: 100%; 
-            height: 200px; 
-            margin-bottom: 20px; 
-            /* Added transition for smooth scaling when height is adjusted */
-            transition: transform 0.3s ease; 
+            background: transparent; 
+            cursor: pointer; 
+            margin: 0;
         }
-        .bike-layer { 
+        
+        input[type=range]::-webkit-slider-runnable-track { height: 1px; background: #3c4043; }
+        input[type=range]::-webkit-slider-thumb {
+            height: 24px; width: 24px; -webkit-appearance: none; margin-top: -12px; 
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-3 11.5V14l-3-3 4-3 2 3h2"/></svg>') no-repeat center;
+            background-size: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
+        }
+
+        .match-feedback-row { height: 16px; margin-top: 4px; text-align: right; }
+        .match-msg { 
+            font-size: 12px; 
+            color: var(--highlight); 
+            font-weight: 800; 
+            text-transform: uppercase; 
+            visibility: hidden;
+        }
+        .match-msg.show { visibility: visible; }
+
+        /* GALLERY SECTION ISOLATION */
+        .gallery-container {
+            width: 100%;
+            flex-grow: 1; /* Take up remaining space */
+            position: relative;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .gallery { 
+            display: flex; 
+            gap: 15px; 
+            width: 100%; 
+            justify-content: center; 
+            overflow-x: auto; 
+            padding: 20px;
+            z-index: 5;
+            scrollbar-width: none;
+        }
+        .gallery::-webkit-scrollbar { display: none; }
+
+        .watermark { 
             position: absolute; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            background-size: contain; 
-            background-position: center; 
-            background-repeat: no-repeat; 
-        }
-        #top-tube { 
-            transition: transform 0.5s ease; 
-            transform-origin: 25% 40%; 
+            width: 180px; 
+            opacity: 0.06; 
+            filter: invert(1); 
+            pointer-events: none; 
+            top: 100px; left: 50%; transform: translateX(-50%); 
         }
         
-        /* UI STYLES */
-        .row-label { display: flex; justify-content: space-between; align-items: baseline; margin-top: 15px; margin-bottom: 5px; }
-        .row-btns { display: flex; gap: 5px; margin-top: 5px; }
-        button { cursor: pointer; padding: 8px 12px; background: #333; color: white; border: 1px solid #444; border-radius: 4px; font-size: 14px; flex: 1; transition: background 0.2s; }
-        button.active { background-color: #007bff; border-color: #007bff; }
-        input { width: 100%; cursor: pointer; }
+        .card { width: 160px; flex-shrink: 0; text-align: center; display: none; }
+        .img-box { 
+            background: rgba(255,255,255,0.03); 
+            border-radius: 12px;
+            aspect-ratio: 1/1; 
+            display: flex; align-items: center; justify-content: center; 
+            overflow: hidden; 
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .card img { max-width: 85%; max-height: 85%; object-fit: contain; }
+
+        .price-label { font-size: 18px; font-weight: 800; margin-top: 8px; color: var(--txt); font-variant-numeric: tabular-nums; }
+        .debug-filename {
+            font-size: 9px; color: #ffb74d; margin-top: 4px;
+            font-family: monospace; opacity: 0.6;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            padding: 0 5px;
+        }
+        .debug-specs { font-size: 10px; color: var(--dim); font-family: monospace; font-weight: bold; margin-top: 2px; }
+        
+        #loading-status { position: absolute; top: 100px; font-size: 11px; color: var(--dim); text-transform: uppercase; letter-spacing: 0.2em; }
     </style>
 </head>
-<body>
-    <div class="phone-frame">
-        <div class="corner tl">v2026.06.08</div>
-        <div class="corner tr">USER_ID_001</div>
-        <div class="corner bl"></div>
-        <div class="corner br"></div>
-        
-        <div class="title">Velocipede</div>
-        
-        <div class="bike-container" id="main-bike">
-            <!-- Ensure these URLs are publicly accessible. If they still don't show, host them locally. -->
-            <div class="bike-layer" style="background-image: url('https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/collagraphy%20bike%20frame%20white%20logo%20(1).png');"></div>
-            <div id="top-tube" class="bike-layer" style="background-image: url('https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/collagraphy%20bike%20top%20bar%20white%20logo%20(1).png');"></div>
+<body onload="init()">
+
+    <div class="corner tl" id="d">DATE</div>
+    <div class="corner tr" id="t">TIME</div>
+    <div class="corner bl">V66.15.0</div>
+    <div class="corner br" id="s">RES</div>
+
+    <div class="header-wrap">
+        <h1>Stop Walking. Start Rolling.</h1>
+        <p class="sub">Local Inventory Matchmaker</p>
+    </div>
+
+    <!-- UI container is now hard-coded to 400px wide -->
+    <div class="ui">
+        <div class="group">
+            <span class="type-label">Frame Style</span>
+            <div class="row">
+                <button class="btn" id="b-M" onclick="setS('M')">High-Bar</button>
+                <button class="btn active" id="b-any" onclick="setS('any')">Mixed</button>
+                <button class="btn" id="b-F" onclick="setS('F')">Step-Thru</button>
+            </div>
         </div>
 
-        <label style="font-size: 14px;">Frame Style</label>
-        <div class="row-btns" id="btn-group">
-            <button onclick="setS(this, 'M')" class="active">High-Bar</button>
-            <button onclick="setS(this, 'X')">Mixed</button>
-            <button onclick="setS(this, 'F')">Step-Thru</button>
+        <div class="group">
+            <div class="sld-header">
+                <span class="sld-title">Rider Height</span>
+                <span id="hL" class="sld-value">5'8" (173cm)</span>
+            </div>
+            <div class="sld-input-container">
+                <input type="range" id="hS" min="40" max="82" value="68" oninput="runUpdate()">
+            </div>
         </div>
-        
-        <div class="row-label">
-            <label>Rider Height</label>
-            <span id="h-val">36"</span>
+
+        <div class="group">
+            <div class="sld-header">
+                <span class="sld-title">Ideal Budget</span>
+                <span id="bL" class="sld-value">$200</span>
+            </div>
+            <div class="sld-input-container">
+                <input type="range" id="bS" min="0" max="100" value="30" oninput="runUpdate()">
+            </div>
+            <div class="match-feedback-row">
+                <div id="matchRange" class="match-msg">Matching Catalog...</div>
+            </div>
         </div>
-        <input type="range" id="height-slider" min="36" max="82" value="36" oninput="updateVal('h-val', this.value, '\"')">
-        
-        <div class="row-label">
-            <label>Ideal Budget</label>
-            <span id="b-val">$50</span>
-        </div>
-        <input type="range" id="budget-slider" min="50" max="1000" value="50" step="50" oninput="updateVal('b-val', this.value, '$')">
+    </div>
+
+    <div class="gallery-container">
+        <img src="https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/collagraphy%20bike%20logo.png" class="watermark">
+        <div id="loading-status">Connecting...</div>
+        <div class="gallery" id="bike-gallery"></div>
     </div>
 
     <script>
-        // Track global states for our filters
-        let currentStyle = 'M';
+        const GITHUB_API = "https://api.github.com/repos/2wheelsearth-OO/Assets/contents/";
+        const RAW_URL = "https://raw.githubusercontent.com/2wheelsearth-OO/Assets/main/";
 
-        // Handles Frame Style button clicks
-        function setS(btn, style) {
-            document.querySelectorAll('#btn-group button').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            currentStyle = style;
-            updateBikeVisuals();
-        }
+        let inventory = [];
+        let styleFilter = 'any';
 
-        // Handles Slider inputs and updates the UI text
-        function updateVal(id, v, p) { 
-            document.getElementById(id).innerText = (p === '$' ? '$' : '') + v + (p === '\"' ? '\"' : ''); 
-            updateBikeVisuals();
-        }
-
-        // Central function to update the bicycle display based on ALL active filters
-        function updateBikeVisuals() {
-            // 1. Update Top Tube Angle (Frame Style)
-            const tube = document.getElementById('top-tube');
-            if (currentStyle === 'M') tube.style.transform = "rotate(0deg)";
-            else if (currentStyle === 'X') tube.style.transform = "rotate(-30deg)";
-            else if (currentStyle === 'F') tube.style.transform = "rotate(-60deg)";
-
-            // 2. Update Bike Size (Rider Height Filter)
-            const heightVal = parseInt(document.getElementById('height-slider').value);
-            // Map the height slider (36 to 82) to a CSS scale factor (e.g., 0.75x to 1.15x size)
-            const minHeight = 36;
-            const maxHeight = 82;
-            const minScale = 0.75;
-            const maxScale = 1.15;
+        function parseBikeData(name) {
+            const pattern = /(\d+)([MFU])(\d{4})/i;
+            const match = name.match(pattern);
+            if (!match) return null;
             
-            const scaleFactor = minScale + ((heightVal - minHeight) / (maxHeight - minHeight)) * (maxScale - minScale);
-            document.getElementById('main-bike').style.transform = `scale(${scaleFactor})`;
+            const wPart = match[3].substring(0, 2);
+            const wSize = wPart === '70' ? "700C" : wPart;
+            const fSize = parseInt(match[3].substring(2));
 
-            // 3. (Optional) Ideal Budget Filter Logic
-            // If you wanted the budget to filter out bikes, you could tie an array of image URLs to this value
-            // const budgetVal = parseInt(document.getElementById('budget-slider').value);
-            // Example: if (budgetVal < 200) { hide premium features }
+            return {
+                id: name,
+                file: name,
+                price: parseInt(match[1]),
+                type: match[2].toUpperCase(),
+                wheel: wSize,
+                frame: fSize,
+                isChild: (parseInt(wPart) <= 20),
+                img: RAW_URL + encodeURIComponent(name)
+            };
         }
-        
-        // Initialize visuals on load
-        updateBikeVisuals();
+
+        async function init() {
+            try {
+                const res = await fetch(GITHUB_API);
+                const files = await res.json();
+                inventory = files
+                    .filter(f => /\.(png|jpg|jpeg|webp)$/i.test(f.name))
+                    .map(f => parseBikeData(f.name))
+                    .filter(b => b !== null)
+                    .sort((a, b) => a.price - b.price);
+
+                document.getElementById('loading-status').style.display = 'none';
+                const gallery = document.getElementById('bike-gallery');
+                
+                inventory.forEach(b => {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.id = `bike-${b.id}`;
+                    card.innerHTML = `
+                        <div class="img-box"><img loading="lazy" src="${b.img}"></div>
+                        <div class="price-label">$${b.price}</div>
+                        <div class="debug-filename">${b.file}</div>
+                        <div class="debug-specs">${b.wheel} Whl / ${b.frame}" Frame</div>
+                    `;
+                    gallery.appendChild(card);
+                });
+                runUpdate();
+            } catch (e) { console.error("Load failed", e); }
+            setInterval(updateClock, 1000);
+            updateClock();
+        }
+
+        function setS(val) {
+            styleFilter = val;
+            document.querySelectorAll('.btn').forEach(b => b.classList.toggle('active', b.id === `b-${val}`));
+            runUpdate();
+        }
+
+        function runUpdate() {
+            if (!inventory.length) return;
+            
+            const riderH = parseFloat(document.getElementById('hS').value);
+            const budgetIn = document.getElementById('bS').value;
+            const targetPrice = Math.round(50 + (1000 - 50) * Math.pow(budgetIn / 100, 2));
+            
+            const ft = Math.floor(riderH / 12);
+            const inch = Math.round(riderH % 12);
+            const metric = Math.round(riderH * 2.54);
+            
+            document.getElementById('hL').innerText = `${ft}'${inch}" (${metric}cm)`;
+            document.getElementById('bL').innerText = `$${targetPrice}`;
+
+            const isAdult = (riderH >= 60);
+            let spreadFound = 50;
+            let winners = [];
+
+            for (let s = 50; s >= 0; s -= 5) {
+                spreadFound = s;
+                winners = inventory.filter(b => {
+                    const priceOk = (b.price >= (targetPrice - s) && b.price <= (targetPrice + s));
+                    const typeOk = (styleFilter === 'any' || b.type === 'U' || b.type === styleFilter);
+                    const ageOk = (isAdult !== b.isChild);
+                    let sizeOk = !b.isChild 
+                        ? (riderH >= (b.frame + 44) && riderH <= (b.frame + 58)) 
+                        : (riderH >= (b.frame + 30) && riderH <= (b.frame + 55));
+                    return priceOk && typeOk && ageOk && sizeOk;
+                });
+                if (winners.length <= 3) break;
+            }
+
+            const msg = document.getElementById('matchRange');
+            if (winners.length > 0) {
+                msg.innerText = `MATCHES FOUND: $${targetPrice - spreadFound} — $${targetPrice + spreadFound}`;
+                msg.classList.add('show');
+            } else {
+                msg.classList.remove('show');
+            }
+
+            const winnerIds = winners.map(w => w.id);
+            inventory.forEach(b => {
+                const el = document.getElementById(`bike-${b.id}`);
+                if (el) el.style.display = winnerIds.includes(b.id) ? 'block' : 'none';
+            });
+        }
+
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('d').innerText = now.toLocaleDateString().toUpperCase();
+            document.getElementById('t').innerText = now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+            const res = document.getElementById('s');
+            if(res) res.innerText = `${window.innerWidth}X${window.innerHeight}`;
+        }
     </script>
 </body>
 </html>
