@@ -57,6 +57,7 @@ async function init() {
         
         const gallery = document.getElementById('bike-gallery');
         if (gallery) {
+            gallery.innerHTML = ''; // Clear previous items if any
             inventory.forEach(b => {
                 const card = document.createElement('div');
                 card.className = 'card bike-card';
@@ -76,6 +77,12 @@ async function init() {
         if (rotSlider) {
             rotSlider.addEventListener('input', (e) => rotateBike(e.target.value));
         }
+
+        // Attach event listeners to sliders dynamically if not bound via HTML inline attributes
+        const hS = document.getElementById('hS');
+        const bS = document.getElementById('bS');
+        if (hS) hS.addEventListener('input', runUpdate);
+        if (bS) bS.addEventListener('input', runUpdate);
 
         runUpdate();
     } catch (e) { console.error("Load failed", e); }
