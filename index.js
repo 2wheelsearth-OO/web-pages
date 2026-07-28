@@ -135,6 +135,17 @@ function runUpdate() {
         }
     }
 
+    // Update the main layered viewer with the first matching bike
+    const frameLayer = document.getElementById('frame-layer');
+    if (frameLayer) {
+        if (winners.length > 0) {
+            frameLayer.src = winners[0].img;
+            frameLayer.style.display = 'block'; 
+        } else {
+            frameLayer.style.display = 'none'; 
+        }
+    }
+
     const winnerIds = winners.map(w => w.id);
     inventory.forEach(b => {
         const el = document.getElementById(`bike-${b.id}`);
